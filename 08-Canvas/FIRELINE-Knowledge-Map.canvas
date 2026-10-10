@@ -1,0 +1,265 @@
+{
+  "nodes": [
+    {
+      "id": "group-mission",
+      "type": "group",
+      "label": "1. FIRELINE Scientific Mission & Core Objective",
+      "x": -250,
+      "y": -460,
+      "width": 680,
+      "height": 340,
+      "color": "2"
+    },
+    {
+      "id": "node-mission-text",
+      "type": "text",
+      "text": "# 🔥 FIRELINE Scientific Engine\n\n**Mission**: Transform decades of heterogeneous microgravity combustion data into an auditable evidence linkage engine.\n\n**Central Question**: Given an exploration mission profile ($g, P, X_{O_2}, u_\\infty$, fuel), what does NASA evidence verify (**SUPPORTED**), what is physically scaled (**INFERRED**), and where are empirical voids (**EVIDENCE GAP**)?",
+      "x": -230,
+      "y": -420,
+      "width": 360,
+      "height": 260
+    },
+    {
+      "id": "node-home-file",
+      "type": "file",
+      "file": "FIRELINE-Home.md",
+      "x": 150,
+      "y": -420,
+      "width": 260,
+      "height": 260
+    },
+    {
+      "id": "group-flex",
+      "type": "group",
+      "label": "2. FLEX (PSI-69) — Liquid Droplet Extinction & Cool Flames",
+      "x": -1000,
+      "y": -50,
+      "width": 450,
+      "height": 560,
+      "color": "5"
+    },
+    {
+      "id": "node-flex-file",
+      "type": "file",
+      "file": "01-Research/FLEX-Research-Notes.md",
+      "x": -980,
+      "y": -10,
+      "width": 410,
+      "height": 240
+    },
+    {
+      "id": "node-flex-desc",
+      "type": "text",
+      "text": "### FLEX Physical Boundaries\n* **Phase**: Liquid ($n$-heptane, $n$-octane, methanol)\n* **Geometry**: Spherical droplet ($d_0 \\approx 1.5\\text{--}5.0\\text{ mm}$)\n* **Flow**: Quiescent ($u_\\infty = 0\\text{ cm/s}$, pure spherical diffusion)\n* **Pressure**: $101.3\\text{ kPa}$ & sub-atmospheric inert dilution\n* **Verified Finding**: Hot radiative extinction at finite diameter $d_{ext} > 0$ followed by sustained cool-flame NTC burning\n* **Primary Citation**: Nayagam et al. (*Combust. Flame*, 2015)",
+      "x": -980,
+      "y": 250,
+      "width": 410,
+      "height": 240
+    },
+    {
+      "id": "group-bass",
+      "type": "group",
+      "label": "3. BASS-II (PSI-25) — Solid Opposed Flow & Quenching",
+      "x": -480,
+      "y": -50,
+      "width": 450,
+      "height": 560,
+      "color": "4"
+    },
+    {
+      "id": "node-bass-file",
+      "type": "file",
+      "file": "01-Research/BASS-II-Research-Notes.md",
+      "x": -460,
+      "y": -10,
+      "width": 410,
+      "height": 240
+    },
+    {
+      "id": "node-bass-desc",
+      "type": "text",
+      "text": "### BASS-II Physical Boundaries\n* **Phase**: Solid thermoplastic (Cast PMMA slabs & thick rods)\n* **Geometry**: $1.2\\text{ mm}$ flat slabs; $6.35\\text{--}12.7\\text{ mm}$ rods\n* **Flow**: Low-speed forced flow ($1.0\\text{--}25.0\\text{ cm/s}$)\n* **Pressure**: $101.3\\text{ kPa}$ ambient ISS cabin\n* **Verified Finding**: Non-monotonic spread rate; low-speed radiative quenching limit below $1.5\\text{ cm/s}$\n* **Primary Citation**: Olson & Ferkul (*Combust. Flame*, 2017)",
+      "x": -460,
+      "y": 250,
+      "width": 410,
+      "height": 240
+    },
+    {
+      "id": "group-saffire",
+      "type": "group",
+      "label": "4. Saffire-I (PSI-98) — Macro-Scale Spacecraft Fire",
+      "x": 40,
+      "y": -50,
+      "width": 450,
+      "height": 560,
+      "color": "2"
+    },
+    {
+      "id": "node-saffire-file",
+      "type": "file",
+      "file": "01-Research/Saffire-I-Research-Notes.md",
+      "x": 60,
+      "y": -10,
+      "width": 410,
+      "height": 240
+    },
+    {
+      "id": "node-saffire-desc",
+      "type": "text",
+      "text": "### Saffire-I Physical Boundaries\n* **Phase**: Solid composite fabric (SIBAL: 75% cotton / 25% fiberglass)\n* **Geometry**: Full scale ($0.4\\text{ m} \\times 1.0\\text{ m} \\times 0.4\\text{ mm}$)\n* **Flow**: Forced concurrent flow ($20.0\\text{ cm/s}$)\n* **Pressure**: $101.3\\text{ kPa}$ ($14.7\\text{ psia}$, nominal Cygnus)\n* **Verified Finding**: Steady spread ($2.0\\text{--}2.5\\text{ mm/s}$); broad parabolic flame without buoyant necking; closed vehicle $\\Delta P \\approx 3.8\\text{ kPa}$\n* **Primary Citation**: Urban et al. (*Combust. Flame*, 2019)",
+      "x": 60,
+      "y": 250,
+      "width": 410,
+      "height": 240
+    },
+    {
+      "id": "group-cross",
+      "type": "group",
+      "label": "5. Cross-Investigation Analysis & Physical Boundaries",
+      "x": -750,
+      "y": 570,
+      "width": 780,
+      "height": 450,
+      "color": "3"
+    },
+    {
+      "id": "node-cross-file",
+      "type": "file",
+      "file": "01-Research/Cross-Investigation-Analysis.md",
+      "x": -730,
+      "y": 610,
+      "width": 340,
+      "height": 380
+    },
+    {
+      "id": "node-cross-rules",
+      "type": "text",
+      "text": "### Inviolable Physical Compatibility Boundaries\n\n1. **Liquid != Solid Phase Separation**:\n   * Droplet evaporation kinetics (FLEX) must **never** directly support solid polymer questions.\n\n2. **Opposed != Concurrent Flow Regimes**:\n   * Upstream conductive spread (BASS-II) is physically distinct from downstream flame preheating (Saffire-I).\n\n3. **Biot Number Scale Normalization**:\n   * Thermally thin fabrics ($Bi \\ll 0.1$, Saffire) scale as $V_f \\propto 1/\\tau$.\n   * Thermally thick rods ($Bi > 1.0$, BASS-II) have thickness-independent spread.",
+      "x": -370,
+      "y": 610,
+      "width": 380,
+      "height": 380
+    },
+    {
+      "id": "group-sq",
+      "type": "group",
+      "label": "6. Unresolved Scientific Questions & Scaling Roadmap",
+      "x": 80,
+      "y": 570,
+      "width": 480,
+      "height": 450,
+      "color": "1"
+    },
+    {
+      "id": "node-sq-file",
+      "type": "file",
+      "file": "01-Research/Scientific-Questions.md",
+      "x": 100,
+      "y": 610,
+      "width": 440,
+      "height": 380
+    },
+    {
+      "id": "group-audit",
+      "type": "group",
+      "label": "7. Evidence Verification & Provenance Registry",
+      "x": 550,
+      "y": -460,
+      "width": 460,
+      "height": 340,
+      "color": "6"
+    },
+    {
+      "id": "node-reg-file",
+      "type": "file",
+      "file": "01-Research/Source-Register.md",
+      "x": 570,
+      "y": -420,
+      "width": 200,
+      "height": 260
+    },
+    {
+      "id": "node-audit-file",
+      "type": "file",
+      "file": "docs/source_verification_matrix.md",
+      "x": 790,
+      "y": -420,
+      "width": 200,
+      "height": 260
+    }
+  ],
+  "edges": [
+    {
+      "id": "edge-mission-flex",
+      "fromNode": "node-mission-text",
+      "fromSide": "bottom",
+      "toNode": "node-flex-file",
+      "toSide": "top",
+      "label": "droplets & cool flames",
+      "color": "5"
+    },
+    {
+      "id": "edge-mission-bass",
+      "fromNode": "node-mission-text",
+      "fromSide": "bottom",
+      "toNode": "node-bass-file",
+      "toSide": "top",
+      "label": "solid low-flow limits",
+      "color": "4"
+    },
+    {
+      "id": "edge-mission-saffire",
+      "fromNode": "node-mission-text",
+      "fromSide": "bottom",
+      "toNode": "node-saffire-file",
+      "toSide": "top",
+      "label": "macro-scale vehicle burn",
+      "color": "2"
+    },
+    {
+      "id": "edge-flex-cross",
+      "fromNode": "node-flex-desc",
+      "fromSide": "bottom",
+      "toNode": "node-cross-file",
+      "toSide": "top",
+      "label": "quiescent limit",
+      "color": "5"
+    },
+    {
+      "id": "edge-bass-cross",
+      "fromNode": "node-bass-desc",
+      "fromSide": "bottom",
+      "toNode": "node-cross-file",
+      "toSide": "top",
+      "label": "opposed flow limit",
+      "color": "4"
+    },
+    {
+      "id": "edge-saffire-cross",
+      "fromNode": "node-saffire-desc",
+      "fromSide": "bottom",
+      "toNode": "node-cross-file",
+      "toSide": "top",
+      "label": "concurrent flow limit",
+      "color": "2"
+    },
+    {
+      "id": "edge-cross-sq",
+      "fromNode": "node-cross-rules",
+      "fromSide": "right",
+      "toNode": "node-sq-file",
+      "toSide": "left",
+      "label": "reveals scaling gaps",
+      "color": "1"
+    },
+    {
+      "id": "edge-audit-investigations",
+      "fromNode": "node-reg-file",
+      "fromSide": "bottom",
+      "toNode": "node-saffire-file",
+      "toSide": "top",
+      "label": "audited source index",
+      "color": "6"
+    }
+  ]
+}

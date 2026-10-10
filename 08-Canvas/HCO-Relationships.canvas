@@ -1,0 +1,252 @@
+{
+  "nodes": [
+    {
+      "id": "group-canonical",
+      "type": "group",
+      "label": "CANONICAL ENTITIES (hco_schema_specification.md)",
+      "x": -950,
+      "y": -500,
+      "width": 1150,
+      "height": 980,
+      "color": "5"
+    },
+    {
+      "id": "node-hco-investigation",
+      "type": "text",
+      "text": "### Investigation (Canonical)\n* `investigation_id`: string\n* `title`: string\n* `psi_code`: string (e.g. \"PSI-69\")\n* `platform`: string (ISS CIR, MSG, Cygnus)\n* `chamber_hardware`: string\n* `doi`: string (peer-reviewed citation)",
+      "x": -920,
+      "y": -460,
+      "width": 320,
+      "height": 200
+    },
+    {
+      "id": "node-hco-run",
+      "type": "text",
+      "text": "### ExperimentalRun (Canonical)\n* `run_id`: string (official NASA flight test ID)\n* `investigation_id`: string\n* `conditions`: EnvironmentalConditions\n* `fuel`: FuelSpec",
+      "x": -550,
+      "y": -460,
+      "width": 320,
+      "height": 160
+    },
+    {
+      "id": "node-hco-conditions",
+      "type": "text",
+      "text": "### EnvironmentalConditions (Canonical)\n* `gravity_g`: number ($g/g_0$)\n* `pressure_kpa`: number\n* `oxygen_mole_fraction`: number\n* `flow_velocity_cm_s`: number\n* `diluent`: string (N2, CO2, He)\n* `external_radiant_flux_kw_m2`: optional number\n* `ambient_temp_k`: number",
+      "x": -920,
+      "y": -220,
+      "width": 330,
+      "height": 220
+    },
+    {
+      "id": "node-hco-fuel",
+      "type": "text",
+      "text": "### FuelSpec (Canonical)\n* `material_name`: string\n* `chemical_formula`: optional string\n* `phase`: solid | liquid | gaseous\n* `geometry_type`: droplet | slab | rod | fabric\n* `dimensions`: FuelDimensions\n* `thermally_thin`: boolean",
+      "x": -550,
+      "y": -260,
+      "width": 320,
+      "height": 200
+    },
+    {
+      "id": "node-hco-finding",
+      "type": "text",
+      "text": "### EmpiricalFinding (Canonical Unit)\n* `finding_id`: string\n* `investigation_id`: string\n* `run_id`: string\n* `claim_statement`: string\n* `phenomenon`: CombustionPhenomenon\n* `qualitative_trend`: increases | decreases | quenched\n* `quantitative_measurements`: MeasurementRecord[]\n* `evidence_strength`: definitive | moderate\n* `provenance`: AuditProvenance",
+      "x": -180,
+      "y": -460,
+      "width": 350,
+      "height": 260
+    },
+    {
+      "id": "node-hco-measurement",
+      "type": "text",
+      "text": "### MeasurementRecord (Canonical)\n* `metric_name`: string\n* `metric_symbol`: string ($V_f, d_{ext}, K$)\n* `value`: number\n* `unit`: string (SI normalized)\n* `uncertainty`: optional number\n* `measurement_method`: optical | thermocouple | radiometer",
+      "x": -180,
+      "y": -160,
+      "width": 350,
+      "height": 190
+    },
+    {
+      "id": "node-hco-provenance",
+      "type": "text",
+      "text": "### AuditProvenance (Canonical)\n* `psi_investigation_code`: string\n* `psi_run_id`: string\n* `raw_telemetry_file`: optional string\n* `video_frame_timestamp_s`: optional number\n* `peer_reviewed_doi`: string\n* `psi_direct_url`: string",
+      "x": -180,
+      "y": 80,
+      "width": 350,
+      "height": 190
+    },
+    {
+      "id": "node-hco-chain",
+      "type": "text",
+      "text": "### EvidenceChain (Canonical)\n* `chain_id`: string\n* `query_id`: string\n* `target_question`: string\n* `claim_summary`: string\n* `steps`: EvidenceChainStep[]",
+      "x": -550,
+      "y": 80,
+      "width": 320,
+      "height": 180
+    },
+    {
+      "id": "group-proposed",
+      "type": "group",
+      "label": "PROPOSED SCHEMA REVISIONS (docs/hco_schema_change_proposal.md)",
+      "x": 250,
+      "y": -500,
+      "width": 560,
+      "height": 550,
+      "color": "4"
+    },
+    {
+      "id": "node-prop-scientific-value",
+      "type": "text",
+      "text": "### ScientificValue<T> (Proposed)\n* `normalized_value`: T (SI units for engine search)\n* `normalized_unit`: string\n* `raw_value`: number | string | null (exact source reading)\n* `raw_unit`: string | null ($psia, in, ft/min$)\n* `uncertainty`: optional number | null\n* `source_column_header`: string (CSV column binding)",
+      "x": 270,
+      "y": -460,
+      "width": 520,
+      "height": 150
+    },
+    {
+      "id": "node-prop-nullability",
+      "type": "text",
+      "text": "### Explicit Nullability & Zero-Fill Ban (Proposed)\n* `flow_velocity_cm_s`: ScientificValue | null (quiescent)\n* `external_radiant_flux`: ScientificValue | null (no heater)\n* `ambient_temp_k`: ScientificValue | null (uncalibrated)\n* **Rule**: Zero-fill substitution strictly prohibited.",
+      "x": 270,
+      "y": -290,
+      "width": 520,
+      "height": 110
+    },
+    {
+      "id": "node-prop-verification-level",
+      "type": "text",
+      "text": "### VerificationLevel Tag (Proposed)\n* `VERIFIED_EMPIRICAL` (audited vs PSI table & DOI)\n* `PARTIALLY_VERIFIED` (source real, run unlinked)\n* `PRELIMINARY_UNAUDITED` (ingested, pending audit)\n* `SYNTHETIC_ILLUSTRATIVE` (mock; excluded from retrieval)",
+      "x": 270,
+      "y": -160,
+      "width": 520,
+      "height": 110
+    },
+    {
+      "id": "node-prop-typed-geometry",
+      "type": "text",
+      "text": "### Discriminated Fuel Geometries (Proposed)\n* `DropletGeometry`: initial_diameter, fiber_support_diameter\n* `FlatSampleGeometry`: thickness, width, length, areal_density\n* `CylindricalGeometry`: diameter, length, core_type",
+      "x": 270,
+      "y": -30,
+      "width": 520,
+      "height": 100
+    },
+    {
+      "id": "group-open-questions",
+      "type": "group",
+      "label": "OPEN SCHEMA QUESTIONS (Decisions Pending Phase 1)",
+      "x": 250,
+      "y": 80,
+      "width": 560,
+      "height": 400,
+      "color": "1"
+    },
+    {
+      "id": "node-open-timeseries",
+      "type": "text",
+      "text": "### Open Q1: Telemetry Time-Series Storage\n* Should high-frequency sensor curves (e.g. $10\\text{ Hz}$ thermocouple rakes, optical $d^2(t)$ curves) be stored as relational time-series tables in Supabase, or referenced as external binary/Parquet links while storing only scalar summary endpoints in PostgreSQL?",
+      "x": 270,
+      "y": 120,
+      "width": 520,
+      "height": 150
+    },
+    {
+      "id": "node-open-column-mapping",
+      "type": "text",
+      "text": "### Open Q2: Column Header Normalization Across Bundles\n* Ingestion parsers must handle differing header conventions across flight packages (e.g. `CHAMBER_PRESS_PSIA` in BASS-II vs `P_kPa` in Saffire). Decision needed on automated dictionary mapping versus per-investigation YAML configs.",
+      "x": 270,
+      "y": 290,
+      "width": 520,
+      "height": 160
+    }
+  ],
+  "edges": [
+    {
+      "id": "edge-inv-run",
+      "fromNode": "node-hco-investigation",
+      "fromSide": "right",
+      "toNode": "node-hco-run",
+      "toSide": "left",
+      "label": "contains 1..n",
+      "color": "5"
+    },
+    {
+      "id": "edge-run-cond",
+      "fromNode": "node-hco-run",
+      "fromSide": "bottom",
+      "toNode": "node-hco-conditions",
+      "toSide": "top",
+      "label": "characterized by",
+      "color": "5"
+    },
+    {
+      "id": "edge-run-fuel",
+      "fromNode": "node-hco-run",
+      "fromSide": "bottom",
+      "toNode": "node-hco-fuel",
+      "toSide": "top",
+      "label": "tests fuel",
+      "color": "5"
+    },
+    {
+      "id": "edge-run-finding",
+      "fromNode": "node-hco-run",
+      "fromSide": "right",
+      "toNode": "node-hco-finding",
+      "toSide": "left",
+      "label": "yields 1..n",
+      "color": "5"
+    },
+    {
+      "id": "edge-finding-meas",
+      "fromNode": "node-hco-finding",
+      "fromSide": "bottom",
+      "toNode": "node-hco-measurement",
+      "toSide": "top",
+      "label": "evidenced by 1..n",
+      "color": "5"
+    },
+    {
+      "id": "edge-finding-prov",
+      "fromNode": "node-hco-measurement",
+      "fromSide": "bottom",
+      "toNode": "node-hco-provenance",
+      "toSide": "top",
+      "label": "provenance trace",
+      "color": "5"
+    },
+    {
+      "id": "edge-finding-chain",
+      "fromNode": "node-hco-finding",
+      "fromSide": "bottom",
+      "toNode": "node-hco-chain",
+      "toSide": "top",
+      "label": "assembled into",
+      "color": "5"
+    },
+    {
+      "id": "edge-prop-val-meas",
+      "fromNode": "node-prop-scientific-value",
+      "fromSide": "left",
+      "toNode": "node-hco-measurement",
+      "toSide": "right",
+      "label": "proposed value wrapper",
+      "color": "4"
+    },
+    {
+      "id": "edge-prop-null-cond",
+      "fromNode": "node-prop-nullability",
+      "fromSide": "left",
+      "toNode": "node-hco-conditions",
+      "toSide": "right",
+      "label": "proposed nullability",
+      "color": "4"
+    },
+    {
+      "id": "edge-prop-verif-find",
+      "fromNode": "node-prop-verification-level",
+      "fromSide": "left",
+      "toNode": "node-hco-finding",
+      "toSide": "right",
+      "label": "proposed gating flag",
+      "color": "4"
+    }
+  ]
+}

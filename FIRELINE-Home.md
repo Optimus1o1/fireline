@@ -18,10 +18,13 @@ flowchart LR
     HOME["FIRELINE-Home"] --> RES["01-Research/<br>Source-Register"]
     HOME --> ARCH["05-Architecture/<br>Engineering-Decisions"]
     HOME --> SPEC["hco_schema_specification"]
+    HOME --> CANVAS["08-Canvas/<br>Visual Knowledge Maps"]
+    HOME --> TEMPL["Templates/<br>Standard Templates"]
     HOME --> AUDIT["docs/<br>Phase 0.5 Audits"]
     
     RES -.-> AUDIT
     ARCH -.-> SPEC
+    CANVAS -.-> RES
 ```
 
 ### 1. Primary Architecture & Specifications
@@ -36,7 +39,16 @@ flowchart LR
 * 🔄 [[01-Research/Cross-Investigation-Analysis|Cross-Investigation Analysis]] — Comparative synthesis across transport regimes, scale, fuel phases, and physical compatibility rules.
 * ❓ [[01-Research/Scientific-Questions|Scientific Questions & Roadmap]] — Open physical scaling questions (partial gravity, exploration atmospheres, LOI shifts).
 
-### 3. Phase 0 & Phase 0.5 Audit, Review & Verification Documents
+### 3. Visual Knowledge Base & Obsidian Canvas Maps
+* 🗺️ [[08-Canvas/FIRELINE-Knowledge-Map.canvas|FIRELINE Knowledge Map]] — Visual overview of investigations (FLEX, BASS-II, Saffire-I), physical regimes, transport boundaries, and unresolved questions.
+* 🧩 [[08-Canvas/HCO-Relationships.canvas|HCO Ontology Relationships]] — Entity-relationship diagram separating canonical schema, proposed changes (`ScientificValue<T>`), and open questions.
+* 🔗 [[08-Canvas/Evidence-Chain.canvas|Evidence Chain & Traceability Map]] — Conceptual journey from scientific question to empirical finding, dual unit preservation, and 3-tier classification (`SUPPORTED`, `INFERRED`, `EVIDENCE_GAP`).
+
+### 4. Standardized Documentation Templates
+* 📝 [[Templates/Research-Source-Template|Research Source Template]] — Standardized template for new NASA papers, investigations, and datasets with controlled-status provenance and unverified protocol.
+* 🏛️ [[Templates/Technical-Decision-Template|Technical Decision Template]] — Architectural decision record (ADR) template preserving decision context, evidence, and trade-offs.
+
+### 5. Phase 0 & Phase 0.5 Audit, Review & Verification Documents
 * 📜 [[docs/phase00_official_challenge_review|Phase 0 Official Challenge Review]] — Authoritative requirements traceability, judging criteria mapping, and NASA rules compliance.
 * 📋 [[docs/source_verification_matrix|Source Verification Matrix]] — Field-by-field verification of all empirical finding records against NASA PSI data and DOI resolutions.
 * 📐 [[docs/hco_schema_change_proposal|HCO Schema Change Proposal]] — Structural updates for `ScientificValue<T>`, dual original/normalized units, and non-nullable field remediation.

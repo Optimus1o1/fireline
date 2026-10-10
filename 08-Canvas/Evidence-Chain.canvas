@@ -1,0 +1,328 @@
+{
+  "nodes": [
+    {
+      "id": "group-conceptual-model",
+      "type": "group",
+      "label": "STAGE 1: SCIENTIFIC QUESTION & CONCEPTUAL BOUNDARIES",
+      "x": -1380,
+      "y": -540,
+      "width": 500,
+      "height": 1040,
+      "color": "1"
+    },
+    {
+      "id": "node-model-scope",
+      "type": "text",
+      "text": "### 🔬 Conceptual Research Model\n**Important Scope Notice**:\nThis canvas documents FIRELINE's *conceptual scientific research and evidence-tracing workflow*.\n\n* **NOT** an implemented software pipeline\n* **NOT** an automated ETL/RAG ingestion engine\n* Pre-event preparation for human researcher rigor and future auditability",
+      "x": -1350,
+      "y": -500,
+      "width": 440,
+      "height": 190
+    },
+    {
+      "id": "node-epistemic-warning",
+      "type": "text",
+      "text": "### ⚠️ EPISTEMIC INTEGRITY WARNING\n\n**A ranking score, vector distance, or BM25 relevance score is NOT a measure of scientific truth.**\n\n* High text similarity $\\neq$ empirical validity\n* LLM confidence $\\neq$ thermodynamic truth\n* Scientific support requires traceable primary flight data, known apparatus limits, and verified environmental boundaries.",
+      "x": -1350,
+      "y": -290,
+      "width": 440,
+      "height": 220,
+      "color": "1"
+    },
+    {
+      "id": "node-sci-questions-file",
+      "type": "file",
+      "file": "01-Research/Scientific-Questions.md",
+      "x": -1350,
+      "y": -50,
+      "width": 440,
+      "height": 220
+    },
+    {
+      "id": "node-question-example",
+      "type": "text",
+      "text": "### Scientific Question (Input Query)\n**Target Question**: How does concurrent flow velocity affect flame spread across thick fabrics in low-pressure, oxygen-enriched exploration atmospheres?\n\n* **Parameters**: $X_{O_2} = 0.34$, $P = 56.5\\text{ kPa}$, $u_\\infty = 15\\text{--}25\\text{ cm/s}$\n* **Phenomenon**: Concurrent solid flame spread\n* **Requirement**: Trace from query to verified empirical flight runs.",
+      "x": -1350,
+      "y": 190,
+      "width": 440,
+      "height": 270
+    },
+    {
+      "id": "group-selection-verification",
+      "type": "group",
+      "label": "STAGE 2: INVESTIGATION SELECTION & SOURCE VERIFICATION",
+      "x": -830,
+      "y": -540,
+      "width": 500,
+      "height": 1040,
+      "color": "2"
+    },
+    {
+      "id": "node-investigation-selection",
+      "type": "text",
+      "text": "### Investigation Selection\nFilter repository by physical domain & regime:\n* ❌ **FLEX (PSI-69)**: Droplet combustion, quiescent, liquid $n$-heptane — **Physically Incompatible**\n* ⚠️ **BASS-II (PSI-25)**: Solid flat PMMA slab, opposed flow — **Different Regime (Opposed vs Concurrent)**\n* ✅ **Saffire-I (PSI-98)**: Large-scale fabric blend (Cotton/Fiberglass SIBAL), concurrent flow, exploration atmosphere — **Candidate Match**",
+      "x": -800,
+      "y": -500,
+      "width": 440,
+      "height": 240
+    },
+    {
+      "id": "node-source-matrix-file",
+      "type": "file",
+      "file": "docs/source_verification_matrix.md",
+      "x": -800,
+      "y": -240,
+      "width": 440,
+      "height": 220
+    },
+    {
+      "id": "node-source-register-file",
+      "type": "file",
+      "file": "01-Research/Source-Register.md",
+      "x": -800,
+      "y": 0,
+      "width": 440,
+      "height": 220
+    },
+    {
+      "id": "node-verification-gate",
+      "type": "text",
+      "text": "### Source Verification Gate\nBefore accepting any empirical claim:\n1. Cross-reference DOI against real literature\n2. Flag mismatch (e.g., Phase 0.5 audit caught trans-decalin autoignition DOI erroneously cited for Saffire-I)\n3. Require primary NASA Flight Experiment Table or verified NASA Technical Memorandum\n4. Status: Must be `VERIFIED` or `INDEPENDENTLY_VERIFIED`",
+      "x": -800,
+      "y": 240,
+      "width": 440,
+      "height": 220,
+      "color": "2"
+    },
+    {
+      "id": "group-raw-observation",
+      "type": "group",
+      "label": "STAGE 3: RAW MEASUREMENT & UNIT PRESERVATION",
+      "x": -280,
+      "y": -540,
+      "width": 510,
+      "height": 1040,
+      "color": "3"
+    },
+    {
+      "id": "node-source-document",
+      "type": "text",
+      "text": "### Primary Verified Source Document\n* **Repository Reference**: NASA Physical Sciences Informatics (PSI-98)\n* **Flight Platform**: Cygnus OA-6 Cargo Resupply Vehicle\n* **Primary Source**: Saffire-I Flight Experiment Table / NASA Glenn Reports\n* **Hardware**: Saffire flow duct ($44\\times 94\\text{ cm}$), video cameras, thermocouple array, pressure transducer",
+      "x": -250,
+      "y": -500,
+      "width": 450,
+      "height": 220
+    },
+    {
+      "id": "node-raw-observation",
+      "type": "text",
+      "text": "### Original Documented Observation\n* **Flight Run**: Saffire-I Run 1 (SIBAL fabric ignition)\n* **Raw Log**: Video timestamp of flame front position $x(t)$\n* **Raw Spread Rate**: Documented as $0.68\\text{--}0.75\\text{ cm/s}$ in NASA report text\n* **Raw Conditions**: $u_\\infty = 20\\text{ cm/s}$, $X_{O_2} = 0.21$, $P = 75.8\\text{ kPa}$ (Cygnus post-unberth ambient)\n* **Hardware Limitations**: 3-axis acceleration $< 10^{-4}\\,g_0$",
+      "x": -250,
+      "y": -260,
+      "width": 450,
+      "height": 220
+    },
+    {
+      "id": "node-dual-state-preservation",
+      "type": "text",
+      "text": "### Dual-State Unit & Condition Preservation\nFIRELINE architectural invariant:\n\n**1. Raw Layer (Frozen & Immutable)**:\n* `raw_value`: \"0.72\"\n* `raw_unit`: \"cm/s\"\n* `raw_uncertainty`: \"±0.05 cm/s\"\n* `source_field`: \"Table 2, Run 1, Column FlameSpreadRate\"\n\n**2. Normalized Layer (`ScientificValue<T>`)**:\n* Standardized SI conversion ($0.0072\\text{ m/s}$)\n* Linked conversion equation & schema mapping\n* **Preservation Rule**: Raw text, units, and uncertainty are NEVER erased or overwritten.",
+      "x": -250,
+      "y": -20,
+      "width": 450,
+      "height": 480,
+      "color": "3"
+    },
+    {
+      "id": "group-validation-classifier",
+      "type": "group",
+      "label": "STAGE 4: EVIDENCE VALIDATION & AUDIT PROVENANCE",
+      "x": 280,
+      "y": -540,
+      "width": 510,
+      "height": 1040,
+      "color": "5"
+    },
+    {
+      "id": "node-classifier-file",
+      "type": "file",
+      "file": "docs/evidence_classifier_review.md",
+      "x": 310,
+      "y": -500,
+      "width": 450,
+      "height": 220
+    },
+    {
+      "id": "node-gated-rules",
+      "type": "text",
+      "text": "### 4-Tier Gated Physical Classification Rules\nDeterministic scientific decision boundary:\n\n* **Gate 1 (Source Credibility)**: Is source `VERIFIED` with peer-reviewed DOI or official NASA PSI flight table? If No $\\to$ Stop.\n* **Gate 2 (Regime Match)**: Do geometry, phase, and flow match the query domain? (e.g. droplet $\\neq$ fabric).\n* **Gate 3 (Empirical Support)**: Did flight test run directly at query conditions? $\\to$ **SUPPORTED**\n* **Gate 4 (Theoretical Inference)**: Can Damköhler/Peclet scaling bridge condition delta with stated assumptions? $\\to$ **INFERRED**\n* Otherwise $\\to$ **EVIDENCE_GAP**",
+      "x": 310,
+      "y": -260,
+      "width": 450,
+      "height": 330
+    },
+    {
+      "id": "node-hco-empirical-finding-node",
+      "type": "text",
+      "text": "### EmpiricalFinding Unit + AuditProvenance\nConstructed canonical data model:\n* `finding_id`: `EF-SAFFIRE1-001`\n* `investigation_id`: `PSI-98`\n* `run_id`: `SI-RUN-01`\n* `claim_statement`: \"Concurrent flame spread on SIBAL fabric reached steady state under 20 cm/s flow in Cygnus atmosphere\"\n* `quantitative_measurements`: `[MeasurementRecord]`\n* `provenance`: full cryptographic/citation trace",
+      "x": 310,
+      "y": 90,
+      "width": 450,
+      "height": 370
+    },
+    {
+      "id": "group-epistemic-outcomes",
+      "type": "group",
+      "label": "STAGE 5: EPISTEMIC OUTCOMES & REASONING CLASS",
+      "x": 840,
+      "y": -540,
+      "width": 500,
+      "height": 1040,
+      "color": "4"
+    },
+    {
+      "id": "node-outcome-supported",
+      "type": "text",
+      "text": "### ✅ SUPPORTED\n**Definition**: Directly supported by verified empirical flight/drop data with matching boundary conditions.\n\n* **Example**: Concurrent flame spread on SIBAL at $X_{O_2} = 0.21, P = 75.8\\text{ kPa}, u_\\infty = 20\\text{ cm/s}$ is empirically verified by Saffire-I Run 1.\n* **Condition**: Zero dimensional extrapolation required; verifiable to flight log.",
+      "x": 870,
+      "y": -500,
+      "width": 440,
+      "height": 220,
+      "color": "4"
+    },
+    {
+      "id": "node-outcome-inferred",
+      "type": "text",
+      "text": "### ⚠️ INFERRED\n**Definition**: An interpretation or projection requiring clearly stated assumptions and physical scaling laws.\n\n* **Example**: Extrapolating Saffire-I $21\\%\\,O_2$ spread rate to Exploration Atmosphere ($34\\%\\,O_2, 56.5\\text{ kPa}$) using de Ris concurrent flame spread theory.\n* **Condition**: Stated assumptions on boundary-layer preheating and gas-phase kinetics must be explicitly qualified.",
+      "x": 870,
+      "y": -260,
+      "width": 440,
+      "height": 230,
+      "color": "3"
+    },
+    {
+      "id": "node-outcome-gap",
+      "type": "text",
+      "text": "### ❌ EVIDENCE_GAP\n**Definition**: Insufficient or absent empirical microgravity data to support an answer reliably.\n\n* **Example**: Long-duration flame spread across thick non-planar composites at lunar gravity ($0.16\\,g_0$) under elevated oxygen.\n* **Condition**: Flagged explicitly to prevent hallucination; triggers recommendation for future flight investigation.",
+      "x": 870,
+      "y": -10,
+      "width": 440,
+      "height": 220,
+      "color": "1"
+    },
+    {
+      "id": "node-traceability-summary",
+      "type": "text",
+      "text": "### 📋 Auditable Decision Record\nFinal output delivered to user/researcher:\n\n1. Explicit classification tag (`SUPPORTED` | `INFERRED` | `EVIDENCE_GAP`)\n2. Complete backward trace link: Conclusion $\\to$ Finding $\\to$ Run ID $\\to$ Original Measurement $\\to$ Primary Verified Source Document\n3. Epistemic boundary disclosure: What is known empirically vs what is theoretical inference.",
+      "x": 870,
+      "y": 230,
+      "width": 440,
+      "height": 230
+    }
+  ],
+  "edges": [
+    {
+      "id": "edge-q-to-investigation",
+      "fromNode": "node-question-example",
+      "fromSide": "right",
+      "toNode": "node-investigation-selection",
+      "toSide": "left",
+      "label": "Matches phenomenon & regime"
+    },
+    {
+      "id": "edge-inv-to-matrix",
+      "fromNode": "node-investigation-selection",
+      "fromSide": "bottom",
+      "toNode": "node-source-matrix-file",
+      "toSide": "top",
+      "label": "Checks verification status"
+    },
+    {
+      "id": "edge-matrix-to-gate",
+      "fromNode": "node-source-matrix-file",
+      "fromSide": "bottom",
+      "toNode": "node-verification-gate",
+      "toSide": "top",
+      "label": "Verifies citation integrity"
+    },
+    {
+      "id": "edge-gate-to-source-doc",
+      "fromNode": "node-verification-gate",
+      "fromSide": "right",
+      "toNode": "node-source-document",
+      "toSide": "left",
+      "label": "Authorizes primary document"
+    },
+    {
+      "id": "edge-source-to-raw-obs",
+      "fromNode": "node-source-document",
+      "fromSide": "bottom",
+      "toNode": "node-raw-observation",
+      "toSide": "top",
+      "label": "Extracts flight run log"
+    },
+    {
+      "id": "edge-raw-obs-to-dual-state",
+      "fromNode": "node-raw-observation",
+      "fromSide": "bottom",
+      "toNode": "node-dual-state-preservation",
+      "toSide": "top",
+      "label": "Captures raw units & bounds"
+    },
+    {
+      "id": "edge-dual-state-to-rules",
+      "fromNode": "node-dual-state-preservation",
+      "fromSide": "right",
+      "toNode": "node-gated-rules",
+      "toSide": "left",
+      "label": "Feeds normalized & raw data"
+    },
+    {
+      "id": "edge-classifier-to-rules",
+      "fromNode": "node-classifier-file",
+      "fromSide": "bottom",
+      "toNode": "node-gated-rules",
+      "toSide": "top",
+      "label": "Defines physical gates"
+    },
+    {
+      "id": "edge-rules-to-finding",
+      "fromNode": "node-gated-rules",
+      "fromSide": "bottom",
+      "toNode": "node-hco-empirical-finding-node",
+      "toSide": "top",
+      "label": "Constructs finding & provenance"
+    },
+    {
+      "id": "edge-finding-to-supported",
+      "fromNode": "node-hco-empirical-finding-node",
+      "fromSide": "right",
+      "toNode": "node-outcome-supported",
+      "toSide": "left",
+      "label": "Direct empirical match"
+    },
+    {
+      "id": "edge-finding-to-inferred",
+      "fromNode": "node-hco-empirical-finding-node",
+      "fromSide": "right",
+      "toNode": "node-outcome-inferred",
+      "toSide": "left",
+      "label": "Theoretical scaling required"
+    },
+    {
+      "id": "edge-finding-to-gap",
+      "fromNode": "node-hco-empirical-finding-node",
+      "fromSide": "right",
+      "toNode": "node-outcome-gap",
+      "toSide": "left",
+      "label": "Data void / unverified"
+    },
+    {
+      "id": "edge-gap-to-summary",
+      "fromNode": "node-outcome-gap",
+      "fromSide": "bottom",
+      "toNode": "node-traceability-summary",
+      "toSide": "top",
+      "label": "Logs evidence trace"
+    }
+  ]
+}
