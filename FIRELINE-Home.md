@@ -31,7 +31,8 @@ flowchart LR
 ### 2. Scientific Evidence & Investigation Registers
 * 🔬 [[01-Research/Source-Register|NASA PSI Source Register]] — Master index of active investigations (`FLEX`, `BASS-II`, `Saffire`, `SoFIE`), official repository URLs, dataset availability, and claim verification statuses.
 
-### 3. Phase 0.5 Audit & Verification Documents
+### 3. Phase 0 & Phase 0.5 Audit, Review & Verification Documents
+* 📜 [[docs/phase00_official_challenge_review|Phase 0 Official Challenge Review]] — Authoritative requirements traceability, judging criteria mapping, and NASA rules compliance.
 * 📋 [[docs/source_verification_matrix|Source Verification Matrix]] — Field-by-field verification of all empirical finding records against NASA PSI data and DOI resolutions.
 * 📐 [[docs/hco_schema_change_proposal|HCO Schema Change Proposal]] — Structural updates for `ScientificValue<T>`, dual original/normalized units, and non-nullable field remediation.
 * ⚖️ [[docs/evidence_classifier_review|Evidence Classifier Mathematical Review]] — Analysis of 4D Delaunay triangulation failure modes and definition of the 4-tier Gated Rule Classifier.
@@ -39,13 +40,14 @@ flowchart LR
 
 ---
 
-## 🎯 Current Milestone: Phase 0.5 Complete → Preparation Phase
+## 🎯 Project Milestones & Phase Status
 
 | Milestone | Scope | Status | Blockers / Dependencies |
 | :--- | :--- | :--- | :--- |
-| **Phase 0.5** | Ground-Truth Verification & Classifier Audit | ✅ **COMPLETED** | Formal schema change approval required |
-| **Preparation Phase** | Knowledge Base Setup, Schema Solidification, NASA PSI Data Ingestion Planning | 🟡 **ACTIVE** | Respect NASA pre-competition rules (No solution code before Nov 14) |
-| **Phase 1** | Verified NASA PSI Data Ingestion Pipeline | ⏳ *Scheduled for Hackathon* | Awaiting event kickoff (Nov 14–15, 2026) |
+| **Phase 0** | Official Challenge Review & Traceability | ✅ **COMPLETED** | Fully audited against NASA 2026 challenge brief |
+| **Phase 0.5** | Ground-Truth Verification & Classifier Audit | ✅ **COMPLETED** | Schema updates proposed and gated |
+| **Preparation Phase** | Knowledge Base Setup, Schema Solidification, Ingestion Architecture | 🟡 **ACTIVE** | Respect NASA rules: No competition code before Nov 14 |
+| **Phase 1** | Verified NASA PSI Data Ingestion Pipeline | ⏳ *Scheduled for Hackathon* | Standby for event kickoff (Nov 14–15, 2026) |
 | **Phase 2** | Gated Deterministic Evidence Classification Engine | ⏳ *Scheduled for Hackathon* | Dependent on Phase 1 verified ingestion |
 | **Phase 3** | Evidence Map, Evidence Chain & Mission Assessor UI | ⏳ *Scheduled for Hackathon* | Dependent on Phase 2 classification engine |
 
