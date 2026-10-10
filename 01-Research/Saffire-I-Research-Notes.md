@@ -70,7 +70,7 @@ The Saffire-I experiment was the first investigation in human spaceflight histor
 ### 6.1 Directly Reported Findings (Verified)
 1. **Steady-State Propagation on Macro Scales**: The large $0.94\text{-m}$ SIBAL fabric burned with a quasi-steady concurrent flame spread rate of **$2.0\text{ to }2.5\text{ mm/s}$** after initial transient ignition. The flame did not exhibit catastrophic runaway acceleration.
 2. **Absence of Buoyant Necking**: Unlike terrestrial fires, where buoyant thermal plumes constrict the flame into a narrow column, the microgravity flame formed a broad, uniform, parabolic flame base spanning the fabric width.
-3. **Vehicle Pressurization**: Energy released into the closed Cygnus cabin caused a measurable vehicle-wide pressure increase ($\Delta P \approx 3.8\text{ kPa}$), demonstrating that combustion heat release in a sealed habitat can threaten cabin structural limits.
+3. **Vehicle Pressurization (Derived Estimate)**: Combustion heat release in the closed Cygnus cabin volume ($V \approx 18.9\text{ m}^3$) produces a calculated vehicle-wide pressure increase ($\Delta P \approx 3.8\text{ kPa}$ corresponding to a bulk temperature rise of $\Delta T \approx 11\text{ K}$). This demonstrates that thermal energy release in sealed spacecraft volumes poses an overpressure threat to vehicle structural limits. *(Note: Classified as `DERIVED_ESTIMATE`; raw cabin transducer time-series requires PSI-98 log extraction.)*
 4. **Combustion Termination**: The fire burned until the fuel sample was completely consumed across its length, leaving the fiberglass matrix structurally intact.
 
 ### 6.2 Interpretations & Extrapolations (Caution Required)

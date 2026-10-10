@@ -78,7 +78,7 @@
     {
       "id": "node-bass-desc",
       "type": "text",
-      "text": "### BASS-II Physical Boundaries\n* **Phase**: Solid thermoplastic (Cast PMMA slabs & thick rods)\n* **Geometry**: $1.2\\text{ mm}$ flat slabs; $6.35\\text{--}12.7\\text{ mm}$ rods\n* **Flow**: Low-speed forced flow ($1.0\\text{--}25.0\\text{ cm/s}$)\n* **Pressure**: $101.3\\text{ kPa}$ ambient ISS cabin\n* **Verified Finding**: Non-monotonic spread rate; low-speed radiative quenching limit below $1.5\\text{ cm/s}$\n* **Primary Citation**: Olson & Ferkul (*Combust. Flame*, 2017)",
+      "text": "### BASS-II Physical Boundaries\n* **Phase**: Solid thermoplastic (Cast PMMA rods & slabs)\n* **Geometry**: $6.35\\text{--}12.7\\text{ mm}$ rods (axial stagnation); $1.2\\text{ mm}$ flat slabs (opposed duct)\n* **Flow**: Flow envelope $0\\text{--}55\\text{ cm/s}$ (rods); $1\\text{--}25\\text{ cm/s}$ (slabs)\n* **Pressure**: $101.3\\text{ kPa}$ ambient ISS cabin\n* **Verified Finding**: Low-speed radiative quenching limit below $1.5\\text{ cm/s}$; aerodynamic blowoff up to $50\\text{ cm/s}$ on rods\n* **Primary Citation**: Olson & Ferkul (*Combust. Flame*, 2017; rods); secondary flat fuel studies",
       "x": -460,
       "y": 250,
       "width": 410,
@@ -106,7 +106,7 @@
     {
       "id": "node-saffire-desc",
       "type": "text",
-      "text": "### Saffire-I Physical Boundaries\n* **Phase**: Solid composite fabric (SIBAL: 75% cotton / 25% fiberglass)\n* **Geometry**: Full scale ($0.4\\text{ m} \\times 1.0\\text{ m} \\times 0.4\\text{ mm}$)\n* **Flow**: Forced concurrent flow ($20.0\\text{ cm/s}$)\n* **Pressure**: $101.3\\text{ kPa}$ ($14.7\\text{ psia}$, nominal Cygnus)\n* **Verified Finding**: Steady spread ($2.0\\text{--}2.5\\text{ mm/s}$); broad parabolic flame without buoyant necking; closed vehicle $\\Delta P \\approx 3.8\\text{ kPa}$\n* **Primary Citation**: Urban et al. (*Combust. Flame*, 2019)",
+      "text": "### Saffire-I Physical Boundaries\n* **Phase**: Solid composite fabric (SIBAL: 75% cotton / 25% fiberglass)\n* **Geometry**: Full scale ($0.4\\text{ m} \\times 1.0\\text{ m} \\times 0.4\\text{ mm}$)\n* **Flow**: Forced concurrent flow ($20.0\\text{ cm/s}$)\n* **Pressure**: $101.3\\text{ kPa}$ ($14.7\\text{ psia}$, nominal Cygnus)\n* **Verified Finding**: Steady spread ($2.0\\text{--}2.5\\text{ mm/s}$); broad parabolic flame without buoyant necking; closed vehicle $\\Delta P \\approx 3.8\\text{ kPa}$ (derived thermal estimate)\n* **Primary Citation**: Urban et al. (*Combust. Flame*, 2019)",
       "x": 60,
       "y": 250,
       "width": 410,
@@ -134,7 +134,7 @@
     {
       "id": "node-cross-rules",
       "type": "text",
-      "text": "### Inviolable Physical Compatibility Boundaries\n\n1. **Liquid != Solid Phase Separation**:\n   * Droplet evaporation kinetics (FLEX) must **never** directly support solid polymer questions.\n\n2. **Opposed != Concurrent Flow Regimes**:\n   * Upstream conductive spread (BASS-II) is physically distinct from downstream flame preheating (Saffire-I).\n\n3. **Biot Number Scale Normalization**:\n   * Thermally thin fabrics ($Bi \\ll 0.1$, Saffire) scale as $V_f \\propto 1/\\tau$.\n   * Thermally thick rods ($Bi > 1.0$, BASS-II) have thickness-independent spread.",
+      "text": "### Inviolable Physical Compatibility Boundaries\n\n1. **Liquid != Solid Phase Separation**:\n   * Droplet evaporation kinetics (FLEX) must **never** directly support solid polymer questions.\n\n2. **Opposed != Concurrent Flow Regimes**:\n   * Upstream conductive spread (BASS-II) is physically distinct from downstream flame preheating (Saffire-I).\n\n3. **Thermal Thickness Regime Coupling**:\n   * In opposed flow, thin fabrics ($Bi \\ll 0.1$) scale as $V_f \\propto 1/\\tau$, while thick rods ($Bi > 1.0$) have thickness-independent spread.\n   * Concurrent spread (Saffire) does not follow $1/\\tau$ scaling due to downstream preheat length growth.",
       "x": -370,
       "y": 610,
       "width": 380,

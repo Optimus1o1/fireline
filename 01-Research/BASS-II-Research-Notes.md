@@ -38,8 +38,8 @@ The Burning and Suppression of Solids - II (BASS-II) investigation examines the 
 
 * **Primary Solid Fuels**:
   * Polymethyl Methacrylate (PMMA) — Cast acrylic:
-    * Flat sheets: $10\text{ mm}$ width $\times 100\text{ mm}$ length $\times 1.2\text{ mm}$ thickness (thermally thin/intermediate).
-    * Cylindrical rods: $6.35\text{ mm}$ ($1/4\text{ in}$), $9.5\text{ mm}$ ($3/8\text{ in}$), and $12.7\text{ mm}$ ($1/2\text{ in}$) diameter (thermally thick).
+    * Cylindrical rods (**Primary verified in Olson & Ferkul, 2017**): $6.35\text{ mm}$ ($1/4\text{ in}$), $9.5\text{ mm}$ ($3/8\text{ in}$), and $12.7\text{ mm}$ ($1/2\text{ in}$) diameter (thermally thick) in axial stagnation flow.
+    * Flat sheets (Secondary BASS-II investigations; e.g., Zhao et al.): $10\text{ mm}$ width $\times 100\text{ mm}$ length $\times 1.2\text{ mm}$ thickness (thermally thin/intermediate).
   * Cotton fabric strips and Nomex blends (for comparison with spacecraft clothing materials).
 
 ---
@@ -48,9 +48,9 @@ The Burning and Suppression of Solids - II (BASS-II) investigation examines the 
 
 * **Gravity ($g$)**: Microgravity ($\sim 10^{-6}\ g_0$ in ISS MSG).
 * **Pressure ($P_\infty$)**: Ambient ISS cabin pressure ($101.3\text{ kPa} \approx 1.0\text{ atm}$).
-* **Oxygen Concentration ($X_{O_2}$)**: Ambient glovebox air ($\sim 20.8\%\text{–}21.0\% O_2$) and controlled nitrogen-diluted sub-atmospheric oxygen levels ($15\%\text{–}20\% O_2$).
+* **Oxygen Concentration ($X_{O_2}$)**: Ambient glovebox air ($\sim 20.8\%\text{–}21.0\% O_2$) and controlled nitrogen-diluted sweeps ($13.6\%\text{–}22.2\% O_2$ verified in Olson & Ferkul, 2017).
 * **Diluents**: Nitrogen ($N_2$).
-* **Forced Flow Velocity ($u_\infty$)**: Low-speed subsonic airflow: $1.0\text{–}25.0\text{ cm/s}$ ($0.01\text{–}0.25\text{ m/s}$).
+* **Forced Flow Velocity ($u_\infty$)**: Subsonic airflow spanning **$0.0\text{ to }55.0\text{ cm/s}$** for stagnation-flow rods (Olson & Ferkul, 2017); $1.0\text{–}25.0\text{ cm/s}$ typical for flat sheet tests.
 
 ---
 
@@ -70,10 +70,10 @@ The Burning and Suppression of Solids - II (BASS-II) investigation examines the 
 ## 6. Directly Reported Findings vs. Interpretations
 
 ### 6.1 Directly Reported Findings (Verified)
-1. **Non-Monotonic Spread Rate Response**: Flame spread rate ($V_f$) over flat PMMA in opposed flow does not increase monotonically with airflow. At very low speeds ($u_\infty < 2\text{ cm/s}$), spread rate drops sharply toward zero.
-2. **Low-Speed Radiative Quenching Boundary**: Flames extinguish when airflow is decreased below a critical threshold ($\sim 1.0\text{–}1.5\text{ cm/s}$). At these slow speeds, the rate of convective oxygen transport into the flame zone is insufficient to overcome radiative heat loss from the flame and soot to ambient space.
-3. **High-Speed Blowoff Limit**: Increasing flow velocity above $\sim 15\text{–}25\text{ cm/s}$ causes aerodynamic strain-induced flame blowoff on thicker rod tips, confirming a classical "C-shaped" flammability boundary.
-4. **Energy Balance Scaling**: Flammability on PMMA rods in axial stagnation flow is dictated by the Damköhler number ($Da$) and the surface energy balance, where radiative heat loss dominates at low stretch rates.
+1. **Low-Speed Radiative Quenching Boundary (Rods)**: PMMA rods in axial stagnation flow extinguish when airflow is decreased below a critical threshold ($\sim 1.0\text{–}1.5\text{ cm/s}$, verified in Olson & Ferkul, 2017). At these slow speeds, convective oxygen transport into the flame zone is insufficient to overcome radiative heat loss from the flame and soot to ambient space.
+2. **High-Speed Blowoff Limit (Rods)**: Increasing flow velocity above $\sim 15\text{–}50\text{ cm/s}$ (depending on $X_{O_2}$) causes aerodynamic strain-induced flame blowoff on thicker rod tips, mapping a complete "C-shaped" flammability boundary (Olson & Ferkul, 2017).
+3. **Energy Balance Scaling (Rods)**: Flammability on PMMA rods in axial stagnation flow is dictated by the Damköhler number ($Da$) and the surface energy balance, where radiative heat loss dominates at low stretch rates (Olson & Ferkul, 2017).
+4. **Non-Monotonic Spread Rate Response (Flat Sheets — Secondary Reference)**: Flame spread rate ($V_f$) over flat PMMA strips in opposed flow does not increase monotonically with airflow; at very low speeds ($u_\infty < 2\text{ cm/s}$), spread rate drops sharply toward zero (documented in secondary BASS-II flat fuel studies; e.g. Zhao et al., Bhattacharjee et al.).
 
 ### 6.2 Interpretations & Extrapolations (Caution Required)
 * *Interpretation*: It is often assumed that shutting off ventilation instantly extinguishes all spacecraft fires. *Reality*: BASS-II shows that quiescent diffusion or slow recirculation eddies can sustain smoldering or low-temperature flamelets for extended periods before quenching.

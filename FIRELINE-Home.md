@@ -48,11 +48,12 @@ flowchart LR
 * 📝 [[Templates/Research-Source-Template|Research Source Template]] — Standardized template for new NASA papers, investigations, and datasets with controlled-status provenance and unverified protocol.
 * 🏛️ [[Templates/Technical-Decision-Template|Technical Decision Template]] — Architectural decision record (ADR) template preserving decision context, evidence, and trade-offs.
 
-### 5. Phase 0 & Phase 0.5 Audit, Review & Verification Documents
+### 5. Phase 0, 0.5 & 0.8 Audit, Review & Verification Documents
 * 📜 [[docs/phase00_official_challenge_review|Phase 0 Official Challenge Review]] — Authoritative requirements traceability, judging criteria mapping, and NASA rules compliance.
 * 📋 [[docs/source_verification_matrix|Source Verification Matrix]] — Field-by-field verification of all empirical finding records against NASA PSI data and DOI resolutions.
 * 📐 [[docs/hco_schema_change_proposal|HCO Schema Change Proposal]] — Structural updates for `ScientificValue<T>`, dual original/normalized units, and non-nullable field remediation.
 * ⚖️ [[docs/evidence_classifier_review|Evidence Classifier Mathematical Review]] — Analysis of 4D Delaunay triangulation failure modes and definition of the 4-tier Gated Rule Classifier.
+* 🔬 [[docs/phase08_scientific_evidence_audit|Phase 0.8 Scientific Evidence Audit]] — Claim-level audit, 24-point empirical register, provenance verification, and permissible evidence boundaries.
 * 🏁 [[docs/phase05_exit_report|Phase 0.5 Exit Report]] — Summary of ground-truth findings, production gate criteria, and roadmap.
 
 ---

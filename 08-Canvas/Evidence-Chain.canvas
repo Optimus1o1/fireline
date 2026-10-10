@@ -116,7 +116,7 @@
     {
       "id": "node-raw-observation",
       "type": "text",
-      "text": "### Original Documented Observation\n* **Flight Run**: Saffire-I Run 1 (SIBAL fabric ignition)\n* **Raw Log**: Video timestamp of flame front position $x(t)$\n* **Raw Spread Rate**: Documented as $0.68\\text{--}0.75\\text{ cm/s}$ in NASA report text\n* **Raw Conditions**: $u_\\infty = 20\\text{ cm/s}$, $X_{O_2} = 0.21$, $P = 75.8\\text{ kPa}$ (Cygnus post-unberth ambient)\n* **Hardware Limitations**: 3-axis acceleration $< 10^{-4}\\,g_0$",
+      "text": "### Original Documented Observation\n* **Flight Run**: Saffire-I Run 1 (SIBAL fabric ignition)\n* **Raw Log**: Video timestamp of flame front position $x(t)$\n* **Raw Spread Rate**: Documented as $2.0\\text{--}2.5\\text{ mm/s}$ ($0.20\\text{--}0.25\\text{ cm/s}$) in NASA report text\n* **Raw Conditions**: $u_\\infty = 20\\text{ cm/s}$, $X_{O_2} = 0.21$, $P = 101.3\\text{ kPa}$ (nominal Cygnus cabin atmosphere)\n* **Hardware Limitations**: 3-axis acceleration $< 10^{-4}\\,g_0$",
       "x": -250,
       "y": -260,
       "width": 450,
@@ -125,7 +125,7 @@
     {
       "id": "node-dual-state-preservation",
       "type": "text",
-      "text": "### Dual-State Unit & Condition Preservation\nFIRELINE architectural invariant:\n\n**1. Raw Layer (Frozen & Immutable)**:\n* `raw_value`: \"0.72\"\n* `raw_unit`: \"cm/s\"\n* `raw_uncertainty`: \"±0.05 cm/s\"\n* `source_field`: \"Table 2, Run 1, Column FlameSpreadRate\"\n\n**2. Normalized Layer (`ScientificValue<T>`)**:\n* Standardized SI conversion ($0.0072\\text{ m/s}$)\n* Linked conversion equation & schema mapping\n* **Preservation Rule**: Raw text, units, and uncertainty are NEVER erased or overwritten.",
+      "text": "### Dual-State Unit & Condition Preservation\nFIRELINE architectural invariant:\n\n**1. Raw Layer (Frozen & Immutable)**:\n* `raw_value`: \"2.4\"\n* `raw_unit`: \"mm/s\"\n* `raw_uncertainty`: \"±0.15 mm/s\"\n* `source_field`: \"Table 2, Run 1, Column FlameSpreadRate\"\n\n**2. Normalized Layer (`ScientificValue<T>`)**:\n* Standardized SI conversion ($0.0024\\text{ m/s}$)\n* Linked conversion equation & schema mapping\n* **Preservation Rule**: Raw text, units, and uncertainty are NEVER erased or overwritten.",
       "x": -250,
       "y": -20,
       "width": 450,
