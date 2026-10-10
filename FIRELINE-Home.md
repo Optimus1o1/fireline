@@ -30,6 +30,11 @@ flowchart LR
 
 ### 2. Scientific Evidence & Investigation Registers
 * 🔬 [[01-Research/Source-Register|NASA PSI Source Register]] — Master index of active investigations (`FLEX`, `BASS-II`, `Saffire`, `SoFIE`), official repository URLs, dataset availability, and claim verification statuses.
+* 💧 [[01-Research/FLEX-Research-Notes|FLEX Research Notes (PSI-69)]] — Droplet combustion, burning rate constants, radiative & cool-flame extinction kinetics.
+* 🪵 [[01-Research/BASS-II-Research-Notes|BASS-II Research Notes (PSI-25)]] — Solid PMMA slabs/rods, low-speed flow flammability boundaries, and radiative quenching limits.
+* 🚀 [[01-Research/Saffire-I-Research-Notes|Saffire-I Research Notes (PSI-98)]] — Macro-scale SIBAL fabric burns, concurrent spread dynamics, and spacecraft cabin pressurization.
+* 🔄 [[01-Research/Cross-Investigation-Analysis|Cross-Investigation Analysis]] — Comparative synthesis across transport regimes, scale, fuel phases, and physical compatibility rules.
+* ❓ [[01-Research/Scientific-Questions|Scientific Questions & Roadmap]] — Open physical scaling questions (partial gravity, exploration atmospheres, LOI shifts).
 
 ### 3. Phase 0 & Phase 0.5 Audit, Review & Verification Documents
 * 📜 [[docs/phase00_official_challenge_review|Phase 0 Official Challenge Review]] — Authoritative requirements traceability, judging criteria mapping, and NASA rules compliance.
