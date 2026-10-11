@@ -65,6 +65,10 @@ flowchart LR
 * 🗂️ [[docs/phase097_fixture_catalog|Phase 0.97 Scientific Test Fixture Catalog]] — Authoritative inventory of 60 deterministic synthetic fixtures with explicit payloads, preconditions, preservation rules, and reason codes.
 * 📈 [[docs/phase097_fixture_traceability_matrix|Phase 0.97 Fixture Traceability Matrix]] — Bidirectional traceability matrix mapping 42 requirements and 59 tests to the 60 synthetic fixtures with 100% critical coverage.
 * ⚖️ [[docs/phase097_open_fixture_design_decisions|Phase 0.97 Open Fixture Design Decisions]] — Register evaluating decisions `DEC-01` through `DEC-08`, including synthetic database quarantine tagging (`DEC-07`) and dual-format CSV/JSON representation (`DEC-08`).
+* 🏛️ [[docs/phase098_ingestion_contract_consolidation|Phase 0.98 Ingestion Contract Consolidation]] — Authoritative contract baseline reconciling canonical HCO, proposed extensions, 42 requirements, and 9 validation gates under a 6-level authority hierarchy. *(Contract specification only; no executable code.)*
+* 📋 [[docs/phase098_implementation_readiness_checklist|Phase 0.98 Implementation Readiness Checklist]] — Actionable readiness audit across 32 criteria in 6 groups (repository, schema, source, scientific integrity, testing, and deployment).
+* ⚖️ [[docs/phase098_contract_conflict_register|Phase 0.98 Contract Conflict Register]] — Audited register of 10 contract and scientific conflicts, including test inventory (`TEST-B08`), priority distribution, Saffire-I thickness (`DEC-01`), and nullability (`DEC-02`).
+* 🔍 [[docs/phase098_traceability_audit|Phase 0.98 Traceability Audit]] — Reconciled matrix linking all 42 requirements, 59 tests, 60 fixtures, and readiness statuses with mathematical proof.
 * 🏁 [[docs/phase05_exit_report|Phase 0.5 Exit Report]] — Summary of ground-truth findings, production gate criteria, and roadmap.
 
 ---
