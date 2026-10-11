@@ -61,6 +61,10 @@ flowchart LR
 * 📑 [[docs/phase096_test_case_catalog|Phase 0.96 Ingestion Test Case Catalog]] — Complete catalog of 59 deterministic test cases with synthetic inputs, preconditions, expected dispositions, and failure severities.
 * 📊 [[docs/phase096_test_traceability_matrix|Phase 0.96 Test Traceability Matrix]] — Bidirectional traceability matrix connecting 42 ingestion requirements to deterministic test cases.
 * ⚖️ [[docs/phase096_open_test_design_decisions|Phase 0.96 Open Test Design Decisions]] — Register of 6 open design decisions (including Saffire-I thickness conflict, schema nullability, and uncalibrated instrument indices).
+* 🧩 [[docs/phase097_fixture_design_specification|Phase 0.97 Scientific Fixture Design Specification]] — Deterministic, implementation-independent test data contract across 9 fixture categories, synthetic identity standard, base-and-mutation architecture, and execution telemetry invariants. *(Design specification only; no executable test harness.)*
+* 🗂️ [[docs/phase097_fixture_catalog|Phase 0.97 Scientific Test Fixture Catalog]] — Authoritative inventory of 60 deterministic synthetic fixtures with explicit payloads, preconditions, preservation rules, and reason codes.
+* 📈 [[docs/phase097_fixture_traceability_matrix|Phase 0.97 Fixture Traceability Matrix]] — Bidirectional traceability matrix mapping 42 requirements and 59 tests to the 60 synthetic fixtures with 100% critical coverage.
+* ⚖️ [[docs/phase097_open_fixture_design_decisions|Phase 0.97 Open Fixture Design Decisions]] — Register evaluating decisions `DEC-01` through `DEC-08`, including synthetic database quarantine tagging (`DEC-07`) and dual-format CSV/JSON representation (`DEC-08`).
 * 🏁 [[docs/phase05_exit_report|Phase 0.5 Exit Report]] — Summary of ground-truth findings, production gate criteria, and roadmap.
 
 ---
