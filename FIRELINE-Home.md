@@ -57,6 +57,10 @@ flowchart LR
 * 🔬 [[docs/phase08_scientific_evidence_audit|Phase 0.8 Scientific Evidence Audit]] — Claim-level audit, 24-point empirical register, provenance verification, and permissible evidence boundaries.
 * 📑 [[docs/phase09_pre_ingestion_contract_mapping|Phase 0.9 Pre-Ingestion Data Contract Mapping]] — Pre-ingestion mapping specification, Phase 0.8 audit reconciliation, canonical vs. proposed entity contracts, measurement field mappings, and empirical eligibility gates. *(Planning contract only; does not signify that ingestion or database implementation is complete.)*
 * 🗃️ [[docs/phase095_psi_artifact_inventory|Phase 0.95 NASA PSI Artifact Inventory & Staging Architecture]] — Ground-truth inventory of live NASA PSI portal assets (FLEX, BASS-II, Saffire-I), experimental table field inspections, raw data sizing, and staging layout specification.
+* 🧪 [[docs/phase096_ingestion_test_specification|Phase 0.96 Ingestion Test Specification]] — Implementation-independent acceptance test specification across 9 test families (provenance, missingness, units, conditions, safeguards, epistemic types, synthetic isolation, parsing, and physical comparability). *(Planning specification only; no executable code.)*
+* 📑 [[docs/phase096_test_case_catalog|Phase 0.96 Ingestion Test Case Catalog]] — Complete catalog of 59 deterministic test cases with synthetic inputs, preconditions, expected dispositions, and failure severities.
+* 📊 [[docs/phase096_test_traceability_matrix|Phase 0.96 Test Traceability Matrix]] — Bidirectional traceability matrix connecting 42 ingestion requirements to deterministic test cases.
+* ⚖️ [[docs/phase096_open_test_design_decisions|Phase 0.96 Open Test Design Decisions]] — Register of 6 open design decisions (including Saffire-I thickness conflict, schema nullability, and uncalibrated instrument indices).
 * 🏁 [[docs/phase05_exit_report|Phase 0.5 Exit Report]] — Summary of ground-truth findings, production gate criteria, and roadmap.
 
 ---
