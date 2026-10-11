@@ -54,6 +54,7 @@ flowchart LR
 * 📐 [[docs/hco_schema_change_proposal|HCO Schema Change Proposal]] — Structural updates for `ScientificValue<T>`, dual original/normalized units, and non-nullable field remediation.
 * ⚖️ [[docs/evidence_classifier_review|Evidence Classifier Mathematical Review]] — Analysis of 4D Delaunay triangulation failure modes and definition of the 4-tier Gated Rule Classifier.
 * 🔬 [[docs/phase08_scientific_evidence_audit|Phase 0.8 Scientific Evidence Audit]] — Claim-level audit, 24-point empirical register, provenance verification, and permissible evidence boundaries.
+* 📑 [[docs/phase09_pre_ingestion_contract_mapping|Phase 0.9 Pre-Ingestion Data Contract Mapping]] — Pre-ingestion mapping specification, Phase 0.8 audit reconciliation, canonical vs. proposed entity contracts, measurement field mappings, and empirical eligibility gates. *(Planning contract only; does not signify that ingestion or database implementation is complete.)*
 * 🏁 [[docs/phase05_exit_report|Phase 0.5 Exit Report]] — Summary of ground-truth findings, production gate criteria, and roadmap.
 
 ---
