@@ -69,6 +69,10 @@ flowchart LR
 * 📋 [[docs/phase098_implementation_readiness_checklist|Phase 0.98 Implementation Readiness Checklist]] — Actionable readiness audit across 32 criteria in 6 groups (repository, schema, source, scientific integrity, testing, and deployment).
 * ⚖️ [[docs/phase098_contract_conflict_register|Phase 0.98 Contract Conflict Register]] — Audited register of 10 contract and scientific conflicts, including test inventory (`TEST-B08`), priority distribution, Saffire-I thickness (`DEC-01`), and nullability (`DEC-02`).
 * 🔍 [[docs/phase098_traceability_audit|Phase 0.98 Traceability Audit]] — Reconciled matrix linking all 42 requirements, 59 tests, 60 fixtures, and readiness statuses with mathematical proof.
+* 🚀 [[docs/phase099_preflight_readiness_review|Phase 0.99 Pre-Flight Readiness Review]] — Comprehensive synthesis of Phases 0–0.98, environmental baseline, canonical schema verification, candidate investigation readiness, and final readiness classification (`READY_FOR_LIMITED_PHASE_1_SCOPE`).
+* 📑 [[docs/phase099_hackathon_handoff_brief|Phase 0.99 Hackathon Handoff Brief]] — Executive handoff document covering project identity (CIPHER), microgravity combustion challenge, architecture, data strategy, 10 scientific integrity mandates, and 3-minute live pitch script.
+* 📋 [[docs/phase099_day1_backlog|Phase 0.99 Day 1 Implementation Backlog]] — Operational, dependency-aware Day 1 backlog with prioritized tasks (`TASK-D1-01` to `14`) across P0 (Gates), P1 (Vertical Slice), P2 (Intelligence), and P3 (Deferred).
+* 🛡️ [[docs/phase099_risk_and_contingency_register|Phase 0.99 Risk & Contingency Register]] — Audited risk matrix across scientific data, schema, AI, and delivery domains, with concrete contingency runbooks and fallback paths.
 * 🏁 [[docs/phase05_exit_report|Phase 0.5 Exit Report]] — Summary of ground-truth findings, production gate criteria, and roadmap.
 
 ---
@@ -79,10 +83,10 @@ flowchart LR
 | :--- | :--- | :--- | :--- |
 | **Phase 0** | Official Challenge Review & Traceability | ✅ **COMPLETED** | Fully audited against NASA 2026 challenge brief |
 | **Phase 0.5** | Ground-Truth Verification & Classifier Audit | ✅ **COMPLETED** | Schema updates proposed and gated |
-| **Preparation Phase** | Knowledge Base Setup, Schema Solidification, Ingestion Architecture | 🟡 **ACTIVE** | Respect NASA rules: No competition code before Nov 14 |
-| **Phase 1** | Verified NASA PSI Data Ingestion Pipeline | ⏳ *Scheduled for Hackathon* | Standby for event kickoff (Nov 14–15, 2026) |
+| **Preparation Phase (0.7–0.99)** | Knowledge Base, Schema Solidification, Acceptance Tests, Pre-Flight Handoff | ✅ **COMPLETED** | Fully frozen baseline; standby for Nov 14 kickoff |
+| **Phase 1** | Verified NASA PSI Data Ingestion Pipeline & Vertical Slice | ⏳ *Scheduled for Hackathon* | Standby for event kickoff (Nov 14–15, 2026, 9:00 AM) |
 | **Phase 2** | Gated Deterministic Evidence Classification Engine | ⏳ *Scheduled for Hackathon* | Dependent on Phase 1 verified ingestion |
-| **Phase 3** | Evidence Map, Evidence Chain & Mission Assessor UI | ⏳ *Scheduled for Hackathon* | Dependent on Phase 2 classification engine |
+| **Phase 3** | Evidence Map, Comparison Drawer & Mission Assessor UI | ⏳ *Scheduled for Hackathon* | Dependent on Phase 2 classification engine |
 
 ---
 
