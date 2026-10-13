@@ -73,6 +73,9 @@ flowchart LR
 * 📑 [[docs/phase099_hackathon_handoff_brief|Phase 0.99 Hackathon Handoff Brief]] — Executive handoff document covering project identity (CIPHER), microgravity combustion challenge, architecture, data strategy, 10 scientific integrity mandates, and 3-minute live pitch script.
 * 📋 [[docs/phase099_day1_backlog|Phase 0.99 Day 1 Implementation Backlog]] — Operational, dependency-aware Day 1 backlog with prioritized tasks (`TASK-D1-01` to `14`) across P0 (Gates), P1 (Vertical Slice), P2 (Intelligence), and P3 (Deferred).
 * 🛡️ [[docs/phase099_risk_and_contingency_register|Phase 0.99 Risk & Contingency Register]] — Audited risk matrix across scientific data, schema, AI, and delivery domains, with concrete contingency runbooks and fallback paths.
+* 🎯 [[docs/phase10_official_challenge_traceability|Phase 1.0 Official Challenge Traceability]] — Authoritative requirements traceability matrix mapping NASA's complete "Flame in Freefall" specification (`NASA-REQ-001` to `010`) to FIRELINE capabilities.
+* ⚖️ [[docs/phase10_scope_decision|Phase 1.0 Scope Decision & Authorization]] — Executive Go/No-Go decision: `GO WITH CHANGES` authorizing 4 mandated scope adjustments (mission presets, solid-fuel boundary, AI citation guardrails, and discrepancy preservation).
+* 📝 [[docs/phase10_day1_backlog_delta|Phase 1.0 Day 1 Backlog Delta]] — Refined task definitions for `TASK-D1-04`, `05`, `07`, and `11` incorporating challenge-aligned mission scenarios and physical validation rules.
 * 🏁 [[docs/phase05_exit_report|Phase 0.5 Exit Report]] — Summary of ground-truth findings, production gate criteria, and roadmap.
 
 ---
@@ -84,6 +87,7 @@ flowchart LR
 | **Phase 0** | Official Challenge Review & Traceability | ✅ **COMPLETED** | Fully audited against NASA 2026 challenge brief |
 | **Phase 0.5** | Ground-Truth Verification & Classifier Audit | ✅ **COMPLETED** | Schema updates proposed and gated |
 | **Preparation Phase (0.7–0.99)** | Knowledge Base, Schema Solidification, Acceptance Tests, Pre-Flight Handoff | ✅ **COMPLETED** | Fully frozen baseline; standby for Nov 14 kickoff |
+| **Phase 1.0** | Official Challenge Release Checkpoint & Scope Authorization | ✅ **COMPLETED** | `GO WITH CHANGES` decision locked; backlog refined |
 | **Phase 1** | Verified NASA PSI Data Ingestion Pipeline & Vertical Slice | ⏳ *Scheduled for Hackathon* | Standby for event kickoff (Nov 14–15, 2026, 9:00 AM) |
 | **Phase 2** | Gated Deterministic Evidence Classification Engine | ⏳ *Scheduled for Hackathon* | Dependent on Phase 1 verified ingestion |
 | **Phase 3** | Evidence Map, Comparison Drawer & Mission Assessor UI | ⏳ *Scheduled for Hackathon* | Dependent on Phase 2 classification engine |
