@@ -13,6 +13,11 @@ env/
 Thumbs.db
 .vscode/
 
+# Environment Variables
+.env
+.env.local
+.env.*.local
+
 # Obsidian local cache & workspace state (preserve vault notes, ignore transient UI state)
 .obsidian/workspace*
 .obsidian/cache/
