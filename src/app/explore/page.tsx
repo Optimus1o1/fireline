@@ -15,8 +15,14 @@ import {
   RotateCcw,
   BookOpen,
   Scale,
+  GitCompare,
+  X,
+  CheckCircle2,
+  AlertOctagon,
+  MinusCircle,
 } from 'lucide-react';
 import { EvidenceRecord, InvestigationSummary } from '@/types/evidence';
+import { ComparisonAnalysis } from '@/lib/physicalComparabilityEngine';
 
 export default function ExplorePage() {
   const [records, setRecords] = useState<EvidenceRecord[]>([]);
@@ -33,6 +39,11 @@ export default function ExplorePage() {
 
   // Active detail modal/drawer
   const [selectedRecord, setSelectedRecord] = useState<EvidenceRecord | null>(null);
+
+  // Comparison State
+  const [compareList, setCompareList] = useState<EvidenceRecord[]>([]);
+  const [comparisonAnalysis, setComparisonAnalysis] = useState<ComparisonAnalysis | null>(null);
+  const [isComparing, setIsComparing] = useState(false);
 
   // Fetch investigations & initial records
   useEffect(() => {
@@ -106,6 +117,42 @@ export default function ExplorePage() {
     }
   };
 
+  const toggleCompare = (rec: EvidenceRecord, e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (compareList.some((r) => r.id === rec.id)) {
+      setCompareList(compareList.filter((r) => r.id !== rec.id));
+    } else {
+      if (compareList.length >= 2) {
+        setCompareList([compareList[1], rec]);
+      } else {
+        setCompareList([...compareList, rec]);
+      }
+    }
+  };
+
+  const triggerCompareAnalysis = async () => {
+    if (compareList.length !== 2) return;
+    try {
+      setIsComparing(true);
+      const res = await fetch('/api/evidence/compare', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          recordAId: compareList[0].id,
+          recordBId: compareList[1].id,
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setComparisonAnalysis(data.comparison);
+      }
+    } catch (err) {
+      console.error('Comparison error:', err);
+    } finally {
+      setIsComparing(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-ink text-bone flex flex-col">
       {/* Header */}
@@ -145,7 +192,23 @@ export default function ExplorePage() {
             <strong>Representative Flight Dataset Indexed:</strong> Saffire-I (5 rows / 2 specimen records), BASS-II (5 representative thin-film rows of 130), FLEX (deferred).
           </span>
         </div>
-        <span className="text-[11px] text-amber-400/80 font-mono">NON-FABRICATED EMPIRICAL RECORDS</span>
+        <div className="flex items-center space-x-3">
+          {compareList.length > 0 && (
+            <button
+              onClick={triggerCompareAnalysis}
+              disabled={compareList.length !== 2}
+              className={`px-3 py-1 rounded text-xs font-semibold flex items-center space-x-1.5 transition-all ${
+                compareList.length === 2
+                  ? 'bg-copper text-ink hover:bg-copper/90'
+                  : 'bg-slate/20 text-slate cursor-not-allowed'
+              }`}
+            >
+              <GitCompare className="w-3.5 h-3.5" />
+              <span>Compare Selected ({compareList.length}/2)</span>
+            </button>
+          )}
+          <span className="text-[11px] text-amber-400/80 font-mono">NON-FABRICATED EMPIRICAL RECORDS</span>
+        </div>
       </div>
 
       {/* Main Two-Panel Layout */}
@@ -259,7 +322,7 @@ export default function ExplorePage() {
               Scientific Evidence Records ({records.length})
             </h2>
             <span className="text-xs text-slate">
-              {loading ? 'Querying records...' : 'Deterministic match output'}
+              {loading ? 'Querying records...' : 'Select records for side-by-side comparability'}
             </span>
           </div>
 
@@ -272,11 +335,13 @@ export default function ExplorePage() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
               {records.map((rec) => {
                 const isSelected = selectedRecord?.id === rec.id;
+                const isInCompare = compareList.some((r) => r.id === rec.id);
+
                 return (
                   <div
                     key={rec.id}
                     onClick={() => setSelectedRecord(rec)}
-                    className={`p-4 rounded-xl border cursor-pointer transition-all ${
+                    className={`p-4 rounded-xl border cursor-pointer transition-all relative ${
                       isSelected
                         ? 'border-copper bg-copper/5 shadow-lg shadow-copper/5'
                         : 'border-slate/20 bg-ink/40 hover:border-slate/40'
@@ -297,7 +362,19 @@ export default function ExplorePage() {
                         </div>
                         <h3 className="text-sm font-bold text-bone mt-1">{rec.material}</h3>
                       </div>
-                      <span className="text-[11px] text-slate font-mono">Row #{rec.sourceRowNumber}</span>
+
+                      {/* Compare Checkbox Button */}
+                      <button
+                        onClick={(e) => toggleCompare(rec, e)}
+                        className={`text-xs px-2 py-1 rounded border flex items-center space-x-1 transition-colors ${
+                          isInCompare
+                            ? 'bg-copper text-ink border-copper font-bold'
+                            : 'bg-ink/60 text-slate border-slate/30 hover:border-copper/50'
+                        }`}
+                      >
+                        <Scale className="w-3 h-3" />
+                        <span>{isInCompare ? 'Comparing' : 'Compare'}</span>
+                      </button>
                     </div>
 
                     {/* Physical Specs */}
@@ -462,6 +539,135 @@ export default function ExplorePage() {
           </aside>
         )}
       </div>
+
+      {/* Side-by-Side Comparison Drawer (TASK-D1-09) */}
+      {comparisonAnalysis && (
+        <div className="fixed inset-0 z-50 bg-ink/80 backdrop-blur flex items-center justify-center p-4">
+          <div className="bg-ink border border-slate/30 rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto flex flex-col shadow-2xl">
+            {/* Modal Header */}
+            <div className="p-5 border-b border-slate/20 flex items-center justify-between sticky top-0 bg-ink/95 z-10">
+              <div className="flex items-center space-x-2">
+                <Scale className="w-5 h-5 text-copper" />
+                <h3 className="font-bold text-base text-bone">Physical Comparability Analysis</h3>
+              </div>
+              <button
+                onClick={() => setComparisonAnalysis(null)}
+                className="text-slate hover:text-bone p-1 rounded-lg hover:bg-slate/10"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Comparability Outcome Banner */}
+            <div className="p-5 space-y-3">
+              <div
+                className={`p-4 rounded-xl border flex items-start space-x-3 ${
+                  comparisonAnalysis.disposition === 'DIRECTLY_COMPARABLE'
+                    ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-300'
+                    : comparisonAnalysis.disposition === 'CONDITIONALLY_COMPARABLE'
+                    ? 'bg-amber-500/10 border-amber-500/30 text-amber-300'
+                    : 'bg-red-500/10 border-red-500/30 text-red-300'
+                }`}
+              >
+                {comparisonAnalysis.disposition === 'DIRECTLY_COMPARABLE' ? (
+                  <CheckCircle2 className="w-5 h-5 flex-shrink-0 mt-0.5" />
+                ) : comparisonAnalysis.disposition === 'CONDITIONALLY_COMPARABLE' ? (
+                  <AlertTriangle className="w-5 h-5 flex-shrink-0 mt-0.5" />
+                ) : (
+                  <AlertOctagon className="w-5 h-5 flex-shrink-0 mt-0.5" />
+                )}
+                <div>
+                  <h4 className="font-bold text-sm uppercase tracking-wide">
+                    Disposition: {comparisonAnalysis.disposition.replace('_', ' ')}
+                  </h4>
+                  <p className="text-xs mt-1 leading-relaxed opacity-90">
+                    {comparisonAnalysis.overallExplanation}
+                  </p>
+                </div>
+              </div>
+
+              {/* Side-by-Side Metadata Cards */}
+              <div className="grid grid-cols-2 gap-4 pt-2">
+                {/* Left Card: Record A */}
+                <div className="p-4 rounded-xl bg-ink/60 border border-slate/20 space-y-2">
+                  <span className="text-[10px] font-mono uppercase tracking-wider text-copper">RECORD A</span>
+                  <h5 className="font-bold text-sm text-bone">{comparisonAnalysis.recordA.runId}</h5>
+                  <p className="text-xs text-slate">{comparisonAnalysis.recordA.material}</p>
+                  <div className="text-xs space-y-1 pt-2 border-t border-slate/20 text-slate">
+                    <p>Geometry: <span className="text-bone">{comparisonAnalysis.recordA.geometry}</span></p>
+                    <p>Atmosphere: <span className="text-bone">{comparisonAnalysis.recordA.environmentalConditions.oxygenRaw || `${(comparisonAnalysis.recordA.environmentalConditions.oxygenMoleFraction!*100).toFixed(1)}% O₂`}</span></p>
+                    <p>Pressure: <span className="text-bone">{comparisonAnalysis.recordA.environmentalConditions.pressureKpa} kPa</span></p>
+                    <p>Flow: <span className="text-bone">{comparisonAnalysis.recordA.environmentalConditions.isFlowUncalibrated ? `Fan Index ${comparisonAnalysis.recordA.environmentalConditions.fanDisplayIndex}` : `${comparisonAnalysis.recordA.environmentalConditions.flowVelocityCmS} cm/s`}</span></p>
+                  </div>
+                </div>
+
+                {/* Right Card: Record B */}
+                <div className="p-4 rounded-xl bg-ink/60 border border-slate/20 space-y-2">
+                  <span className="text-[10px] font-mono uppercase tracking-wider text-copper">RECORD B</span>
+                  <h5 className="font-bold text-sm text-bone">{comparisonAnalysis.recordB.runId}</h5>
+                  <p className="text-xs text-slate">{comparisonAnalysis.recordB.material}</p>
+                  <div className="text-xs space-y-1 pt-2 border-t border-slate/20 text-slate">
+                    <p>Geometry: <span className="text-bone">{comparisonAnalysis.recordB.geometry}</span></p>
+                    <p>Atmosphere: <span className="text-bone">{comparisonAnalysis.recordB.environmentalConditions.oxygenRaw || `${(comparisonAnalysis.recordB.environmentalConditions.oxygenMoleFraction!*100).toFixed(1)}% O₂`}</span></p>
+                    <p>Pressure: <span className="text-bone">{comparisonAnalysis.recordB.environmentalConditions.pressureKpa} kPa</span></p>
+                    <p>Flow: <span className="text-bone">{comparisonAnalysis.recordB.environmentalConditions.isFlowUncalibrated ? `Fan Index ${comparisonAnalysis.recordB.environmentalConditions.fanDisplayIndex}` : `${comparisonAnalysis.recordB.environmentalConditions.flowVelocityCmS} cm/s`}</span></p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Physical Comparability Gates Evaluation */}
+              <div className="pt-2 space-y-2">
+                <h5 className="text-xs font-bold text-slate uppercase tracking-wider">Physical Safeguard Gates</h5>
+                <div className="space-y-1.5">
+                  {comparisonAnalysis.gates.map((g, idx) => (
+                    <div
+                      key={idx}
+                      className="p-2.5 rounded-lg border border-slate/20 bg-ink/40 flex items-start space-x-2 text-xs"
+                    >
+                      {g.passed ? (
+                        <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5" />
+                      ) : g.severity === 'BLOCKER' ? (
+                        <AlertOctagon className="w-4 h-4 text-red-400 flex-shrink-0 mt-0.5" />
+                      ) : (
+                        <AlertTriangle className="w-4 h-4 text-amber-400 flex-shrink-0 mt-0.5" />
+                      )}
+                      <div>
+                        <span className="font-semibold text-bone">{g.gateName}</span>
+                        <p className="text-slate text-[11px] mt-0.5">{g.reason}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Prohibited Scientific Claims */}
+              {comparisonAnalysis.prohibitedClaims.length > 0 && (
+                <div className="p-3 rounded-lg border border-red-500/20 bg-red-500/5 space-y-1">
+                  <h6 className="text-xs font-bold text-red-400 flex items-center space-x-1">
+                    <MinusCircle className="w-3.5 h-3.5" />
+                    <span>Scientifically Prohibited Claims</span>
+                  </h6>
+                  <ul className="list-disc list-inside text-xs text-red-200/80 space-y-0.5">
+                    {comparisonAnalysis.prohibitedClaims.map((claim, idx) => (
+                      <li key={idx}>{claim}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+
+            {/* Modal Footer */}
+            <div className="p-4 border-t border-slate/20 bg-ink/90 flex justify-end">
+              <button
+                onClick={() => setComparisonAnalysis(null)}
+                className="px-4 py-2 bg-slate/20 hover:bg-slate/30 text-bone text-xs font-semibold rounded-lg transition-colors"
+              >
+                Close Comparison
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
