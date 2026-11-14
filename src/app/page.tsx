@@ -2,277 +2,389 @@ import React from 'react';
 import Link from 'next/link';
 import {
   Flame,
-  ShieldAlert,
-  Database,
   Search,
+  LayoutDashboard,
   GitCompare,
-  BookOpen,
-  ExternalLink,
+  ShieldAlert,
+  Sparkles,
   ChevronRight,
-  Layers,
-  FileText,
+  ArrowRight,
+  Database,
+  ExternalLink,
+  ShieldCheck,
+  CheckCircle2,
   AlertTriangle,
+  Scale,
+  Compass,
+  Cpu,
 } from 'lucide-react';
-import { EvidenceRepository } from '@/lib/evidenceRepository';
+import CombustionChamber3D from '@/components/landing/CombustionChamber3D';
+import PipelineFlow from '@/components/landing/PipelineFlow';
+import ProductWalkthrough from '@/components/landing/ProductWalkthrough';
 
-export default function HomePage() {
-  const investigations = EvidenceRepository.getInvestigations();
-  const allRecords = EvidenceRepository.getRecords();
-
-  const totalSourceRows = 10; // 5 from Saffire-I + 5 from BASS-II
-  const acceptedRecords = allRecords.filter((r) => r.disposition === 'VALID_RECORD').length; // 2 Saffire + 5 BASS = 7
-  const reviewRecords = allRecords.filter((r) => r.disposition === 'REQUIRES_REVIEW').length; // 2 flow vis
-
+export default function LandingPage() {
   return (
-    <main className="flex flex-col min-h-screen">
-      {/* Navigation Header */}
-      <header className="border-b border-slate/20 bg-ink/80 backdrop-blur sticky top-0 z-50 px-6 py-4 flex items-center justify-between">
-        <div className="flex items-center space-x-3">
-          <div className="p-2 bg-copper/10 border border-copper/30 rounded-lg text-copper">
-            <Flame className="w-5 h-5" />
-          </div>
-          <div>
-            <h1 className="font-bold tracking-tight text-lg text-bone">FIRELINE</h1>
-            <p className="text-xs text-slate">NASA Microgravity Fire Safety Decision Support</p>
-          </div>
+    <main className="flex-1 flex flex-col space-y-20 py-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
+      {/* SECTION 1: HERO */}
+      <section className="flex flex-col items-center text-center space-y-8 pt-4 sm:pt-8">
+        {/* Challenge Pill */}
+        <div className="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full text-xs font-mono bg-flame/10 border border-flame/30 text-flame-bright shadow-ember-sm">
+          <span className="w-2 h-2 rounded-full bg-flame-bright animate-ping" />
+          <span className="font-bold">NASA SPACE APPS CHALLENGE 2026</span>
+          <span className="text-paper-dim">•</span>
+          <span className="text-paper-muted">Flame in Freefall</span>
         </div>
 
-        <nav className="flex items-center space-x-6 text-sm font-medium text-slate">
-          <Link href="#overview" className="hover:text-bone transition-colors">Overview</Link>
-          <Link href="/explore" className="hover:text-bone transition-colors">Evidence Explorer</Link>
-          <Link href="/assess" className="hover:text-bone text-copper font-medium transition-colors">Evidence Assessor</Link>
-          <Link href="/copilot" className="text-copper hover:underline font-semibold flex items-center space-x-1">
-            <span>SI Copilot</span>
-            <ChevronRight className="w-4 h-4" />
-          </Link>
-          <Link href="#missions" className="hover:text-bone transition-colors">Mission Presets</Link>
-          <a
-            href="https://psi.nasa.gov/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center space-x-1 text-slate hover:text-bone text-xs"
+        {/* Main Title */}
+        <div className="space-y-4 max-w-4xl">
+          <h1 className="text-4xl sm:text-6xl font-black tracking-tight text-white leading-tight">
+            Decoding Fire in Space.{' '}
+            <span className="flame-gradient-text block sm:inline">
+              Grounded in NASA Science.
+            </span>
+          </h1>
+          <p className="text-base sm:text-lg text-paper-muted max-w-2xl mx-auto leading-relaxed">
+            FIRELINE bridges experimental microgravity combustion physics and spacecraft mission design.
+            Transforming raw flight test datasets from Saffire-I and BASS-II into explainable,
+            evidence-first fire safety decision support.
+          </p>
+        </div>
+
+        {/* Primary Action Buttons */}
+        <div className="flex flex-wrap gap-4 justify-center items-center pt-2">
+          <Link
+            href="/dashboard"
+            className="inline-flex items-center space-x-2 px-6 py-3.5 rounded-2xl bg-flame hover:bg-flame-bright text-white font-bold text-sm transition-all shadow-ember hover:scale-105 active:scale-95"
           >
-            <span>NASA PSI</span>
-            <ExternalLink className="w-3 h-3" />
-          </a>
-        </nav>
-      </header>
-
-      {/* Hero Section */}
-      <section className="px-6 py-16 max-w-5xl mx-auto flex flex-col items-center text-center space-y-6" id="overview">
-        <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full text-xs font-semibold bg-copper/10 border border-copper/30 text-copper">
-          <span>NASA Space Apps Challenge 2026</span>
-          <span className="text-slate">•</span>
-          <span>Flame in Freefall: SI-Powered Fire Safety Insights</span>
-        </div>
-
-        <h2 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-bone max-w-3xl leading-tight">
-          Understanding Fire Beyond Earth
-        </h2>
-
-        <p className="text-base sm:text-lg text-slate max-w-2xl leading-relaxed">
-          Explore experimental evidence from NASA microgravity combustion research to investigate how flames behave under spaceflight conditions.
-        </p>
-
-        {/* Action Buttons */}
-        <div className="pt-2 flex flex-wrap gap-3 justify-center">
+            <LayoutDashboard className="w-4 h-4" />
+            <span>Launch Mission Dashboard</span>
+            <ArrowRight className="w-4 h-4" />
+          </Link>
           <Link
             href="/explore"
-            className="inline-flex items-center space-x-2 bg-copper hover:bg-copper/90 text-ink font-bold px-6 py-3 rounded-xl transition-all shadow-lg shadow-copper/10"
+            className="inline-flex items-center space-x-2 px-6 py-3.5 rounded-2xl glass-panel hover:bg-white/5 border border-ember-border text-paper font-bold text-sm transition-all hover:scale-105 active:scale-95"
           >
-            <Search className="w-4 h-4" />
-            <span>Launch Evidence Explorer</span>
-            <ChevronRight className="w-4 h-4" />
+            <Search className="w-4 h-4 text-flame-bright" />
+            <span>Explore Flight Evidence</span>
           </Link>
           <Link
-            href="/assess"
-            className="inline-flex items-center space-x-2 bg-ink/80 hover:bg-ink text-bone border border-slate/30 font-bold px-6 py-3 rounded-xl transition-all"
+            href="/copilot"
+            className="inline-flex items-center space-x-2 px-6 py-3.5 rounded-2xl glass-panel hover:bg-flame/10 border border-flame/30 text-paper font-bold text-sm transition-all hover:scale-105 active:scale-95"
           >
-            <GitCompare className="w-4 h-4 text-copper" />
-            <span>Assess Mission Gaps</span>
-            <ChevronRight className="w-4 h-4 text-slate" />
+            <Sparkles className="w-4 h-4 text-flame-bright" />
+            <span>SI Copilot</span>
           </Link>
         </div>
 
-        {/* Dataset Transparency Notice */}
-        <div className="w-full max-w-2xl p-4 rounded-xl border border-amber-500/30 bg-amber-500/5 text-left flex items-start space-x-3">
-          <AlertTriangle className="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5" />
-          <div className="text-xs space-y-1 text-amber-200/90">
-            <p className="font-semibold text-amber-300">Empirical Research Evidence Scope & Limitations</p>
-            <p>
-              Research evidence availability is strictly limited to currently indexed NASA source artifacts: Saffire-I (5 flight rows, 2 accepted specimen records), BASS-II (5 representative thin-film rows of 130), and FLEX (deferred pending spherical geometry resolution). No fabricated measurements exist.
+        {/* 3D Combustion Chamber Visual Experience */}
+        <div className="w-full pt-6">
+          <CombustionChamber3D />
+        </div>
+      </section>
+
+      {/* SECTION 2: THE MICROGRAVITY PROBLEM */}
+      <section className="space-y-8 pt-10 border-t border-ember-border">
+        <div className="text-center max-w-3xl mx-auto space-y-2">
+          <span className="text-xs font-mono font-bold uppercase tracking-wider text-flame-bright">
+            THE RESEARCH CHALLENGE
+          </span>
+          <h2 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
+            Why Terrestrial Fire Physics Fails in Orbit
+          </h2>
+          <p className="text-xs sm:text-sm text-paper-muted leading-relaxed">
+            In microgravity, the absence of natural buoyant convection transforms combustion into an entirely
+            different physical regime. Standard ground safety tests (1g) cannot be blindly extrapolated to space.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* Card 1 */}
+          <div className="glass-panel-hover glass-panel p-6 rounded-3xl border border-ember-border space-y-3">
+            <div className="p-3 rounded-2xl bg-flame/10 border border-flame/20 text-flame-bright w-fit">
+              <Flame className="w-5 h-5" />
+            </div>
+            <h3 className="text-lg font-bold text-white">No Buoyant Plume</h3>
+            <p className="text-xs text-paper-muted leading-relaxed">
+              Without density-driven buoyancy, hot combustion products do not rise. Flames form quiet,
+              spherical diffusion zones starved of natural oxygen replenishers, often burning cooler and longer.
+            </p>
+          </div>
+
+          {/* Card 2 */}
+          <div className="glass-panel-hover glass-panel p-6 rounded-3xl border border-ember-border space-y-3">
+            <div className="p-3 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-400 w-fit">
+              <Compass className="w-5 h-5" />
+            </div>
+            <h3 className="text-lg font-bold text-white">Forced Airflow Criticality</h3>
+            <p className="text-xs text-paper-muted leading-relaxed">
+              Spacecraft ventilation systems (1–20 cm/s) provide the sole convective transport. Low forced
+              flow can sustain steady flame spread without cooling the solid fuel, creating dangerous ignition zones.
+            </p>
+          </div>
+
+          {/* Card 3 */}
+          <div className="glass-panel-hover glass-panel p-6 rounded-3xl border border-ember-border space-y-3">
+            <div className="p-3 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 w-fit">
+              <Scale className="w-5 h-5" />
+            </div>
+            <h3 className="text-lg font-bold text-white">The Geometry Scaling Trap</h3>
+            <p className="text-xs text-paper-muted leading-relaxed">
+              Thin polymer films (Bi &lt;&lt; 0.1) extinguish via radiative heat loss, while thick slabs
+              (Bi &gt; 1) burn under thermally thick conduction. Comparing them without physical similitude causes fatal errors.
             </p>
           </div>
         </div>
       </section>
 
-      {/* Overview Statistics Grid */}
-      <section className="px-6 py-8 max-w-5xl mx-auto w-full">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div className="p-4 rounded-xl border border-slate/20 bg-ink/40 space-y-1">
-            <span className="text-xs text-slate uppercase tracking-wider">Investigations</span>
-            <p className="text-2xl font-black text-bone">3</p>
-            <p className="text-[11px] text-slate/70">2 Indexed, 1 Deferred</p>
-          </div>
-          <div className="p-4 rounded-xl border border-slate/20 bg-ink/40 space-y-1">
-            <span className="text-xs text-slate uppercase tracking-wider">Source Rows</span>
-            <p className="text-2xl font-black text-copper">10</p>
-            <p className="text-[11px] text-slate/70">Raw PSI table entries</p>
-          </div>
-          <div className="p-4 rounded-xl border border-slate/20 bg-ink/40 space-y-1">
-            <span className="text-xs text-slate uppercase tracking-wider">Accepted Specimens</span>
-            <p className="text-2xl font-black text-emerald-400">{acceptedRecords}</p>
-            <p className="text-[11px] text-slate/70">Validated empirical runs</p>
-          </div>
-          <div className="p-4 rounded-xl border border-slate/20 bg-ink/40 space-y-1">
-            <span className="text-xs text-slate uppercase tracking-wider">Review / Diagnostics</span>
-            <p className="text-2xl font-black text-amber-400">{reviewRecords}</p>
-            <p className="text-[11px] text-slate/70">Flow visualization runs</p>
-          </div>
-        </div>
-      </section>
-
-      {/* Investigation Cards */}
-      <section className="px-6 py-12 max-w-5xl mx-auto w-full border-t border-slate/20">
-        <div className="mb-6 flex items-center justify-between">
-          <div>
-            <h3 className="text-xl font-bold text-bone">Covered NASA Investigations</h3>
-            <p className="text-sm text-slate">Direct linkage to NASA Physical Sciences Informatics (PSI)</p>
-          </div>
-          <Link href="/explore" className="text-xs text-copper hover:underline flex items-center space-x-1">
-            <span>Explore All</span>
-            <ChevronRight className="w-3 h-3" />
-          </Link>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {investigations.map((inv) => {
-            const isDeferred = inv.status === 'DEFERRED_BLOCKED';
-            return (
-              <div
-                key={inv.id}
-                className={`p-5 rounded-xl border flex flex-col justify-between transition-all ${
-                  isDeferred
-                    ? 'border-slate/10 bg-ink/20 opacity-70'
-                    : 'border-slate/20 bg-ink/40 hover:border-copper/40'
-                }`}
-              >
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-mono font-bold text-copper">{inv.id}</span>
-                    <span
-                      className={`text-[10px] px-2 py-0.5 rounded font-medium border ${
-                        isDeferred
-                          ? 'bg-slate/10 text-slate border-slate/20'
-                          : 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
-                      }`}
-                    >
-                      {inv.recordCount} Records
-                    </span>
-                  </div>
-                  <div>
-                    <h4 className="text-base font-bold text-bone">{inv.name}</h4>
-                    <p className="text-xs text-slate/80 mt-1">{inv.title}</p>
-                  </div>
-                  <p className="text-xs text-slate leading-relaxed">{inv.focus}</p>
-                </div>
-
-                <div className="mt-6 pt-4 border-t border-slate/20 flex items-center justify-between text-xs">
-                  <span className="text-slate/60">{inv.facility}</span>
-                  {!isDeferred ? (
-                    <Link
-                      href={`/explore?investigation=${inv.id}`}
-                      className="text-copper hover:underline font-semibold flex items-center space-x-1"
-                    >
-                      <span>Explore</span>
-                      <ChevronRight className="w-3 h-3" />
-                    </Link>
-                  ) : (
-                    <span className="text-slate/50 italic">Deferred</span>
-                  )}
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </section>
-
-      {/* Exploration Mission Presets */}
-      <section className="px-6 py-12 max-w-5xl mx-auto w-full border-t border-slate/20" id="missions">
-        <div className="mb-6">
-          <h3 className="text-xl font-bold text-bone">Exploration Atmosphere Scenario Presets</h3>
-          <p className="text-sm text-slate">
-            Reference mission conditions for evaluating fire safety data coverage
+      {/* SECTION 3: HOW FIRELINE WORKS (PIPELINE) */}
+      <section className="space-y-8 pt-10 border-t border-ember-border">
+        <div className="text-center max-w-3xl mx-auto space-y-2">
+          <span className="text-xs font-mono font-bold uppercase tracking-wider text-flame-bright">
+            SCIENTIFIC METHODOLOGY
+          </span>
+          <h2 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
+            The Evidence-First Pipeline
+          </h2>
+          <p className="text-xs sm:text-sm text-paper-muted leading-relaxed">
+            From raw NASA Physical Sciences Informatics (PSI) artifacts to grounded Super Intelligence (SI).
+            Every step is governed by strict Pydantic contracts and physical gates.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <PipelineFlow />
+      </section>
+
+      {/* SECTION 4: INTERACTIVE PRODUCT WALKTHROUGH */}
+      <section className="space-y-8 pt-10 border-t border-ember-border">
+        <div className="text-center max-w-3xl mx-auto space-y-2">
+          <span className="text-xs font-mono font-bold uppercase tracking-wider text-flame-bright">
+            INTERACTIVE DEMONSTRATION
+          </span>
+          <h2 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
+            How FIRELINE Identifies Mission Fire Gaps
+          </h2>
+          <p className="text-xs sm:text-sm text-paper-muted leading-relaxed">
+            Follow a real engineering scenario: testing whether the Artemis Lunar Habitat atmosphere (34% O₂)
+            is covered by existing microgravity flight data.
+          </p>
+        </div>
+
+        <ProductWalkthrough />
+      </section>
+
+      {/* SECTION 5: CORE PLATFORM CAPABILITIES */}
+      <section className="space-y-8 pt-10 border-t border-ember-border">
+        <div className="text-center max-w-3xl mx-auto space-y-2">
+          <span className="text-xs font-mono font-bold uppercase tracking-wider text-flame-bright">
+            SYSTEM ARCHITECTURE
+          </span>
+          <h2 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
+            Four Grounded Scientific Modules
+          </h2>
+          <p className="text-xs sm:text-sm text-paper-muted leading-relaxed">
+            Designed for researchers, spacecraft engineers, and mission planners requiring verified evidence.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Module 1: Evidence Explorer */}
           <Link
-            href="/assess?preset=artemis_lunar"
-            className="p-5 rounded-xl border border-slate/20 bg-ink/40 hover:border-copper/40 transition-all block group"
+            href="/explore"
+            className="glass-panel-hover glass-panel p-6 sm:p-8 rounded-3xl border border-ember-border flex flex-col justify-between space-y-4 group"
           >
-            <div className="flex justify-between items-start">
-              <span className="text-xs font-semibold text-copper uppercase tracking-wider">Lunar Surface</span>
-              <ChevronRight className="w-4 h-4 text-slate group-hover:text-copper transition-colors" />
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <div className="p-3 rounded-2xl bg-flame/10 border border-flame/30 text-flame-bright">
+                  <Search className="w-5 h-5" />
+                </div>
+                <span className="text-xs font-mono text-paper-dim group-hover:text-flame-bright transition-colors">
+                  /explore →
+                </span>
+              </div>
+              <h3 className="text-xl font-bold text-white group-hover:text-flame-bright transition-colors">
+                NASA PSI Evidence Explorer
+              </h3>
+              <p className="text-xs text-paper-muted leading-relaxed">
+                Filter and inspect individual experimental runs from Saffire-I and BASS-II. Examine exact flame
+                spread rates, oxygen fractions, pressures, fan speeds, and specimen dimensions with direct links to NASA repositories.
+              </p>
             </div>
-            <h4 className="text-base font-bold text-bone mt-1">Artemis Habitat Atmosphere</h4>
-            <div className="mt-3 text-xs text-slate space-y-1">
-              <p>Oxygen: <span className="text-bone font-medium">34% O₂</span></p>
-              <p>Pressure: <span className="text-bone font-medium">56.5 kPa (8.2 psia)</span></p>
-              <p>Ventilation: <span className="text-bone font-medium">Low forced (1–5 cm/s)</span></p>
-            </div>
-            <div className="mt-4 pt-3 border-t border-slate/20 text-[11px] text-amber-400 flex items-center space-x-1">
-              <AlertTriangle className="w-3 h-3 flex-shrink-0" />
-              <span>Evidence Gap: No 34% O₂ flight data in current slice</span>
+            <div className="pt-4 border-t border-white/5 flex items-center justify-between text-xs text-paper-dim font-mono">
+              <span>7 Accepted Specimens</span>
+              <span className="text-flame-bright font-semibold">Open Explorer</span>
             </div>
           </Link>
 
+          {/* Module 2: Physical Comparability Studio */}
           <Link
-            href="/assess?preset=iss_nominal"
-            className="p-5 rounded-xl border border-slate/20 bg-ink/40 hover:border-copper/40 transition-all block group"
+            href="/compare"
+            className="glass-panel-hover glass-panel p-6 sm:p-8 rounded-3xl border border-ember-border flex flex-col justify-between space-y-4 group"
           >
-            <div className="flex justify-between items-start">
-              <span className="text-xs font-semibold text-slate uppercase tracking-wider">Low Earth Orbit</span>
-              <ChevronRight className="w-4 h-4 text-slate group-hover:text-copper transition-colors" />
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <div className="p-3 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-400">
+                  <GitCompare className="w-5 h-5" />
+                </div>
+                <span className="text-xs font-mono text-paper-dim group-hover:text-amber-400 transition-colors">
+                  /compare →
+                </span>
+              </div>
+              <h3 className="text-xl font-bold text-white group-hover:text-amber-400 transition-colors">
+                5-Gate Physical Comparability
+              </h3>
+              <p className="text-xs text-paper-muted leading-relaxed">
+                Deterministic similitude validator checking Material, Geometry/Biot, Atmosphere, Flow Regime,
+                and Gravity before cross-experiment inferences are drawn. Prevents non-physical extrapolations.
+              </p>
             </div>
-            <h4 className="text-base font-bold text-bone mt-1">Standard ISS Environment</h4>
-            <div className="mt-3 text-xs text-slate space-y-1">
-              <p>Oxygen: <span className="text-bone font-medium">21% O₂</span></p>
-              <p>Pressure: <span className="text-bone font-medium">101.3 kPa (14.7 psia)</span></p>
-              <p>Ventilation: <span className="text-bone font-medium">Cabin nominal (10–20 cm/s)</span></p>
-            </div>
-            <div className="mt-4 pt-3 border-t border-slate/20 text-[11px] text-emerald-400 flex items-center space-x-1">
-              <span>Coverage Available (Saffire-I & BASS-II)</span>
+            <div className="pt-4 border-t border-white/5 flex items-center justify-between text-xs text-paper-dim font-mono">
+              <span>5 Automated Physical Gates</span>
+              <span className="text-amber-400 font-semibold">Open Studio</span>
             </div>
           </Link>
 
+          {/* Module 3: Spacecraft Mission Assessor */}
           <Link
-            href="/assess?preset=mars_habitat"
-            className="p-5 rounded-xl border border-slate/20 bg-ink/40 hover:border-copper/40 transition-all block group"
+            href="/assess"
+            className="glass-panel-hover glass-panel p-6 sm:p-8 rounded-3xl border border-ember-border flex flex-col justify-between space-y-4 group"
           >
-            <div className="flex justify-between items-start">
-              <span className="text-xs font-semibold text-orange-400 uppercase tracking-wider">Martian Surface</span>
-              <ChevronRight className="w-4 h-4 text-slate group-hover:text-copper transition-colors" />
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <div className="p-3 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400">
+                  <ShieldAlert className="w-5 h-5" />
+                </div>
+                <span className="text-xs font-mono text-paper-dim group-hover:text-emerald-400 transition-colors">
+                  /assess →
+                </span>
+              </div>
+              <h3 className="text-xl font-bold text-white group-hover:text-emerald-400 transition-colors">
+                Spacecraft Mission Gap Assessor
+              </h3>
+              <p className="text-xs text-paper-muted leading-relaxed">
+                Evaluate Artemis Lunar Habitats, ISS Nominal atmospheres, or Martian surface conditions against
+                known flight combustion boundaries. Immediately reveals uncharacterized operational regimes.
+              </p>
             </div>
-            <h4 className="text-base font-bold text-bone mt-1">Mars Habitat Environment</h4>
-            <div className="mt-3 text-xs text-slate space-y-1">
-              <p>Oxygen: <span className="text-bone font-medium">28% O₂</span></p>
-              <p>Pressure: <span className="text-bone font-medium">56.0 kPa (8.1 psia)</span></p>
-              <p>Gravity: <span className="text-bone font-medium">0.38g (Partial Buoyancy)</span></p>
+            <div className="pt-4 border-t border-white/5 flex items-center justify-between text-xs text-paper-dim font-mono">
+              <span>3 Documented Reference Presets</span>
+              <span className="text-emerald-400 font-semibold">Open Assessor</span>
             </div>
-            <div className="mt-4 pt-3 border-t border-slate/20 text-[11px] text-amber-400 flex items-center space-x-1">
-              <AlertTriangle className="w-3 h-3 flex-shrink-0" />
-              <span>Evidence Gap: Zero partial-gravity flight data</span>
+          </Link>
+
+          {/* Module 4: Grounded SI Copilot */}
+          <Link
+            href="/copilot"
+            className="glass-panel-hover glass-panel p-6 sm:p-8 rounded-3xl border border-ember-border flex flex-col justify-between space-y-4 group"
+          >
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <div className="p-3 rounded-2xl bg-flame/10 border border-flame/30 text-flame-bright">
+                  <Sparkles className="w-5 h-5" />
+                </div>
+                <span className="text-xs font-mono text-paper-dim group-hover:text-flame-bright transition-colors">
+                  /copilot →
+                </span>
+              </div>
+              <h3 className="text-xl font-bold text-white group-hover:text-flame-bright transition-colors">
+                Grounded SI Copilot
+              </h3>
+              <p className="text-xs text-paper-muted leading-relaxed">
+                Grounded Super Intelligence powered by Gemini with a deterministic fallback. Strictly constrained
+                to indexed flight evidence; articulates physical rationales and cites exact NASA source tables.
+              </p>
+            </div>
+            <div className="pt-4 border-t border-white/5 flex items-center justify-between text-xs text-paper-dim font-mono">
+              <span>Dual-Mode AI + Fallback</span>
+              <span className="text-flame-bright font-semibold">Launch Copilot</span>
             </div>
           </Link>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="mt-auto border-t border-slate/20 px-6 py-6 text-center text-xs text-slate">
-        <p>FIRELINE — Fire Intelligence & Research Evidence Linkage Engine</p>
-        <p className="mt-1">Developed for NASA International Space Apps Challenge 2026</p>
-      </footer>
+      {/* SECTION 6: SCIENTIFIC INTEGRITY & EPISTEMIC STANDARDS */}
+      <section className="glass-panel-elevated p-8 sm:p-10 rounded-3xl border border-ember-border space-y-6">
+        <div className="space-y-2">
+          <div className="flex items-center space-x-2 text-xs font-mono font-bold text-emerald-400 uppercase tracking-wider">
+            <ShieldCheck className="w-4 h-4" />
+            <span>SCIENTIFIC INTEGRITY FRAMEWORK</span>
+          </div>
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-white">
+            Epistemic Classification Invariant
+          </h2>
+          <p className="text-xs sm:text-sm text-paper-muted max-w-3xl leading-relaxed">
+            In human spaceflight, false confidence can be fatal. FIRELINE categorizes every claim and
+            assessment output into three strictly bounded epistemic classifications:
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+          {/* Supported */}
+          <div className="p-5 rounded-2xl bg-emerald-500/5 border border-emerald-500/20 space-y-2">
+            <span className="px-2.5 py-1 rounded text-xs font-mono font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+              SUPPORTED
+            </span>
+            <p className="text-xs font-bold text-white pt-2">Empirically Grounded</p>
+            <p className="text-[11px] text-paper-muted leading-relaxed">
+              Directly documented in verified NASA PSI flight test records with DOI citation, specimen dimensions,
+              and measured flame spread rates.
+            </p>
+          </div>
+
+          {/* Inferred */}
+          <div className="p-5 rounded-2xl bg-amber-500/5 border border-amber-500/20 space-y-2">
+            <span className="px-2.5 py-1 rounded text-xs font-mono font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30">
+              INFERRED
+            </span>
+            <p className="text-xs font-bold text-white pt-2">Physically Modeled</p>
+            <p className="text-[11px] text-paper-muted leading-relaxed">
+              Derived via verified physical similitude models (Reynolds, Biot, Arrhenius scaling) from comparable runs.
+              Assumptions explicitly stated.
+            </p>
+          </div>
+
+          {/* Evidence Gap */}
+          <div className="p-5 rounded-2xl bg-flame/5 border border-flame/20 space-y-2">
+            <span className="px-2.5 py-1 rounded text-xs font-mono font-bold bg-flame/20 text-flame-bright border border-flame/30">
+              EVIDENCE_GAP
+            </span>
+            <p className="text-xs font-bold text-white pt-2">Uncharacterized Space</p>
+            <p className="text-[11px] text-paper-muted leading-relaxed">
+              Conditions where no NASA microgravity combustion flight data exists. Flagged immediately to prevent
+              dangerous extrapolations.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 7: FINAL CALL TO ACTION */}
+      <section className="text-center py-12 px-6 rounded-3xl glass-panel border border-ember-border space-y-6 relative overflow-hidden">
+        <div className="absolute inset-0 bg-flame/5 pointer-events-none" />
+        <div className="max-w-2xl mx-auto space-y-3 relative z-10">
+          <h2 className="text-3xl sm:text-4xl font-black text-white tracking-tight">
+            Ready to Explore Spacecraft Fire Safety?
+          </h2>
+          <p className="text-xs sm:text-sm text-paper-muted leading-relaxed">
+            Access the complete indexed NASA PSI corpus, run 5-gate comparability analyses, and test mission
+            atmospheric conditions with SI Copilot.
+          </p>
+          <div className="pt-4 flex flex-wrap gap-4 justify-center">
+            <Link
+              href="/dashboard"
+              className="inline-flex items-center space-x-2 px-6 py-3.5 rounded-2xl bg-flame hover:bg-flame-bright text-white font-bold text-sm transition-all shadow-ember"
+            >
+              <LayoutDashboard className="w-4 h-4" />
+              <span>Enter Mission Dashboard</span>
+            </Link>
+            <Link
+              href="/copilot"
+              className="inline-flex items-center space-x-2 px-6 py-3.5 rounded-2xl glass-panel hover:bg-white/5 border border-ember-border text-paper font-bold text-sm transition-all"
+            >
+              <Sparkles className="w-4 h-4 text-flame-bright" />
+              <span>Query SI Copilot</span>
+            </Link>
+          </div>
+        </div>
+      </section>
     </main>
   );
 }

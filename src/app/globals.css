@@ -3,8 +3,10 @@
 @tailwind utilities;
 
 :root {
-  --background: #0f1013;
-  --foreground: #f2efe8;
+  --background: #08090B;
+  --foreground: #F5F3F0;
+  --accent-flame: #E53935;
+  --accent-ember: #FF604A;
 }
 
 body {
@@ -13,5 +15,99 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   margin: 0;
   padding: 0;
+  overflow-x: hidden;
+  background-color: #08090B;
 }
 
+/* Glassmorphism Classes */
+.glass-panel {
+  background: rgba(23, 25, 31, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-panel-elevated {
+  background: rgba(23, 25, 31, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+}
+
+.glass-panel-subtle {
+  background: rgba(16, 18, 22, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.glass-panel-hover {
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-panel-hover:hover {
+  border-color: rgba(255, 96, 74, 0.35);
+  background: rgba(23, 25, 31, 0.9);
+  box-shadow: 0 0 25px -5px rgba(229, 57, 53, 0.2);
+  transform: translateY(-2px);
+}
+
+/* Ember Text and Border Glows */
+.ember-glow-text {
+  text-shadow: 0 0 20px rgba(255, 96, 74, 0.5);
+}
+
+.flame-gradient-text {
+  background: linear-gradient(135deg, #FF604A 0%, #E53935 50%, #F5A742 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.flame-gradient-bg {
+  background: linear-gradient(135deg, #E53935 0%, #FF604A 100%);
+}
+
+/* Subtle Grid Background Pattern */
+.bg-grid-pattern {
+  background-size: 32px 32px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #08090B;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #FF604A;
+}
+
+/* Pulsing flame animation */
+@keyframes flame-pulse {
+  0%, 100% {
+    opacity: 0.85;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.04);
+    box-shadow: 0 0 35px 8px rgba(255, 96, 74, 0.35);
+  }
+}
+
+.animate-flame-pulse {
+  animation: flame-pulse 3s ease-in-out infinite;
+}

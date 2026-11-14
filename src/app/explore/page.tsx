@@ -1,9 +1,8 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import {
-  Flame,
   Search,
   Filter,
   ShieldCheck,
@@ -13,13 +12,15 @@ import {
   Database,
   Info,
   RotateCcw,
-  BookOpen,
   Scale,
   GitCompare,
   X,
   CheckCircle2,
   AlertOctagon,
   MinusCircle,
+  Sliders,
+  Layers,
+  ArrowRight,
 } from 'lucide-react';
 import { EvidenceRecord, InvestigationSummary } from '@/types/evidence';
 import { ComparisonAnalysis } from '@/lib/physicalComparabilityEngine';
@@ -45,7 +46,45 @@ export default function ExplorePage() {
   const [comparisonAnalysis, setComparisonAnalysis] = useState<ComparisonAnalysis | null>(null);
   const [isComparing, setIsComparing] = useState(false);
 
-  // Fetch investigations & initial records
+  // Reactive search function
+  const executeSearch = useCallback(
+    async (
+      q = query,
+      inv = selectedInvestigation,
+      mat = selectedMaterial,
+      geom = selectedGeometry,
+      stat = selectedStatus
+    ) => {
+      try {
+        setLoading(true);
+        const params = new URLSearchParams();
+        if (q.trim()) params.append('q', q.trim());
+        if (inv !== 'ALL') params.append('investigation', inv);
+        if (mat !== 'ALL') params.append('material', mat);
+        if (geom !== 'ALL') params.append('geometry', geom);
+        if (stat !== 'ALL') params.append('status', stat);
+
+        const res = await fetch(`/api/evidence/search?${params.toString()}`);
+        const data = await res.json();
+        if (data.success) {
+          setRecords(data.records);
+          if (
+            data.records.length > 0 &&
+            (!selectedRecord || !data.records.some((r: EvidenceRecord) => r.id === selectedRecord.id))
+          ) {
+            setSelectedRecord(data.records[0]);
+          }
+        }
+      } catch (err) {
+        setError('Search query failed');
+      } finally {
+        setLoading(false);
+      }
+    },
+    [query, selectedInvestigation, selectedMaterial, selectedGeometry, selectedStatus, selectedRecord]
+  );
+
+  // Fetch initial data
   useEffect(() => {
     async function loadInitial() {
       try {
@@ -71,32 +110,6 @@ export default function ExplorePage() {
     }
     loadInitial();
   }, []);
-
-  // Filter effect
-  const handleSearch = async () => {
-    try {
-      setLoading(true);
-      const params = new URLSearchParams();
-      if (query.trim()) params.append('q', query.trim());
-      if (selectedInvestigation !== 'ALL') params.append('investigation', selectedInvestigation);
-      if (selectedMaterial !== 'ALL') params.append('material', selectedMaterial);
-      if (selectedGeometry !== 'ALL') params.append('geometry', selectedGeometry);
-      if (selectedStatus !== 'ALL') params.append('status', selectedStatus);
-
-      const res = await fetch(`/api/evidence/search?${params.toString()}`);
-      const data = await res.json();
-      if (data.success) {
-        setRecords(data.records);
-        if (data.records.length > 0 && (!selectedRecord || !data.records.some((r: EvidenceRecord) => r.id === selectedRecord.id))) {
-          setSelectedRecord(data.records[0]);
-        }
-      }
-    } catch (err) {
-      setError('Search query failed');
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const resetFilters = async () => {
     setQuery('');
@@ -154,57 +167,24 @@ export default function ExplorePage() {
   };
 
   return (
-    <div className="min-h-screen bg-ink text-bone flex flex-col">
-      {/* Header */}
-      <header className="border-b border-slate/20 bg-ink/90 backdrop-blur sticky top-0 z-40 px-6 py-4 flex items-center justify-between">
-        <div className="flex items-center space-x-3">
-          <Link href="/" className="flex items-center space-x-3 group">
-            <div className="p-2 bg-copper/10 border border-copper/30 rounded-lg text-copper group-hover:border-copper/60 transition-colors">
-              <Flame className="w-5 h-5" />
-            </div>
-            <div>
-              <h1 className="font-bold tracking-tight text-lg text-bone">FIRELINE</h1>
-              <p className="text-xs text-slate">Evidence Explorer & Decision Support</p>
-            </div>
-          </Link>
-        </div>
-
-        <nav className="flex items-center space-x-6 text-sm font-medium text-slate">
-          <Link href="/" className="hover:text-bone transition-colors">Overview</Link>
-          <span className="text-copper font-semibold">Evidence Explorer</span>
-          <Link href="/assess" className="hover:text-bone transition-colors">Evidence Assessor</Link>
-          <Link href="/copilot" className="hover:text-copper transition-colors flex items-center space-x-1">
-            <span>SI Copilot</span>
-          </Link>
-          <a
-            href="https://psi.nasa.gov/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center space-x-1 text-slate hover:text-bone text-xs"
-          >
-            <span>NASA PSI</span>
-            <ExternalLink className="w-3 h-3" />
-          </a>
-        </nav>
-      </header>
-
-      {/* Dataset Limitation Transparency Banner */}
-      <div className="bg-amber-500/10 border-b border-amber-500/30 px-6 py-2.5 flex items-center justify-between text-xs text-amber-200">
+    <div className="flex-1 flex flex-col animate-in fade-in duration-300">
+      {/* Scope Transparency Bar */}
+      <div className="bg-amber-500/10 border-b border-amber-500/20 px-4 sm:px-6 py-2.5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs text-amber-200">
         <div className="flex items-center space-x-2">
-          <Info className="w-4 h-4 text-amber-400 flex-shrink-0" />
+          <Info className="w-4 h-4 text-amber-400 shrink-0" />
           <span>
-            <strong>Representative Flight Dataset Indexed:</strong> Saffire-I (5 rows / 2 specimen records), BASS-II (5 representative thin-film rows of 130), FLEX (deferred).
+            <strong>Indexed NASA Flight Corpus:</strong> Saffire-I (5 flight rows / 2 accepted specimens), BASS-II (5 representative thin-film rows of 130), FLEX (audited droplet claims).
           </span>
         </div>
-        <div className="flex items-center space-x-3">
+        <div className="flex items-center space-x-3 shrink-0">
           {compareList.length > 0 && (
             <button
               onClick={triggerCompareAnalysis}
               disabled={compareList.length !== 2}
-              className={`px-3 py-1 rounded text-xs font-semibold flex items-center space-x-1.5 transition-all ${
+              className={`px-3 py-1 rounded-lg text-xs font-bold flex items-center space-x-1.5 transition-all ${
                 compareList.length === 2
-                  ? 'bg-copper text-ink hover:bg-copper/90'
-                  : 'bg-slate/20 text-slate cursor-not-allowed'
+                  ? 'bg-flame text-white hover:bg-flame-bright shadow-ember-sm'
+                  : 'bg-white/10 text-paper-dim cursor-not-allowed'
               }`}
             >
               <GitCompare className="w-3.5 h-3.5" />
@@ -218,15 +198,15 @@ export default function ExplorePage() {
       {/* Main Two-Panel Layout */}
       <div className="flex-1 flex flex-col md:flex-row overflow-hidden">
         {/* Left Filter Panel */}
-        <aside className="w-full md:w-80 border-r border-slate/20 p-5 space-y-5 bg-ink/50 overflow-y-auto">
-          <div className="flex items-center justify-between pb-3 border-b border-slate/20">
-            <div className="flex items-center space-x-2 text-bone font-semibold text-sm">
-              <Filter className="w-4 h-4 text-copper" />
+        <aside className="w-full md:w-80 border-r border-ember-border p-5 space-y-5 bg-ember-subtle/60 overflow-y-auto">
+          <div className="flex items-center justify-between pb-3 border-b border-white/5">
+            <div className="flex items-center space-x-2 text-white font-bold text-sm">
+              <Filter className="w-4 h-4 text-flame-bright" />
               <span>Scientific Filters</span>
             </div>
             <button
               onClick={resetFilters}
-              className="text-xs text-slate hover:text-copper flex items-center space-x-1 transition-colors"
+              className="text-xs text-paper-muted hover:text-flame-bright flex items-center space-x-1 transition-colors"
             >
               <RotateCcw className="w-3 h-3" />
               <span>Reset</span>
@@ -235,19 +215,22 @@ export default function ExplorePage() {
 
           {/* Search Input */}
           <div className="space-y-1.5">
-            <label className="text-xs font-medium text-slate">Search Query / Run ID</label>
+            <label className="text-xs font-semibold text-paper-muted">Search Query / Run ID</label>
             <div className="relative">
               <input
                 type="text"
                 value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+                onChange={(e) => {
+                  setQuery(e.target.value);
+                  executeSearch(e.target.value, selectedInvestigation, selectedMaterial, selectedGeometry, selectedStatus);
+                }}
+                onKeyDown={(e) => e.key === 'Enter' && executeSearch()}
                 placeholder="e.g. S1, B1, PMMA, SIBAL..."
-                className="w-full bg-ink border border-slate/30 rounded-lg px-3 py-2 text-xs text-bone placeholder-slate/50 focus:outline-none focus:border-copper"
+                className="w-full bg-ember-bg border border-ember-border rounded-xl px-3 py-2 text-xs text-white placeholder-paper-dim focus:outline-none focus:border-flame-bright"
               />
               <button
-                onClick={handleSearch}
-                className="absolute right-2 top-2 text-slate hover:text-copper"
+                onClick={() => executeSearch()}
+                className="absolute right-2.5 top-2.5 text-paper-dim hover:text-flame-bright"
               >
                 <Search className="w-4 h-4" />
               </button>
@@ -256,11 +239,15 @@ export default function ExplorePage() {
 
           {/* Investigation Filter */}
           <div className="space-y-1.5">
-            <label className="text-xs font-medium text-slate">Investigation</label>
+            <label className="text-xs font-semibold text-paper-muted">Investigation</label>
             <select
               value={selectedInvestigation}
-              onChange={(e) => setSelectedInvestigation(e.target.value)}
-              className="w-full bg-ink border border-slate/30 rounded-lg px-3 py-2 text-xs text-bone focus:outline-none focus:border-copper"
+              onChange={(e) => {
+                const val = e.target.value;
+                setSelectedInvestigation(val);
+                executeSearch(query, val, selectedMaterial, selectedGeometry, selectedStatus);
+              }}
+              className="w-full bg-ember-bg border border-ember-border rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-flame-bright"
             >
               <option value="ALL">All Investigations</option>
               <option value="PSI-98">Saffire-I (PSI-98)</option>
@@ -270,11 +257,15 @@ export default function ExplorePage() {
 
           {/* Material Filter */}
           <div className="space-y-1.5">
-            <label className="text-xs font-medium text-slate">Fuel Material</label>
+            <label className="text-xs font-semibold text-paper-muted">Fuel Material</label>
             <select
               value={selectedMaterial}
-              onChange={(e) => setSelectedMaterial(e.target.value)}
-              className="w-full bg-ink border border-slate/30 rounded-lg px-3 py-2 text-xs text-bone focus:outline-none focus:border-copper"
+              onChange={(e) => {
+                const val = e.target.value;
+                setSelectedMaterial(val);
+                executeSearch(query, selectedInvestigation, val, selectedGeometry, selectedStatus);
+              }}
+              className="w-full bg-ember-bg border border-ember-border rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-flame-bright"
             >
               <option value="ALL">All Materials</option>
               <option value="PMMA">PMMA (Acrylic)</option>
@@ -284,11 +275,15 @@ export default function ExplorePage() {
 
           {/* Geometry Filter */}
           <div className="space-y-1.5">
-            <label className="text-xs font-medium text-slate">Sample Geometry</label>
+            <label className="text-xs font-semibold text-paper-muted">Sample Geometry</label>
             <select
               value={selectedGeometry}
-              onChange={(e) => setSelectedGeometry(e.target.value)}
-              className="w-full bg-ink border border-slate/30 rounded-lg px-3 py-2 text-xs text-bone focus:outline-none focus:border-copper"
+              onChange={(e) => {
+                const val = e.target.value;
+                setSelectedGeometry(val);
+                executeSearch(query, selectedInvestigation, selectedMaterial, val, selectedStatus);
+              }}
+              className="w-full bg-ember-bg border border-ember-border rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-flame-bright"
             >
               <option value="ALL">All Geometries</option>
               <option value="thin_film">Thin Film (BASS-II)</option>
@@ -299,11 +294,15 @@ export default function ExplorePage() {
 
           {/* Verification Status */}
           <div className="space-y-1.5">
-            <label className="text-xs font-medium text-slate">Validation Status</label>
+            <label className="text-xs font-semibold text-paper-muted">Validation Status</label>
             <select
               value={selectedStatus}
-              onChange={(e) => setSelectedStatus(e.target.value)}
-              className="w-full bg-ink border border-slate/30 rounded-lg px-3 py-2 text-xs text-bone focus:outline-none focus:border-copper"
+              onChange={(e) => {
+                const val = e.target.value;
+                setSelectedStatus(val);
+                executeSearch(query, selectedInvestigation, selectedMaterial, selectedGeometry, val);
+              }}
+              className="w-full bg-ember-bg border border-ember-border rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-flame-bright"
             >
               <option value="ALL">All Dispositions</option>
               <option value="VALID_RECORD">Valid Specimen Record</option>
@@ -312,8 +311,8 @@ export default function ExplorePage() {
           </div>
 
           <button
-            onClick={handleSearch}
-            className="w-full bg-copper hover:bg-copper/90 text-ink font-semibold rounded-lg py-2 text-xs transition-colors"
+            onClick={() => executeSearch()}
+            className="w-full bg-flame hover:bg-flame-bright text-white font-bold rounded-xl py-2.5 text-xs transition-all shadow-ember"
           >
             Apply Filters
           </button>
@@ -321,19 +320,19 @@ export default function ExplorePage() {
 
         {/* Center Results Grid */}
         <section className="flex-1 p-6 overflow-y-auto space-y-4">
-          <div className="flex items-center justify-between">
-            <h2 className="text-base font-bold text-bone">
+          <div className="flex items-center justify-between pb-2 border-b border-white/5">
+            <h2 className="text-base font-bold text-white">
               Scientific Evidence Records ({records.length})
             </h2>
-            <span className="text-xs text-slate">
-              {loading ? 'Querying records...' : 'Select records for side-by-side comparability'}
+            <span className="text-xs text-paper-dim">
+              {loading ? 'Querying records...' : 'Click card to inspect full experimental details'}
             </span>
           </div>
 
           {records.length === 0 ? (
-            <div className="p-8 text-center border border-slate/20 rounded-xl bg-ink/40 space-y-2">
-              <p className="text-sm font-semibold text-slate">No records match the selected criteria</p>
-              <p className="text-xs text-slate/60">Try adjusting your material or investigation filters.</p>
+            <div className="p-8 text-center glass-panel rounded-2xl border border-ember-border space-y-2">
+              <p className="text-sm font-semibold text-white">No records match the selected criteria</p>
+              <p className="text-xs text-paper-dim">Try adjusting your material or investigation filters.</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
@@ -345,17 +344,19 @@ export default function ExplorePage() {
                   <div
                     key={rec.id}
                     onClick={() => setSelectedRecord(rec)}
-                    className={`p-4 rounded-xl border cursor-pointer transition-all relative ${
+                    className={`p-4 rounded-2xl glass-panel border cursor-pointer transition-all relative ${
                       isSelected
-                        ? 'border-copper bg-copper/5 shadow-lg shadow-copper/5'
-                        : 'border-slate/20 bg-ink/40 hover:border-slate/40'
+                        ? 'border-flame-bright bg-flame/10 shadow-ember-sm ring-1 ring-flame-bright/30'
+                        : 'border-ember-border hover:border-white/20'
                     }`}
                   >
                     <div className="flex items-start justify-between">
                       <div>
                         <div className="flex items-center space-x-2">
-                          <span className="text-xs font-mono font-bold text-copper">{rec.runId}</span>
-                          <span className="text-[11px] px-2 py-0.5 rounded bg-slate/10 text-slate border border-slate/20">
+                          <span className="text-xs font-mono font-bold text-flame-bright">
+                            {rec.runId}
+                          </span>
+                          <span className="text-[11px] px-2 py-0.5 rounded bg-white/5 text-paper-muted border border-white/10 font-mono">
                             {rec.investigationId}
                           </span>
                           {rec.disposition === 'REQUIRES_REVIEW' && (
@@ -364,49 +365,52 @@ export default function ExplorePage() {
                             </span>
                           )}
                         </div>
-                        <h3 className="text-sm font-bold text-bone mt-1">{rec.material}</h3>
+                        <h3 className="text-sm font-bold text-white mt-1">{rec.material}</h3>
                       </div>
 
                       {/* Compare Checkbox Button */}
                       <button
                         onClick={(e) => toggleCompare(rec, e)}
-                        className={`text-xs px-2 py-1 rounded border flex items-center space-x-1 transition-colors ${
+                        className={`text-xs px-2.5 py-1 rounded-lg border flex items-center space-x-1.5 transition-colors ${
                           isInCompare
-                            ? 'bg-copper text-ink border-copper font-bold'
-                            : 'bg-ink/60 text-slate border-slate/30 hover:border-copper/50'
+                            ? 'bg-flame text-white border-flame font-bold'
+                            : 'bg-ember-surface text-paper-muted border-white/10 hover:border-flame-bright'
                         }`}
                       >
                         <Scale className="w-3 h-3" />
-                        <span>{isInCompare ? 'Comparing' : 'Compare'}</span>
+                        <span>{isInCompare ? 'Selected' : 'Compare'}</span>
                       </button>
                     </div>
 
                     {/* Physical Specs */}
-                    <div className="grid grid-cols-2 gap-2 mt-3 pt-3 border-t border-slate/20 text-xs text-slate">
+                    <div className="grid grid-cols-2 gap-2 mt-3 pt-3 border-t border-white/5 text-xs text-paper-muted font-mono">
                       <div>
-                        <span className="text-slate/60">Atmosphere: </span>
-                        <span className="text-bone font-medium">
-                          {rec.environmentalConditions.oxygenRaw || `${(rec.environmentalConditions.oxygenMoleFraction! * 100).toFixed(1)}% O₂`}
+                        <span className="text-paper-dim">Atmosphere: </span>
+                        <span className="text-white font-medium">
+                          {rec.environmentalConditions.oxygenRaw ||
+                            `${(rec.environmentalConditions.oxygenMoleFraction! * 100).toFixed(1)}% O₂`}
                         </span>
                       </div>
                       <div>
-                        <span className="text-slate/60">Pressure: </span>
-                        <span className="text-bone font-medium">
+                        <span className="text-paper-dim">Pressure: </span>
+                        <span className="text-white font-medium">
                           {rec.environmentalConditions.pressureKpa} kPa
                         </span>
                       </div>
                       <div>
-                        <span className="text-slate/60">Flow / Vent: </span>
-                        <span className="text-bone font-medium">
+                        <span className="text-paper-dim">Flow: </span>
+                        <span className="text-white font-medium">
                           {rec.environmentalConditions.isFlowUncalibrated
-                            ? `Fan Index ${rec.environmentalConditions.fanDisplayIndex} (Uncal.)`
+                            ? `Fan #${rec.environmentalConditions.fanDisplayIndex} (Uncal.)`
                             : `${rec.environmentalConditions.flowVelocityCmS} cm/s`}
                         </span>
                       </div>
                       <div>
-                        <span className="text-slate/60">Thickness: </span>
-                        <span className="text-bone font-medium">
-                          {rec.dimensions.thicknessRaw ? `${rec.dimensions.thicknessRaw} (${rec.dimensions.thicknessMm} mm)` : 'N/A'}
+                        <span className="text-paper-dim">Thickness: </span>
+                        <span className="text-white font-medium">
+                          {rec.dimensions.thicknessRaw
+                            ? `${rec.dimensions.thicknessRaw} (${rec.dimensions.thicknessMm} mm)`
+                            : 'N/A'}
                         </span>
                       </div>
                     </div>
@@ -414,7 +418,7 @@ export default function ExplorePage() {
                     {/* Discrepancy Alert */}
                     {rec.discrepancyWarnings.length > 0 && (
                       <div className="mt-2.5 flex items-center space-x-1.5 text-[11px] text-amber-400">
-                        <AlertTriangle className="w-3.5 h-3.5 flex-shrink-0" />
+                        <AlertTriangle className="w-3.5 h-3.5 shrink-0" />
                         <span className="truncate">{rec.discrepancyWarnings[0]}</span>
                       </div>
                     )}
@@ -427,80 +431,101 @@ export default function ExplorePage() {
 
         {/* Right Detail Inspector Panel */}
         {selectedRecord && (
-          <aside className="w-full md:w-96 border-l border-slate/20 p-6 space-y-6 bg-ink/70 overflow-y-auto">
+          <aside className="w-full md:w-96 border-l border-ember-border p-6 space-y-6 bg-ember-subtle/80 overflow-y-auto">
             <div>
-              <div className="flex items-center space-x-2 text-xs text-copper font-mono">
+              <div className="flex items-center space-x-2 text-xs text-flame-bright font-mono">
                 <span>{selectedRecord.investigationTitle}</span>
                 <span>•</span>
                 <span>{selectedRecord.runId}</span>
               </div>
-              <h2 className="text-lg font-extrabold text-bone mt-1">{selectedRecord.material}</h2>
-              <p className="text-xs text-slate mt-0.5">{selectedRecord.facility}</p>
+              <h2 className="text-xl font-extrabold text-white mt-1">{selectedRecord.material}</h2>
+              <p className="text-xs text-paper-dim mt-0.5">{selectedRecord.facility}</p>
             </div>
 
             {/* Scientific Discrepancy Warnings */}
             {selectedRecord.discrepancyWarnings.length > 0 && (
-              <div className="p-3 rounded-lg border border-amber-500/30 bg-amber-500/10 space-y-1">
+              <div className="p-3.5 rounded-xl border border-amber-500/30 bg-amber-500/10 space-y-1">
                 <div className="flex items-center space-x-1.5 text-xs font-bold text-amber-400">
-                  <AlertTriangle className="w-4 h-4" />
+                  <AlertTriangle className="w-4 h-4 shrink-0" />
                   <span>Unresolved Physical Discrepancy</span>
                 </div>
                 {selectedRecord.discrepancyWarnings.map((w, idx) => (
-                  <p key={idx} className="text-xs text-amber-200/90 leading-relaxed">
+                  <p key={idx} className="text-xs text-amber-200 leading-relaxed">
                     {w}
                   </p>
                 ))}
               </div>
             )}
 
-            {/* Physical Dimensions */}
+            {/* Specimen Dimensions */}
             <div className="space-y-2">
-              <h4 className="text-xs font-bold text-slate uppercase tracking-wider">Specimen Dimensions</h4>
-              <div className="p-3 rounded-lg bg-ink border border-slate/20 text-xs space-y-1.5">
+              <h4 className="text-xs font-bold text-paper-muted uppercase tracking-wider">
+                Specimen Dimensions
+              </h4>
+              <div className="p-3.5 rounded-xl glass-panel border border-white/5 text-xs space-y-1.5 font-mono">
                 <div className="flex justify-between">
-                  <span className="text-slate">Reported Thickness:</span>
-                  <span className="text-bone font-mono font-medium">{selectedRecord.dimensions.thicknessRaw || 'None'}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-slate">Normalized SI Thickness:</span>
-                  <span className="text-bone font-mono font-medium">{selectedRecord.dimensions.thicknessMm ? `${selectedRecord.dimensions.thicknessMm} mm` : 'None'}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-slate">Length × Width:</span>
-                  <span className="text-bone font-mono font-medium">
-                    {selectedRecord.dimensions.lengthMm ? `${selectedRecord.dimensions.lengthMm} × ${selectedRecord.dimensions.widthMm} mm` : selectedRecord.dimensions.widthMm ? `${selectedRecord.dimensions.widthMm} mm wide` : 'N/A'}
+                  <span className="text-paper-dim">Reported Thickness:</span>
+                  <span className="text-white font-semibold">
+                    {selectedRecord.dimensions.thicknessRaw || 'None'}
                   </span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-slate">Geometry Classification:</span>
-                  <span className="text-copper font-medium">{selectedRecord.geometry}</span>
+                  <span className="text-paper-dim">Normalized SI Thickness:</span>
+                  <span className="text-white font-semibold">
+                    {selectedRecord.dimensions.thicknessMm
+                      ? `${selectedRecord.dimensions.thicknessMm} mm`
+                      : 'None'}
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-paper-dim">Length × Width:</span>
+                  <span className="text-white font-semibold">
+                    {selectedRecord.dimensions.lengthMm
+                      ? `${selectedRecord.dimensions.lengthMm} × ${selectedRecord.dimensions.widthMm} mm`
+                      : selectedRecord.dimensions.widthMm
+                      ? `${selectedRecord.dimensions.widthMm} mm wide`
+                      : 'N/A'}
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-paper-dim">Geometry Classification:</span>
+                  <span className="text-flame-bright font-semibold">
+                    {selectedRecord.geometry}
+                  </span>
                 </div>
               </div>
             </div>
 
             {/* Environmental Conditions */}
             <div className="space-y-2">
-              <h4 className="text-xs font-bold text-slate uppercase tracking-wider">Atmospheric & Flow Regime</h4>
-              <div className="p-3 rounded-lg bg-ink border border-slate/20 text-xs space-y-1.5">
+              <h4 className="text-xs font-bold text-paper-muted uppercase tracking-wider">
+                Atmospheric & Flow Regime
+              </h4>
+              <div className="p-3.5 rounded-xl glass-panel border border-white/5 text-xs space-y-1.5 font-mono">
                 <div className="flex justify-between">
-                  <span className="text-slate">Reported Oxygen:</span>
-                  <span className="text-bone font-mono font-medium">{selectedRecord.environmentalConditions.oxygenRaw || 'N/A'}</span>
+                  <span className="text-paper-dim">Reported Oxygen:</span>
+                  <span className="text-white font-semibold">
+                    {selectedRecord.environmentalConditions.oxygenRaw || 'N/A'}
+                  </span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-slate">Ambient Pressure:</span>
-                  <span className="text-bone font-mono font-medium">{selectedRecord.environmentalConditions.pressureKpa} kPa ({selectedRecord.environmentalConditions.pressurePsiaRaw} psia)</span>
+                  <span className="text-paper-dim">Ambient Pressure:</span>
+                  <span className="text-white font-semibold">
+                    {selectedRecord.environmentalConditions.pressureKpa} kPa (
+                    {selectedRecord.environmentalConditions.pressurePsiaRaw} psia)
+                  </span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-slate">Airflow Velocity:</span>
-                  <span className="text-bone font-mono font-medium">
+                  <span className="text-paper-dim">Airflow Velocity:</span>
+                  <span className="text-white font-semibold">
                     {selectedRecord.environmentalConditions.isFlowUncalibrated
                       ? 'UNAVAILABLE (Uncalibrated Fan Index)'
                       : `${selectedRecord.environmentalConditions.flowVelocityCmS} cm/s`}
                   </span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-slate">Fan Display Setting:</span>
-                  <span className="text-bone font-mono font-medium">
+                  <span className="text-paper-dim">Fan Display Setting:</span>
+                  <span className="text-white font-semibold">
                     {selectedRecord.environmentalConditions.fanDisplayIndex ?? 'N/A'}
                   </span>
                 </div>
@@ -509,30 +534,32 @@ export default function ExplorePage() {
 
             {/* Source Lineage & Provenance */}
             <div className="space-y-2">
-              <h4 className="text-xs font-bold text-slate uppercase tracking-wider">Source Provenance</h4>
-              <div className="p-3 rounded-lg bg-ink border border-slate/20 text-xs space-y-2">
+              <h4 className="text-xs font-bold text-paper-muted uppercase tracking-wider">
+                Source Provenance
+              </h4>
+              <div className="p-3.5 rounded-xl glass-panel border border-white/5 text-xs space-y-2 font-mono">
                 <div className="flex justify-between">
-                  <span className="text-slate">Source Artifact:</span>
-                  <span className="text-copper font-mono">{selectedRecord.sourceArtifact}</span>
+                  <span className="text-paper-dim">Source Artifact:</span>
+                  <span className="text-flame-bright">{selectedRecord.sourceArtifact}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-slate">Table Row:</span>
-                  <span className="text-bone font-mono">Row #{selectedRecord.sourceRowNumber}</span>
+                  <span className="text-paper-dim">Table Row:</span>
+                  <span className="text-white">Row #{selectedRecord.sourceRowNumber}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-slate">DOI:</span>
-                  <span className="text-bone font-mono">{selectedRecord.doi}</span>
+                  <span className="text-paper-dim">DOI:</span>
+                  <span className="text-white">{selectedRecord.doi}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-slate">Validation Status:</span>
-                  <span className="text-bone font-mono">{selectedRecord.validationStatus}</span>
+                  <span className="text-paper-dim">Validation Status:</span>
+                  <span className="text-emerald-400">{selectedRecord.validationStatus}</span>
                 </div>
-                <div className="pt-2 border-t border-slate/20">
+                <div className="pt-2 border-t border-white/5">
                   <a
                     href={selectedRecord.sourceUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center space-x-1 text-copper hover:underline text-xs"
+                    className="flex items-center space-x-1 text-flame-bright hover:underline text-xs"
                   >
                     <span>View NASA PSI Collection</span>
                     <ExternalLink className="w-3 h-3" />
@@ -544,41 +571,41 @@ export default function ExplorePage() {
         )}
       </div>
 
-      {/* Side-by-Side Comparison Drawer (TASK-D1-09) */}
+      {/* Side-by-Side Comparison Drawer Modal */}
       {comparisonAnalysis && (
-        <div className="fixed inset-0 z-50 bg-ink/80 backdrop-blur flex items-center justify-center p-4">
-          <div className="bg-ink border border-slate/30 rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto flex flex-col shadow-2xl">
+        <div className="fixed inset-0 z-50 bg-ember-bg/85 backdrop-blur-md flex items-center justify-center p-4">
+          <div className="glass-panel-elevated border border-ember-border rounded-3xl max-w-4xl w-full max-h-[90vh] overflow-y-auto flex flex-col shadow-2xl">
             {/* Modal Header */}
-            <div className="p-5 border-b border-slate/20 flex items-center justify-between sticky top-0 bg-ink/95 z-10">
+            <div className="p-5 border-b border-white/5 flex items-center justify-between sticky top-0 bg-ember-surface/95 z-10">
               <div className="flex items-center space-x-2">
-                <Scale className="w-5 h-5 text-copper" />
-                <h3 className="font-bold text-base text-bone">Physical Comparability Analysis</h3>
+                <Scale className="w-5 h-5 text-flame-bright" />
+                <h3 className="font-bold text-base text-white">Physical Comparability Analysis</h3>
               </div>
               <button
                 onClick={() => setComparisonAnalysis(null)}
-                className="text-slate hover:text-bone p-1 rounded-lg hover:bg-slate/10"
+                className="text-paper-dim hover:text-white p-1 rounded-lg hover:bg-white/10"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
             {/* Comparability Outcome Banner */}
-            <div className="p-5 space-y-3">
+            <div className="p-6 space-y-4">
               <div
-                className={`p-4 rounded-xl border flex items-start space-x-3 ${
+                className={`p-4 rounded-2xl border flex items-start space-x-3 ${
                   comparisonAnalysis.disposition === 'DIRECTLY_COMPARABLE'
                     ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-300'
                     : comparisonAnalysis.disposition === 'CONDITIONALLY_COMPARABLE'
                     ? 'bg-amber-500/10 border-amber-500/30 text-amber-300'
-                    : 'bg-red-500/10 border-red-500/30 text-red-300'
+                    : 'bg-flame/10 border-flame/30 text-flame-bright'
                 }`}
               >
                 {comparisonAnalysis.disposition === 'DIRECTLY_COMPARABLE' ? (
-                  <CheckCircle2 className="w-5 h-5 flex-shrink-0 mt-0.5" />
+                  <CheckCircle2 className="w-5 h-5 shrink-0 mt-0.5" />
                 ) : comparisonAnalysis.disposition === 'CONDITIONALLY_COMPARABLE' ? (
-                  <AlertTriangle className="w-5 h-5 flex-shrink-0 mt-0.5" />
+                  <AlertTriangle className="w-5 h-5 shrink-0 mt-0.5" />
                 ) : (
-                  <AlertOctagon className="w-5 h-5 flex-shrink-0 mt-0.5" />
+                  <AlertOctagon className="w-5 h-5 shrink-0 mt-0.5" />
                 )}
                 <div>
                   <h4 className="font-bold text-sm uppercase tracking-wide">
@@ -593,65 +620,42 @@ export default function ExplorePage() {
               {/* Side-by-Side Metadata Cards */}
               <div className="grid grid-cols-2 gap-4 pt-2">
                 {/* Left Card: Record A */}
-                <div className="p-4 rounded-xl bg-ink/60 border border-slate/20 space-y-2">
-                  <span className="text-[10px] font-mono uppercase tracking-wider text-copper">RECORD A</span>
-                  <h5 className="font-bold text-sm text-bone">{comparisonAnalysis.recordA.runId}</h5>
-                  <p className="text-xs text-slate">{comparisonAnalysis.recordA.material}</p>
-                  <div className="text-xs space-y-1 pt-2 border-t border-slate/20 text-slate">
-                    <p>Geometry: <span className="text-bone">{comparisonAnalysis.recordA.geometry}</span></p>
-                    <p>Atmosphere: <span className="text-bone">{comparisonAnalysis.recordA.environmentalConditions.oxygenRaw || `${(comparisonAnalysis.recordA.environmentalConditions.oxygenMoleFraction!*100).toFixed(1)}% O₂`}</span></p>
-                    <p>Pressure: <span className="text-bone">{comparisonAnalysis.recordA.environmentalConditions.pressureKpa} kPa</span></p>
-                    <p>Flow: <span className="text-bone">{comparisonAnalysis.recordA.environmentalConditions.isFlowUncalibrated ? `Fan Index ${comparisonAnalysis.recordA.environmentalConditions.fanDisplayIndex}` : `${comparisonAnalysis.recordA.environmentalConditions.flowVelocityCmS} cm/s`}</span></p>
+                <div className="p-4 rounded-2xl glass-panel border border-white/5 space-y-2">
+                  <span className="text-[10px] font-mono uppercase tracking-wider text-flame-bright">
+                    RECORD A
+                  </span>
+                  <h5 className="font-bold text-sm text-white">{comparisonAnalysis.recordA.runId}</h5>
+                  <p className="text-xs text-paper-muted">{comparisonAnalysis.recordA.material}</p>
+                  <div className="text-xs space-y-1 pt-2 border-t border-white/5 text-paper-dim font-mono">
+                    <p>Geometry: <span className="text-white">{comparisonAnalysis.recordA.geometry}</span></p>
+                    <p>Atmosphere: <span className="text-white">{comparisonAnalysis.recordA.environmentalConditions.oxygenRaw || `${(comparisonAnalysis.recordA.environmentalConditions.oxygenMoleFraction! * 100).toFixed(1)}% O₂`}</span></p>
+                    <p>Pressure: <span className="text-white">{comparisonAnalysis.recordA.environmentalConditions.pressureKpa} kPa</span></p>
                   </div>
                 </div>
 
                 {/* Right Card: Record B */}
-                <div className="p-4 rounded-xl bg-ink/60 border border-slate/20 space-y-2">
-                  <span className="text-[10px] font-mono uppercase tracking-wider text-copper">RECORD B</span>
-                  <h5 className="font-bold text-sm text-bone">{comparisonAnalysis.recordB.runId}</h5>
-                  <p className="text-xs text-slate">{comparisonAnalysis.recordB.material}</p>
-                  <div className="text-xs space-y-1 pt-2 border-t border-slate/20 text-slate">
-                    <p>Geometry: <span className="text-bone">{comparisonAnalysis.recordB.geometry}</span></p>
-                    <p>Atmosphere: <span className="text-bone">{comparisonAnalysis.recordB.environmentalConditions.oxygenRaw || `${(comparisonAnalysis.recordB.environmentalConditions.oxygenMoleFraction!*100).toFixed(1)}% O₂`}</span></p>
-                    <p>Pressure: <span className="text-bone">{comparisonAnalysis.recordB.environmentalConditions.pressureKpa} kPa</span></p>
-                    <p>Flow: <span className="text-bone">{comparisonAnalysis.recordB.environmentalConditions.isFlowUncalibrated ? `Fan Index ${comparisonAnalysis.recordB.environmentalConditions.fanDisplayIndex}` : `${comparisonAnalysis.recordB.environmentalConditions.flowVelocityCmS} cm/s`}</span></p>
+                <div className="p-4 rounded-2xl glass-panel border border-white/5 space-y-2">
+                  <span className="text-[10px] font-mono uppercase tracking-wider text-amber-400">
+                    RECORD B
+                  </span>
+                  <h5 className="font-bold text-sm text-white">{comparisonAnalysis.recordB.runId}</h5>
+                  <p className="text-xs text-paper-muted">{comparisonAnalysis.recordB.material}</p>
+                  <div className="text-xs space-y-1 pt-2 border-t border-white/5 text-paper-dim font-mono">
+                    <p>Geometry: <span className="text-white">{comparisonAnalysis.recordB.geometry}</span></p>
+                    <p>Atmosphere: <span className="text-white">{comparisonAnalysis.recordB.environmentalConditions.oxygenRaw || `${(comparisonAnalysis.recordB.environmentalConditions.oxygenMoleFraction! * 100).toFixed(1)}% O₂`}</span></p>
+                    <p>Pressure: <span className="text-white">{comparisonAnalysis.recordB.environmentalConditions.pressureKpa} kPa</span></p>
                   </div>
-                </div>
-              </div>
-
-              {/* Physical Comparability Gates Evaluation */}
-              <div className="pt-2 space-y-2">
-                <h5 className="text-xs font-bold text-slate uppercase tracking-wider">Physical Safeguard Gates</h5>
-                <div className="space-y-1.5">
-                  {comparisonAnalysis.gates.map((g, idx) => (
-                    <div
-                      key={idx}
-                      className="p-2.5 rounded-lg border border-slate/20 bg-ink/40 flex items-start space-x-2 text-xs"
-                    >
-                      {g.passed ? (
-                        <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5" />
-                      ) : g.severity === 'BLOCKER' ? (
-                        <AlertOctagon className="w-4 h-4 text-red-400 flex-shrink-0 mt-0.5" />
-                      ) : (
-                        <AlertTriangle className="w-4 h-4 text-amber-400 flex-shrink-0 mt-0.5" />
-                      )}
-                      <div>
-                        <span className="font-semibold text-bone">{g.gateName}</span>
-                        <p className="text-slate text-[11px] mt-0.5">{g.reason}</p>
-                      </div>
-                    </div>
-                  ))}
                 </div>
               </div>
 
               {/* Prohibited Scientific Claims */}
               {comparisonAnalysis.prohibitedClaims.length > 0 && (
-                <div className="p-3 rounded-lg border border-red-500/20 bg-red-500/5 space-y-1">
-                  <h6 className="text-xs font-bold text-red-400 flex items-center space-x-1">
+                <div className="p-3.5 rounded-xl border border-flame/30 bg-flame/10 space-y-1">
+                  <h6 className="text-xs font-bold text-flame-bright flex items-center space-x-1">
                     <MinusCircle className="w-3.5 h-3.5" />
                     <span>Scientifically Prohibited Claims</span>
                   </h6>
-                  <ul className="list-disc list-inside text-xs text-red-200/80 space-y-0.5">
+                  <ul className="list-disc list-inside text-xs text-flame-bright/90 space-y-0.5">
                     {comparisonAnalysis.prohibitedClaims.map((claim, idx) => (
                       <li key={idx}>{claim}</li>
                     ))}
@@ -661,10 +665,17 @@ export default function ExplorePage() {
             </div>
 
             {/* Modal Footer */}
-            <div className="p-4 border-t border-slate/20 bg-ink/90 flex justify-end">
+            <div className="p-4 border-t border-white/5 bg-ember-surface/90 flex justify-between items-center">
+              <Link
+                href="/compare"
+                className="text-xs text-flame-bright hover:underline font-semibold flex items-center space-x-1"
+              >
+                <span>Open Full 5-Gate Comparability Studio</span>
+                <ArrowRight className="w-3 h-3" />
+              </Link>
               <button
                 onClick={() => setComparisonAnalysis(null)}
-                className="px-4 py-2 bg-slate/20 hover:bg-slate/30 text-bone text-xs font-semibold rounded-lg transition-colors"
+                className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white text-xs font-bold rounded-xl transition-colors"
               >
                 Close Comparison
               </button>
