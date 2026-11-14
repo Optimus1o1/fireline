@@ -7,11 +7,14 @@
 [![Next.js 15](https://img.shields.io/badge/Next.js-15.5.29-black.svg)](https://nextjs.org/)
 [![Python 3.12](https://img.shields.io/badge/Python-3.12-blue.svg)](https://www.python.org/)
 [![Tests](https://img.shields.io/badge/Pytest-69%2F69%20Passing-brightgreen.svg)](#automated-test-suite)
+[![Render Deployment](https://img.shields.io/badge/Render-Live%20Demo-brightgreen.svg)](https://fireline-rmr2.onrender.com)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 > **Agency:** Moon Sanctum Labs — *Decode. Build. Evolve.*  
 > **Challenge:** NASA Space Apps Challenge 2026 — *Flame in Freefall: SI-Powered Fire Safety Insights from Microgravity Combustion Data*  
-> **Lead Developer & Designer:** Aniket Nandi (Kolkata, IST)
+> **Lead Developer & Designer:** Aniket Nandi (Kolkata, IST)  
+> **Live Production Application:** [https://fireline-rmr2.onrender.com](https://fireline-rmr2.onrender.com)  
+> **Health Check Endpoint:** [https://fireline-rmr2.onrender.com/api/health](https://fireline-rmr2.onrender.com/api/health)
 
 ---
 
@@ -168,7 +171,7 @@ Evaluates real-world exploration mission atmospheres against empirical micrograv
 
 ### Step 1: Clone Repository
 ```bash
-git clone https://github.com/moon-sanctum-labs/fireline.git
+git clone https://github.com/Optimus1o1/fireline.git
 cd fireline
 ```
 

@@ -24,11 +24,13 @@ Use this section as a reference when filling out the official project page on [s
 - **Lead Developer:**  
   *Aniket Nandi (Kolkata, India — IST)*
 - **Project Repository Link:**  
-  `https://github.com/moon-sanctum-labs/fireline`
+  `https://github.com/Optimus1o1/fireline`
 - **Demonstration Video Link:**  
   `https://youtu.be/fireline-nasa-demo` *(or uploaded YouTube / Vimeo link)*
 - **Live Interactive Demo:**  
-  `https://fireline-nasa.vercel.app` *(or local quickstart instructions)*
+  `https://fireline-rmr2.onrender.com`
+- **Health Check Endpoint:**  
+  `https://fireline-rmr2.onrender.com/api/health`
 - **Open-Source License:**  
   `MIT License`
 

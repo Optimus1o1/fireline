@@ -1,20 +1,31 @@
-# FIRELINE — Render Deployment Readiness Report
+# FIRELINE — Render Deployment Readiness & Verification Report
 
 **Agency:** Moon Sanctum Labs — *Decode. Build. Evolve.*  
 **Project:** FIRELINE — Fire Intelligence & Research Evidence Linkage Engine  
 **Challenge:** NASA Space Apps Challenge 2026 — Flame in Freefall  
 **Lead Developer:** Aniket Nandi (Kolkata, IST)  
-**Execution Timestamp:** 2026-11-14T17:05:00+05:30  
+**Execution Timestamp:** 2026-11-14T17:19:00+05:30  
 **Deployment Target:** Render (Node.js Web Service)  
-**Status:** 100% Prepared, Verified & Committed Locally
+**Status:** **LIVE AND VERIFIED**  
+**Live Production URL:** [https://fireline-rmr2.onrender.com](https://fireline-rmr2.onrender.com)  
+**GitHub Repository:** [https://github.com/Optimus1o1/fireline](https://github.com/Optimus1o1/fireline)  
+**Render Service ID:** `srv-dbs4huu7bikc73ej2nog`  
+**Active Deploy ID:** `dep-dbs4jlknjr1c73at5730`  
+**Git Commit Hash:** `aa4b5a3`
 
 ---
 
 ## 1. Executive Summary
 
-In accordance with deployment directives, the FIRELINE platform has been fully transitioned from Vercel to **Render** as a high-performance **Node.js Web Service**. 
+FIRELINE is now **LIVE in production** on Render as a high-performance **Node.js Web Service** hosted in the Singapore region (`singapore`). 
 
-All production requirements, configuration assets, health check endpoints, environment variable specifications, and automated validations have been completed. The application was built and booted locally in production mode, and the new `/api/health` endpoint was rigorously verified.
+All production requirements, configuration assets, health check endpoints, environment variable specifications, and automated validations have been completed and verified against the live public URL.
+
+```
+LIVE STATUS: 200 OK across all core routes
+Public Service URL: https://fireline-rmr2.onrender.com
+Health Check: https://fireline-rmr2.onrender.com/api/health
+```
 
 ---
 
@@ -44,12 +55,14 @@ services:
     plan: free
     region: singapore
     branch: master
-    buildCommand: npm ci && npm run build
+    buildCommand: npm ci --include=dev && npm run build
     startCommand: npm start
     healthCheckPath: /api/health
     envVars:
       - key: NODE_ENV
         value: production
+      - key: NPM_CONFIG_PRODUCTION
+        value: "false"
       - key: NEXT_TELEMETRY_DISABLED
         value: "1"
       - key: GEMINI_API_KEY
@@ -67,8 +80,8 @@ Created at `src/app/api/health/route.ts`:
     "status": "ok",
     "service": "fireline-decision-support",
     "version": "1.0.0",
-    "timestamp": "2026-11-14T11:34:33.377Z",
-    "uptime_seconds": 6,
+    "timestamp": "2026-11-14T11:47:03.291Z",
+    "uptime_seconds": 13,
     "environment": "production",
     "corpus": {
       "empirical_records": 9,
@@ -79,6 +92,7 @@ Created at `src/app/api/health/route.ts`:
 
 ### 3.3 Environment Variables
 - `NODE_ENV=production` (Configured in build/runtime)
+- `NPM_CONFIG_PRODUCTION=false` (Ensures build dependencies like TypeScript and Tailwind are installed)
 - `NEXT_TELEMETRY_DISABLED=1` (Disables Next.js telemetry)
 - `PORT` (Provided dynamically by Render)
 - `GEMINI_API_KEY` (Optional; seamless deterministic fallback if omitted)
@@ -87,56 +101,36 @@ Created at `src/app/api/health/route.ts`:
 
 ## 4. Verification & Validation Results (Task 4)
 
+### 4.1 Local Quality Gates
 | Test Category | Target Command | Result | Details |
 |:---|:---|:---:|:---|
-| **Backend Unit & Ingestion Tests** | `cd backend; pytest` | **PASS** | **69 / 69 passed** in 0.44s; zero regressions |
+| **Backend Unit & Ingestion Tests** | `cd backend; pytest` | **PASS** | **69 / 69 passed** in 0.27s; zero regressions |
 | **Frontend Code Quality** | `npm run lint` | **PASS** | **0 ESLint warnings**, 0 errors |
 | **Strict Type Checking** | `npm run typecheck` | **PASS** | **0 TypeScript errors** (`tsc --noEmit`) |
 | **Next.js Production Build** | `npm run build` | **PASS** | **12 / 12 routes compiled**; First Load JS is 103 kB |
-| **Production Server Boot** | `npx next start -p 3005` | **PASS** | Server initialized on `0.0.0.0:3005` in < 2 seconds |
-| **Health Endpoint Verification** | `curl .../api/health` | **PASS** | Returned HTTP 200 OK with corpus status in 8ms |
-| **Core API Route Verification** | `curl .../api/investigations` | **PASS** | Returned 3 investigations (Saffire-I, BASS-II, FLEX) |
+
+### 4.2 Live Cloud Endpoint Verification on Render
+| Target URL | Method | Expected | Live Status | Live Verification Output |
+|:---|:---:|:---:|:---:|:---|
+| `https://fireline-rmr2.onrender.com/api/health` | `GET` | 200 OK | **200 OK** | Verified status: "ok", 9 records, 20 findings |
+| `https://fireline-rmr2.onrender.com/` | `GET` | 200 OK | **200 OK** | Mission Control Dashboard loads statically |
+| `https://fireline-rmr2.onrender.com/explore` | `GET` | 200 OK | **200 OK** | Evidence Explorer loads with full search table |
+| `https://fireline-rmr2.onrender.com/assess?preset=artemis_lunar` | `GET` | 200 OK | **200 OK** | Gap Assessor loads with pre-configured Artemis preset |
+| `https://fireline-rmr2.onrender.com/copilot` | `GET` | 200 OK | **200 OK** | SI Copilot interface loads with citation chips |
+| `https://fireline-rmr2.onrender.com/api/investigations` | `GET` | 200 OK | **200 OK** | Returns Saffire-I, BASS-II, and FLEX metadata |
+| `https://fireline-rmr2.onrender.com/api/evidence/compare` | `POST` | 200 OK | **200 OK** | Returns 5-gate evaluation and `NOT_COMPARABLE` |
+| `https://fireline-rmr2.onrender.com/api/assess` | `POST` | 200 OK | **200 OK** | Returns `EVIDENCE_GAP` with 2 critical voids |
 
 ---
 
-## 5. Git & Remote Status (Task 6)
+## 5. Deployment Provenance
 
-- **Local Branch:** `master`
-- **Working Tree:** Clean (all deployment assets staged and committed).
-- **Git Remote:** Currently, no remote is configured in local git (`git remote -v` is empty).
-- **Manual Action Required:**
-  To link and push your code to your GitHub repository before deploying on Render:
-  ```bash
-  # Step 1: Add your GitHub repository remote
-  git remote add origin https://github.com/<your-username>/<your-repo-name>.git
-
-  # Step 2: Push the master branch with all release and Render commits
-  git push -u origin master
-  ```
-
----
-
-## 6. Exact Steps to Launch on Render
-
-1. Log into **[https://dashboard.render.com/](https://dashboard.render.com/)**.
-2. Click **New +** $\to$ **Web Service**.
-3. Select your pushed GitHub repository.
-4. Set the following fields:
-   - **Name:** `fireline`
-   - **Region:** `Singapore`
-   - **Branch:** `master`
-   - **Runtime:** `Node`
-   - **Build Command:** `npm ci && npm run build`
-   - **Start Command:** `npm start`
-   - **Instance Type:** `Free`
-5. Click **Advanced** and set:
-   - **Health Check Path:** `/api/health`
-   - **Environment Variables:**
-     - `NODE_ENV` = `production`
-     - `NEXT_TELEMETRY_DISABLED` = `1`
-     - *(Optional)* `GEMINI_API_KEY` = `your_gemini_api_key`
-6. Click **Create Web Service**.
-7. Once Render displays the green **Live** status, test your public URL (`https://fireline-<subdomain>.onrender.com`).
+- **GitHub Repository:** [https://github.com/Optimus1o1/fireline](https://github.com/Optimus1o1/fireline)
+- **Deployment Platform:** Render Cloud (Web Service)
+- **Service Name:** `fireline` (`fireline-rmr2`)
+- **Region:** Singapore (`singapore`)
+- **Active Branch:** `master` (synchronized with `main`)
+- **Auto-Deploy:** Enabled (new commits to `master` trigger automatic zero-downtime builds)
 
 ---
 *Moon Sanctum Labs — Decode. Build. Evolve.*
