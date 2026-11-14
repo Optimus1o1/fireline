@@ -1,0 +1,110 @@
+[
+  {
+    "claimId": "SAFFIRE-001",
+    "investigationId": "PSI-98",
+    "investigationTitle": "Saffire-I",
+    "findingStatement": "Saffire-I established steady-state concurrent flame spread of ~2.4 mm/s over a large-scale SIBAL fabric panel (40.6 cm x 94 cm) in microgravity under 20 cm/s air flow in nominal cabin air (21.5% O2, 101.3 kPa).",
+    "auditDisposition": "VERIFIED",
+    "sourcePublication": "Urban et al., Combust. Flame (2019)",
+    "doi": "10.1016/j.combustflame.2018.10.012",
+    "sourceLocation": "Page 142, Section 3.1 & Figure 4",
+    "applicableConditions": "Concurrent forced airflow 20 cm/s, Cygnus cabin atmosphere (101.3 kPa, 21.5% O2)",
+    "limitations": "Tested only at 20 cm/s forced flow; dynamic spread rates were derived from video pyrometry analysis, not recorded in the PSI specimen table."
+  },
+  {
+    "claimId": "SAFFIRE-002",
+    "investigationId": "PSI-98",
+    "investigationTitle": "Saffire-I",
+    "findingStatement": "Saffire-I combustion of PMMA produced a concurrent flame spread rate of ~0.18 mm/s, demonstrating that non-charring thermoplastic PMMA propagates an order of magnitude slower than thin cellulosic/fiberglass SIBAL fabric.",
+    "auditDisposition": "VERIFIED",
+    "sourcePublication": "Urban et al., Combust. Flame (2019)",
+    "doi": "10.1016/j.combustflame.2018.10.012",
+    "sourceLocation": "Page 144, Section 3.3",
+    "applicableConditions": "Cygnus cabin nominal (101.3 kPa, 21% O2, 20 cm/s flow)",
+    "limitations": "PMMA sample was thick card configuration; direct scaling to thin PMMA films requires correcting for thermal Biot number."
+  },
+  {
+    "claimId": "SAFFIRE-003",
+    "investigationId": "PSI-98",
+    "investigationTitle": "Saffire-I",
+    "findingStatement": "Saffire-I combustion generated a transient pressure rise of Delta P approx 0.5 kPa within the Cygnus vehicle cargo volume.",
+    "auditDisposition": "VERIFIED",
+    "sourcePublication": "Urban et al., Combust. Flame (2019)",
+    "doi": "10.1016/j.combustflame.2018.10.012",
+    "sourceLocation": "Section 3.2, Vehicle Telemetry Transducer Log",
+    "applicableConditions": "Cygnus pressurized module (sealed volume approx 19 m^3)",
+    "limitations": "Pressure spike depends on vehicle sealed volume to burn area ratio; cannot be scaled linearly to larger ISS modules without ventilation modeling."
+  },
+  {
+    "claimId": "BASS-001",
+    "investigationId": "PSI-25",
+    "investigationTitle": "BASS-II",
+    "findingStatement": "In BASS-II, opposed-flow flame spread over cylindrical PMMA rods showed low-speed radiative quenching below approximately 1.5 cm/s, exhibiting a non-monotonic flammability boundary.",
+    "auditDisposition": "PARTIALLY_VERIFIED",
+    "sourcePublication": "Olson & Ferkul, Combust. Flame (2017)",
+    "doi": "10.1016/j.combustflame.2017.03.001",
+    "sourceLocation": "Section 4.1, Figure 6",
+    "applicableConditions": "Microgravity Science Glovebox, cylindrical PMMA rods (dia 6.35 - 12.7 mm)",
+    "limitations": "Pertains to thick cylindrical PMMA rods in opposed flow; DOES NOT apply directly to thin PMMA films (Bhattacharjee series, PSI25-ART-002) which lack axial stagnation flow."
+  },
+  {
+    "claimId": "BASS-002",
+    "investigationId": "PSI-25",
+    "investigationTitle": "BASS-II",
+    "findingStatement": "BASS-II Bhattacharjee test series mapped flame spread over thin PMMA films (100, 200, 300 micron) in a small flow duct with discrete fan display settings (47 to 62).",
+    "auditDisposition": "VERIFIED",
+    "sourcePublication": "NASA PSI-25 Investigation Archive",
+    "doi": "10.60555/4qc4-de67",
+    "sourceLocation": "PSI25-ART-002 Experimental Table",
+    "applicableConditions": "ISS Microgravity Science Glovebox nominal air, uncalibrated flow indices",
+    "limitations": "Fan display setting is an integer dial (47-62); true flow velocity in cm/s is uncalibrated without duct calibration curves."
+  },
+  {
+    "claimId": "FLEX-001",
+    "investigationId": "PSI-69",
+    "investigationTitle": "FLEX",
+    "findingStatement": "FLEX demonstrated that isolated alkane droplets burning in quiescent microgravity extinguish radiatively at large finite diameters (d_ext), and can transition into low-temperature cool-flame combustion without visible radiation.",
+    "auditDisposition": "VERIFIED",
+    "sourcePublication": "Dietrich et al., Combust. Flame (2017) / Nayagam et al. (2015)",
+    "doi": "10.1016/j.combustflame.2015.01.012",
+    "sourceLocation": "Section 3.1 & Figure 5",
+    "applicableConditions": "Quiescent microgravity (u_infty = 0), spherical droplet geometry",
+    "limitations": "FLEX experimental records are DEFERRED from FIRELINE's currently indexed dataset; liquid droplet evaporation mechanics cannot be used as empirical evidence for solid fuel spread."
+  },
+  {
+    "claimId": "CROSS-001",
+    "investigationId": "CROSS",
+    "investigationTitle": "Cross-Investigation",
+    "findingStatement": "Solid fuel flame spread is fundamentally non-comparable across divergent fuel geometries: thin films (BASS-II, Bi << 0.1) pyrolyze uniformly through thickness, whereas thick rods (Olson, Bi > 1) are governed by surface heat conduction, and SIBAL composite fabrics retain a porous fiberglass char scaffold.",
+    "auditDisposition": "VERIFIED",
+    "sourcePublication": "01-Research/Cross-Investigation-Analysis.md",
+    "doi": "10.1016/j.combustflame.2018.10.012",
+    "sourceLocation": "Section 2.3",
+    "applicableConditions": "All microgravity regimes",
+    "limitations": "Prohibits direct quantitative cross-geometry extrapolation without thermal Biot number adjustments."
+  },
+  {
+    "claimId": "CROSS-004",
+    "investigationId": "CROSS",
+    "investigationTitle": "Cross-Investigation",
+    "findingStatement": "There is a complete empirical evidence gap for solid materials flammability in reduced partial gravity (Lunar 0.16g and Martian 0.38g). NASA PSI flight archives contain microgravity (10^-6 g) and ground 1g data, but partial-gravity transition boundaries remain untested in long-duration flight.",
+    "auditDisposition": "EVIDENCE_GAP",
+    "sourcePublication": "01-Research/Cross-Investigation-Analysis.md & Scientific Questions",
+    "doi": "10.60555/0t15-1243",
+    "sourceLocation": "Section 3 & Question Q-PG01",
+    "applicableConditions": "Lunar and Martian surface gravity",
+    "limitations": "Zero flight combustion data exists in current repository for partial gravity."
+  },
+  {
+    "claimId": "CROSS-005",
+    "investigationId": "CROSS",
+    "investigationTitle": "Cross-Investigation",
+    "findingStatement": "There is a major empirical evidence gap for materials flammability under Exploration Atmospheres (34% O2 at 56.5 kPa / 8.2 psia). Saffire-I and BASS-II tested strictly in nominal sea-level cabin air (21% O2 at 101.3 kPa).",
+    "auditDisposition": "EVIDENCE_GAP",
+    "sourcePublication": "docs/phase08_scientific_evidence_audit.md",
+    "doi": "10.60555/0t15-1243",
+    "sourceLocation": "Section 4, Claim CROSS-005",
+    "applicableConditions": "Artemis Exploration Atmosphere (34% O2, 56.5 kPa)",
+    "limitations": "Existing Saffire-I and BASS-II flight data CANNOT predict flammability or extinction limits in 34% O2 exploration habitats."
+  }
+]

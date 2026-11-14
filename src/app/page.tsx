@@ -39,8 +39,9 @@ export default function HomePage() {
 
         <nav className="flex items-center space-x-6 text-sm font-medium text-slate">
           <Link href="#overview" className="hover:text-bone transition-colors">Overview</Link>
-          <Link href="/explore" className="text-copper hover:underline font-semibold flex items-center space-x-1">
-            <span>Evidence Explorer</span>
+          <Link href="/explore" className="hover:text-bone transition-colors">Evidence Explorer</Link>
+          <Link href="/copilot" className="text-copper hover:underline font-semibold flex items-center space-x-1">
+            <span>SI Copilot</span>
             <ChevronRight className="w-4 h-4" />
           </Link>
           <Link href="#missions" className="hover:text-bone transition-colors">Mission Presets</Link>

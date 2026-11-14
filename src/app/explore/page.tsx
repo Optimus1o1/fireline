@@ -172,6 +172,9 @@ export default function ExplorePage() {
         <nav className="flex items-center space-x-6 text-sm font-medium text-slate">
           <Link href="/" className="hover:text-bone transition-colors">Overview</Link>
           <span className="text-copper font-semibold">Evidence Explorer</span>
+          <Link href="/copilot" className="hover:text-copper transition-colors flex items-center space-x-1">
+            <span>SI Copilot</span>
+          </Link>
           <a
             href="https://psi.nasa.gov/"
             target="_blank"
