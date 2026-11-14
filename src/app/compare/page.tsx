@@ -18,8 +18,8 @@ import { ComparisonAnalysis } from '@/lib/physicalComparabilityEngine';
 
 export default function ComparePage() {
   const [allRecords, setAllRecords] = useState<EvidenceRecord[]>([]);
-  const [recordAId, setRecordAId] = useState<string>('PSI-98-RUN-01');
-  const [recordBId, setRecordBId] = useState<string>('PSI-25-RUN-01');
+  const [recordAId, setRecordAId] = useState<string>('saffire-S1');
+  const [recordBId, setRecordBId] = useState<string>('bass-B1');
   const [comparison, setComparison] = useState<ComparisonAnalysis | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [fetchingRecords, setFetchingRecords] = useState<boolean>(true);
@@ -157,9 +157,9 @@ export default function ComparePage() {
         <div className="flex flex-wrap gap-2">
           <button
             onClick={() => {
-              setRecordAId('PSI-98-RUN-01');
-              setRecordBId('PSI-25-RUN-01');
-              runComparison('PSI-98-RUN-01', 'PSI-25-RUN-01');
+              setRecordAId('saffire-S1');
+              setRecordBId('bass-B1');
+              runComparison('saffire-S1', 'bass-B1');
             }}
             className="px-3 py-1.5 rounded-lg bg-ember-surface hover:bg-white/10 border border-white/10 text-paper transition-all"
           >
@@ -167,9 +167,9 @@ export default function ComparePage() {
           </button>
           <button
             onClick={() => {
-              setRecordAId('PSI-25-RUN-01');
-              setRecordBId('PSI-25-RUN-02');
-              runComparison('PSI-25-RUN-01', 'PSI-25-RUN-02');
+              setRecordAId('bass-B1');
+              setRecordBId('bass-B2');
+              runComparison('bass-B1', 'bass-B2');
             }}
             className="px-3 py-1.5 rounded-lg bg-ember-surface hover:bg-white/10 border border-white/10 text-paper transition-all"
           >
@@ -177,9 +177,9 @@ export default function ComparePage() {
           </button>
           <button
             onClick={() => {
-              setRecordAId('PSI-98-RUN-01');
-              setRecordBId('PSI-98-RUN-02');
-              runComparison('PSI-98-RUN-01', 'PSI-98-RUN-02');
+              setRecordAId('saffire-S1');
+              setRecordBId('saffire-S2');
+              runComparison('saffire-S1', 'saffire-S2');
             }}
             className="px-3 py-1.5 rounded-lg bg-ember-surface hover:bg-white/10 border border-white/10 text-paper transition-all"
           >
