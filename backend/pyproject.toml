@@ -1,0 +1,23 @@
+[project]
+name = "fireline-backend"
+version = "0.1.0"
+description = "FIRELINE Scientific Data Contracts & Validation Layer"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "pydantic>=2.0.0",
+]
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = "-ra -q --import-mode=importlib"
+testpaths = [
+    "tests",
+]
+pythonpath = [
+    "src",
+]
