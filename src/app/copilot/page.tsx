@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import {
   Flame,
   Search,
@@ -29,7 +30,8 @@ const SUGGESTED_QUESTIONS = [
   'What fan speed corresponds to 20 cm/s in BASS-II?',
 ];
 
-export default function CopilotPage() {
+function CopilotInner() {
+  const searchParams = useSearchParams();
   const [question, setQuestion] = useState('');
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<CopilotResponsePayload | null>(null);
@@ -63,6 +65,15 @@ export default function CopilotPage() {
       setLoading(false);
     }
   };
+
+  // Auto-populate inquiry if ?q= query param is passed
+  useEffect(() => {
+    const qParam = searchParams.get('q');
+    if (qParam && !lastQuestion) {
+      setQuestion(qParam);
+      handleAsk(qParam);
+    }
+  }, [searchParams]);
 
   return (
     <div className="min-h-screen bg-ink text-bone flex flex-col">
@@ -105,7 +116,7 @@ export default function CopilotPage() {
         <div className="flex items-center space-x-2">
           <ShieldAlert className="w-4 h-4 text-amber-400 flex-shrink-0" />
           <span>
-            <strong>Grounded Intelligence Invariant:</strong> SI Copilot answers are derived strictly from indexed NASA PSI tables and audited literature findings. Hallucinated numbers and ungrounded extrapolations are prohibited.
+            <strong>SCIENTIFIC GROUNDING INVARIANT:</strong> Answers are strictly constrained to indexed NASA PSI flight evidence. Any query requesting unverified extrapolations triggers an explicit EVIDENCE_GAP.
           </span>
         </div>
         <div className="flex items-center space-x-2 text-[11px] text-amber-400 font-mono">
@@ -178,18 +189,21 @@ export default function CopilotPage() {
               <button
                 onClick={() => handleAsk()}
                 disabled={loading || !question.trim()}
-                className={`px-5 py-2.5 rounded-lg font-bold text-xs flex items-center space-x-2 transition-all ${
+                className={`px-5 py-2.5 rounded-lg font-bold text-xs transition-all flex items-center space-x-1.5 ${
                   loading || !question.trim()
                     ? 'bg-slate/20 text-slate cursor-not-allowed'
-                    : 'bg-copper hover:bg-copper/90 text-ink shadow-md shadow-copper/10'
+                    : 'bg-copper hover:bg-copper/90 text-ink shadow-lg shadow-copper/20'
                 }`}
               >
                 {loading ? (
-                  <span>Evaluating...</span>
+                  <>
+                    <span className="w-3.5 h-3.5 border-2 border-ink/30 border-t-ink rounded-full animate-spin"></span>
+                    <span>Analyzing...</span>
+                  </>
                 ) : (
                   <>
+                    <span>Query Copilot</span>
                     <Sparkles className="w-3.5 h-3.5" />
-                    <span>Inquire</span>
                   </>
                 )}
               </button>
@@ -197,69 +211,79 @@ export default function CopilotPage() {
           </div>
 
           {error && (
-            <div className="p-4 rounded-xl border border-red-500/30 bg-red-500/10 text-red-300 text-xs">
-              {error}
+            <div className="p-4 rounded-xl border border-rose-500/40 bg-rose-500/10 text-rose-300 text-xs flex items-center space-x-2">
+              <AlertOctagon className="w-4 h-4 flex-shrink-0" />
+              <span>{error}</span>
             </div>
           )}
 
           {/* Response Container */}
           {result && (
-            <div className="space-y-5">
-              {/* Epistemic Classification Header */}
-              <div
-                className={`p-4 rounded-xl border flex items-start space-x-3 ${
-                  result.classification === 'SUPPORTED'
-                    ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-300'
-                    : result.classification === 'INFERRED'
-                    ? 'bg-blue-500/10 border-blue-500/30 text-blue-300'
-                    : 'bg-amber-500/10 border-amber-500/30 text-amber-300'
-                }`}
-              >
-                {result.classification === 'SUPPORTED' ? (
-                  <CheckCircle2 className="w-5 h-5 flex-shrink-0 mt-0.5" />
-                ) : result.classification === 'INFERRED' ? (
-                  <AlertTriangle className="w-5 h-5 flex-shrink-0 mt-0.5" />
-                ) : (
-                  <AlertOctagon className="w-5 h-5 flex-shrink-0 mt-0.5" />
-                )}
-                <div>
-                  <div className="flex items-center space-x-2">
-                    <span className="font-bold text-xs uppercase tracking-wider px-2 py-0.5 rounded bg-ink/40 border border-current">
-                      {result.classification.replace('_', ' ')}
-                    </span>
-                    <span className="text-[11px] opacity-80">
-                      Query: &ldquo;{lastQuestion}&rdquo;
-                    </span>
-                  </div>
-                  <p className="text-sm font-semibold mt-2 text-bone leading-relaxed">
-                    {result.summary}
-                  </p>
+            <div className="p-6 rounded-xl border border-slate/20 bg-ink/40 space-y-6 shadow-xl">
+              {/* Epistemic Status Header */}
+              <div className="flex items-center justify-between pb-4 border-b border-slate/20">
+                <div className="flex items-center space-x-3">
+                  {result.classification === 'SUPPORTED' && (
+                    <div className="flex items-center space-x-1.5 px-3 py-1 rounded-full text-xs font-mono font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                      <CheckCircle2 className="w-3.5 h-3.5" />
+                      <span>EPISTEMIC STATUS: SUPPORTED BY EVIDENCE</span>
+                    </div>
+                  )}
+                  {result.classification === 'INFERRED' && (
+                    <div className="flex items-center space-x-1.5 px-3 py-1 rounded-full text-xs font-mono font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30">
+                      <AlertTriangle className="w-3.5 h-3.5" />
+                      <span>EPISTEMIC STATUS: INFERRED / SCALED</span>
+                    </div>
+                  )}
+                  {result.classification === 'EVIDENCE_GAP' && (
+                    <div className="flex items-center space-x-1.5 px-3 py-1 rounded-full text-xs font-mono font-bold bg-rose-500/20 text-rose-400 border border-rose-500/30">
+                      <MinusCircle className="w-3.5 h-3.5" />
+                      <span>EPISTEMIC STATUS: EVIDENCE GAP DETECTED</span>
+                    </div>
+                  )}
+                </div>
+
+                <div className="text-[11px] font-mono text-slate">
+                  Provider: <span className="text-copper">{result.providerMode}</span>
                 </div>
               </div>
 
-              {/* Key Evidence-Backed Findings */}
-              {result.keyFindings.length > 0 && (
-                <div className="space-y-3">
-                  <h4 className="text-xs font-bold text-slate uppercase tracking-wider">
-                    Evidence-Backed Findings
-                  </h4>
+              {/* Inquiry Question Echo */}
+              {lastQuestion && (
+                <div className="text-xs text-slate">
+                  <span className="font-semibold text-bone">Inquiry: </span>
+                  <span>{lastQuestion}</span>
+                </div>
+              )}
+
+              {/* Executive Summary */}
+              <div>
+                <h4 className="text-xs font-bold uppercase tracking-wider text-slate mb-1">Executive Summary</h4>
+                <p className="text-sm font-semibold text-bone leading-relaxed bg-ink/60 p-4 rounded-lg border border-slate/20">
+                  {result.summary}
+                </p>
+              </div>
+
+              {/* Key Grounded Findings with Direct Citation Badges */}
+              {result.keyFindings && result.keyFindings.length > 0 && (
+                <div>
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-slate mb-2">Grounded Scientific Findings</h4>
                   <div className="space-y-2">
                     {result.keyFindings.map((kf, idx) => (
-                      <div
-                        key={idx}
-                        className="p-3.5 rounded-lg border border-slate/20 bg-ink/40 space-y-2 text-xs"
-                      >
-                        <p className="text-bone leading-relaxed">{kf.statement}</p>
-                        <div className="flex items-center space-x-1.5 text-[11px]">
-                          <span className="text-slate">Cited Evidence:</span>
-                          {kf.evidenceIds.map((eid, eidx) => (
-                            <span
-                              key={eidx}
-                              className="px-2 py-0.5 rounded bg-copper/10 border border-copper/30 text-copper font-mono font-semibold"
-                            >
-                              {eid}
-                            </span>
-                          ))}
+                      <div key={idx} className="p-3.5 rounded-lg border border-slate/20 bg-ink/30 space-y-2">
+                        <p className="text-xs text-bone leading-relaxed">{kf.statement}</p>
+                        <div className="flex items-center space-x-2 pt-1 border-t border-slate/10">
+                          <span className="text-[10px] uppercase font-mono text-slate/70">Supporting Citations:</span>
+                          <div className="flex flex-wrap gap-1.5">
+                            {kf.evidenceIds.map((cid, cidx) => (
+                              <span
+                                key={cidx}
+                                className="px-2 py-0.5 rounded font-mono text-[10px] bg-copper/10 text-copper border border-copper/30 font-semibold"
+                              >
+                                #{cid}
+                              </span>
+                            ))}
+                          </div>
                         </div>
                       </div>
                     ))}
@@ -267,76 +291,79 @@ export default function CopilotPage() {
                 </div>
               )}
 
-              {/* Qualified Scientific Interpretation */}
+              {/* Scientific Interpretation */}
               {result.interpretation && (
-                <div className="space-y-2">
-                  <h4 className="text-xs font-bold text-slate uppercase tracking-wider">
-                    Qualified Scientific Interpretation
-                  </h4>
-                  <div className="p-4 rounded-lg border border-slate/20 bg-ink/30 text-xs text-slate/90 leading-relaxed">
+                <div>
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-slate mb-1">Physical Interpretation</h4>
+                  <p className="text-xs text-slate leading-relaxed bg-ink/20 p-3.5 rounded-lg border border-slate/10">
                     {result.interpretation}
+                  </p>
+                </div>
+              )}
+
+              {/* Discrepancy Warnings */}
+              {result.discrepancyWarnings && result.discrepancyWarnings.length > 0 && (
+                <div className="p-3.5 rounded-lg border border-amber-500/30 bg-amber-500/5 space-y-1.5">
+                  <h5 className="text-xs font-bold text-amber-300 flex items-center space-x-1.5">
+                    <AlertTriangle className="w-3.5 h-3.5" />
+                    <span>Scientific Discrepancy Warnings</span>
+                  </h5>
+                  <ul className="list-disc list-inside text-xs text-amber-200/80 space-y-1">
+                    {result.discrepancyWarnings.map((w, idx) => (
+                      <li key={idx}>{w}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {/* Limitations & Missing Info */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {result.limitations && result.limitations.length > 0 && (
+                  <div className="p-3.5 rounded-lg border border-slate/20 bg-ink/20 space-y-1.5">
+                    <h5 className="text-xs font-bold text-slate uppercase tracking-wider">Experimental Limitations</h5>
+                    <ul className="list-disc list-inside text-xs text-slate/80 space-y-1">
+                      {result.limitations.map((lim, idx) => (
+                        <li key={idx}>{lim}</li>
+                      ))}
+                    </ul>
                   </div>
-                </div>
-              )}
+                )}
 
-              {/* Limitations & Missing Information (Physical Safeguards) */}
-              {(result.limitations.length > 0 || result.missingInformation.length > 0) && (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {result.limitations.length > 0 && (
-                    <div className="p-3.5 rounded-lg border border-amber-500/20 bg-amber-500/5 space-y-1.5">
-                      <h5 className="text-xs font-bold text-amber-400 flex items-center space-x-1.5">
-                        <AlertTriangle className="w-3.5 h-3.5" />
-                        <span>Documented Limitations</span>
-                      </h5>
-                      <ul className="list-disc list-inside text-xs text-amber-200/80 space-y-1">
-                        {result.limitations.map((lim, idx) => (
-                          <li key={idx}>{lim}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
+                {result.missingInformation && result.missingInformation.length > 0 && (
+                  <div className="p-3.5 rounded-lg border border-slate/20 bg-ink/20 space-y-1.5">
+                    <h5 className="text-xs font-bold text-slate uppercase tracking-wider">Missing Information / Required Data</h5>
+                    <ul className="list-disc list-inside text-xs text-slate/80 space-y-1">
+                      {result.missingInformation.map((mi, idx) => (
+                        <li key={idx}>{mi}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
 
-                  {result.missingInformation.length > 0 && (
-                    <div className="p-3.5 rounded-lg border border-slate/20 bg-ink/40 space-y-1.5">
-                      <h5 className="text-xs font-bold text-slate flex items-center space-x-1.5">
-                        <MinusCircle className="w-3.5 h-3.5" />
-                        <span>Missing NASA Flight Data</span>
-                      </h5>
-                      <ul className="list-disc list-inside text-xs text-slate/80 space-y-1">
-                        {result.missingInformation.map((m, idx) => (
-                          <li key={idx}>{m}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                </div>
-              )}
-
-              {/* Validated Citations */}
-              {result.citations.length > 0 && (
-                <div className="space-y-2 pt-2 border-t border-slate/20">
-                  <h4 className="text-xs font-bold text-slate uppercase tracking-wider">
-                    Source Provenance & Citations
+              {/* Validated Primary Source Citations */}
+              {result.citations && result.citations.length > 0 && (
+                <div className="pt-4 border-t border-slate/20 space-y-3">
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-slate flex items-center space-x-1.5">
+                    <BookOpen className="w-3.5 h-3.5 text-copper" />
+                    <span>Validated Primary Source Citations</span>
                   </h4>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                    {result.citations.map((cite, idx) => (
-                      <div
-                        key={idx}
-                        className="p-3 rounded-lg border border-slate/20 bg-ink/50 text-xs space-y-1"
-                      >
-                        <div className="flex justify-between items-center">
-                          <span className="font-mono font-bold text-copper">{cite.evidenceId}</span>
-                          <span className="text-[11px] text-slate">{cite.sourceLocation}</span>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                    {result.citations.map((c, idx) => (
+                      <div key={idx} className="p-3 rounded-lg border border-slate/20 bg-ink/60 text-xs space-y-1">
+                        <div className="flex items-center justify-between">
+                          <span className="font-mono font-bold text-copper">{c.evidenceId}</span>
+                          <span className="text-[10px] text-slate/70 font-mono">{c.sourceLocation}</span>
                         </div>
-                        <p className="text-slate/80 text-[11px] truncate">{cite.sourceTitle}</p>
-                        {cite.sourceUrl && (
+                        <p className="text-bone font-medium text-[11px] truncate">{c.sourceTitle}</p>
+                        {c.sourceUrl && (
                           <a
-                            href={cite.sourceUrl}
+                            href={c.sourceUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center space-x-1 text-copper hover:underline text-[11px] pt-1"
+                            className="inline-flex items-center space-x-1 text-copper hover:underline text-[10px] pt-1"
                           >
-                            <span>Inspect Official Artifact</span>
+                            <span>View Source Publication</span>
                             <ExternalLink className="w-3 h-3" />
                           </a>
                         )}
@@ -371,5 +398,13 @@ export default function CopilotPage() {
         </section>
       </div>
     </div>
+  );
+}
+
+export default function CopilotPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-ink text-bone p-8 text-center text-sm font-mono">Loading SI Copilot...</div>}>
+      <CopilotInner />
+    </Suspense>
   );
 }
