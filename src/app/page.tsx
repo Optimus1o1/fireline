@@ -208,7 +208,7 @@ export default function HomePage() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <Link
-            href="/explore?q=artemis"
+            href="/assess?preset=artemis_lunar"
             className="p-5 rounded-xl border border-slate/20 bg-ink/40 hover:border-copper/40 transition-all block group"
           >
             <div className="flex justify-between items-start">
@@ -228,7 +228,7 @@ export default function HomePage() {
           </Link>
 
           <Link
-            href="/explore?q=iss"
+            href="/assess?preset=iss_nominal"
             className="p-5 rounded-xl border border-slate/20 bg-ink/40 hover:border-copper/40 transition-all block group"
           >
             <div className="flex justify-between items-start">
@@ -246,18 +246,25 @@ export default function HomePage() {
             </div>
           </Link>
 
-          <div className="p-5 rounded-xl border border-slate/20 bg-ink/40">
-            <span className="text-xs font-semibold text-amber-500 uppercase tracking-wider">Critical Limit</span>
-            <h4 className="text-base font-bold text-bone mt-1">Depressurized Boundary</h4>
+          <Link
+            href="/assess?preset=mars_habitat"
+            className="p-5 rounded-xl border border-slate/20 bg-ink/40 hover:border-copper/40 transition-all block group"
+          >
+            <div className="flex justify-between items-start">
+              <span className="text-xs font-semibold text-orange-400 uppercase tracking-wider">Martian Surface</span>
+              <ChevronRight className="w-4 h-4 text-slate group-hover:text-copper transition-colors" />
+            </div>
+            <h4 className="text-base font-bold text-bone mt-1">Mars Habitat Environment</h4>
             <div className="mt-3 text-xs text-slate space-y-1">
-              <p>Oxygen: <span className="text-bone font-medium">Elevated O₂ fraction</span></p>
-              <p>Pressure: <span className="text-bone font-medium">Sub-atmospheric (&lt;50 kPa)</span></p>
-              <p>Status: <span className="text-amber-500 font-medium">Extinction edge</span></p>
+              <p>Oxygen: <span className="text-bone font-medium">28% O₂</span></p>
+              <p>Pressure: <span className="text-bone font-medium">56.0 kPa (8.1 psia)</span></p>
+              <p>Gravity: <span className="text-bone font-medium">0.38g (Partial Buoyancy)</span></p>
             </div>
-            <div className="mt-4 pt-3 border-t border-slate/20 text-[11px] text-slate/60">
-              Theoretical reference condition
+            <div className="mt-4 pt-3 border-t border-slate/20 text-[11px] text-amber-400 flex items-center space-x-1">
+              <AlertTriangle className="w-3 h-3 flex-shrink-0" />
+              <span>Evidence Gap: Zero partial-gravity flight data</span>
             </div>
-          </div>
+          </Link>
         </div>
       </section>
 

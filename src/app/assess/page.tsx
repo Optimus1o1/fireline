@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useState, useId } from 'react';
+import React, { useState, useId, useEffect, Suspense } from 'react';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import { MISSION_PRESETS } from '@/lib/assessor/presets';
 import {
   MissionScenario,
@@ -11,7 +12,8 @@ import {
 } from '@/lib/assessor/types';
 import { EvidenceGapAssessorEngine } from '@/lib/assessor/engine';
 
-export default function AssessPage() {
+function AssessInner() {
+  const searchParams = useSearchParams();
   const [selectedPresetId, setSelectedPresetId] = useState<string>('artemis_lunar');
   const [scenario, setScenario] = useState<MissionScenario>(MISSION_PRESETS[1]); // Default to Artemis
   const [assessment, setAssessment] = useState<MissionAssessmentResult>(() =>
@@ -38,6 +40,13 @@ export default function AssessPage() {
       setAssessment(EvidenceGapAssessorEngine.assessMission(preset));
     }
   };
+
+  useEffect(() => {
+    const pParam = searchParams.get('preset');
+    if (pParam) {
+      handleSelectPreset(pParam);
+    }
+  }, [searchParams]);
 
   const handleFieldChange = (field: keyof MissionScenario, value: any) => {
     setSelectedPresetId('custom');
@@ -667,5 +676,13 @@ export default function AssessPage() {
         FIRELINE · NASA Space Apps Challenge 2026 · Moon Sanctum Labs — Decode. Build. Evolve.
       </footer>
     </div>
+  );
+}
+
+export default function AssessPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-slate-950 text-slate-100 p-8 text-center text-xs font-mono">Loading Evidence Assessor...</div>}>
+      <AssessInner />
+    </Suspense>
   );
 }

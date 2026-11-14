@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, Suspense } from 'react';
+import React, { useState, useEffect, useCallback, Suspense } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import {
@@ -38,7 +38,7 @@ function CopilotInner() {
   const [lastQuestion, setLastQuestion] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const handleAsk = async (queryText?: string) => {
+  const handleAsk = useCallback(async (queryText?: string) => {
     const q = queryText || question;
     if (!q.trim()) return;
 
@@ -64,7 +64,7 @@ function CopilotInner() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [question]);
 
   // Auto-populate inquiry if ?q= query param is passed
   useEffect(() => {
@@ -73,7 +73,7 @@ function CopilotInner() {
       setQuestion(qParam);
       handleAsk(qParam);
     }
-  }, [searchParams]);
+  }, [searchParams, lastQuestion, handleAsk]);
 
   return (
     <div className="min-h-screen bg-ink text-bone flex flex-col">
