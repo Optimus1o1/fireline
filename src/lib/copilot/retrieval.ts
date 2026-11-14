@@ -98,15 +98,17 @@ export class CopilotRetriever {
         if (find.claimId === 'CROSS-005' || find.claimId === 'CROSS-004') score += 15;
       }
       if (q.includes('rod') || q.includes('thick') || q.includes('geometry')) {
-        if (find.claimId === 'BASS-001' || find.claimId === 'CROSS-001') score += 12;
+        if (find.claimId === 'BASS-002' || find.claimId === 'BASS-001' || find.claimId === 'CROSS-001') score += 12;
       }
       if (q.includes('flex') || q.includes('droplet') || q.includes('extinction')) {
-        if (find.claimId === 'FLEX-001') score += 14;
+        if (find.claimId === 'FLEX-001' || find.claimId === 'FLEX-003' || find.claimId === 'FLEX-004') score += 14;
       }
       if (q.includes('saffire') && find.investigationId === 'PSI-98') score += 8;
       if (q.includes('bass') && find.investigationId === 'PSI-25') score += 8;
-      if (q.includes('pressure') && find.claimId === 'SAFFIRE-003') score += 10;
-      if (q.includes('quench') && find.claimId === 'BASS-001') score += 10;
+      if (q.includes('pressure') && (find.claimId === 'SAFFIRE-002' || find.claimId === 'SAFFIRE-006')) score += 10;
+      if (q.includes('quench') && find.claimId === 'BASS-002') score += 10;
+      if ((q.includes('spread') || q.includes('rate')) && find.claimId === 'SAFFIRE-004') score += 12;
+      if (q.includes('pmma') && (find.claimId === 'SAFFIRE-008' || find.claimId === 'BASS-002')) score += 10;
 
       // Keyword density
       const words = q.split(/\s+/).filter((w) => w.length > 3);

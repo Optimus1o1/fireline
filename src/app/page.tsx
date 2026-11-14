@@ -40,6 +40,7 @@ export default function HomePage() {
         <nav className="flex items-center space-x-6 text-sm font-medium text-slate">
           <Link href="#overview" className="hover:text-bone transition-colors">Overview</Link>
           <Link href="/explore" className="hover:text-bone transition-colors">Evidence Explorer</Link>
+          <Link href="/assess" className="hover:text-bone text-copper font-medium transition-colors">Evidence Assessor</Link>
           <Link href="/copilot" className="text-copper hover:underline font-semibold flex items-center space-x-1">
             <span>SI Copilot</span>
             <ChevronRight className="w-4 h-4" />
@@ -73,8 +74,8 @@ export default function HomePage() {
           Explore experimental evidence from NASA microgravity combustion research to investigate how flames behave under spaceflight conditions.
         </p>
 
-        {/* Action Button */}
-        <div className="pt-2">
+        {/* Action Buttons */}
+        <div className="pt-2 flex flex-wrap gap-3 justify-center">
           <Link
             href="/explore"
             className="inline-flex items-center space-x-2 bg-copper hover:bg-copper/90 text-ink font-bold px-6 py-3 rounded-xl transition-all shadow-lg shadow-copper/10"
@@ -82,6 +83,14 @@ export default function HomePage() {
             <Search className="w-4 h-4" />
             <span>Launch Evidence Explorer</span>
             <ChevronRight className="w-4 h-4" />
+          </Link>
+          <Link
+            href="/assess"
+            className="inline-flex items-center space-x-2 bg-ink/80 hover:bg-ink text-bone border border-slate/30 font-bold px-6 py-3 rounded-xl transition-all"
+          >
+            <GitCompare className="w-4 h-4 text-copper" />
+            <span>Assess Mission Gaps</span>
+            <ChevronRight className="w-4 h-4 text-slate" />
           </Link>
         </div>
 

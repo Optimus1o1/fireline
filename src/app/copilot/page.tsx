@@ -83,6 +83,7 @@ export default function CopilotPage() {
         <nav className="flex items-center space-x-6 text-sm font-medium text-slate">
           <Link href="/" className="hover:text-bone transition-colors">Overview</Link>
           <Link href="/explore" className="hover:text-bone transition-colors">Evidence Explorer</Link>
+          <Link href="/assess" className="hover:text-bone transition-colors">Evidence Assessor</Link>
           <span className="text-copper font-semibold flex items-center space-x-1">
             <Sparkles className="w-4 h-4" />
             <span>SI Copilot</span>
