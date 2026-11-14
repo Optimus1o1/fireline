@@ -23,7 +23,36 @@ Cache-Control: public, s-maxage=3600, stale-while-revalidate=59
 
 ## 2. API Endpoints
 
-### 2.1 `GET /api/investigations`
+### 2.1 `GET /api/health`
+Health check and corpus verification endpoint used by Render and external monitoring services.
+
+#### Query Parameters
+*None.*
+
+#### Response (`200 OK`)
+```json
+{
+  "status": "ok",
+  "service": "fireline-decision-support",
+  "version": "1.0.0",
+  "timestamp": "2026-11-14T11:34:33.377Z",
+  "uptime_seconds": 6,
+  "environment": "production",
+  "corpus": {
+    "empirical_records": 9,
+    "audited_findings": 20
+  }
+}
+```
+
+#### Example Request
+```bash
+curl -X GET "http://localhost:3000/api/health"
+```
+
+---
+
+### 2.2 `GET /api/investigations`
 Retrieves metadata and status for all NASA Physical Sciences Informatics (PSI) investigations indexed by the engine.
 
 #### Query Parameters

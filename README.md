@@ -220,7 +220,7 @@ FIRELINE satisfies rigorous engineering and scientific quality benchmarks:
 | **Python Unit & Integration Tests** | `pytest` | **69 / 69 Passed** | 0.24s execution time, 100% pass rate |
 | **Scientific Adversarial Tests** | `test_scientific_adversarial.py` | **10 / 10 Passed** | Boundary checks, invalid units, negative dimensions |
 | **End-to-End User Journeys** | `test_e2e_journeys.py` | **8 / 8 Passed** | Saffire, BASS-II, Artemis gap, Copilot fallback |
-| **Next.js Production Build** | `npm run build` | **Clean Exit (Code 0)** | 11 routes compiled (7 static, 4 dynamic API) |
+| **Next.js Production Build** | `npm run build` | **Clean Exit (Code 0)** | 12 routes compiled (7 static, 5 dynamic API) |
 | **TypeScript Strict Checking** | `npm run typecheck` | **Zero Errors** | Zero type suppressions or broken interfaces |
 | **ESLint Code Quality** | `npm run lint` | **Zero Warnings** | Clean Next.js core Web Vitals compliance |
 
@@ -228,27 +228,27 @@ FIRELINE satisfies rigorous engineering and scientific quality benchmarks:
 
 ## 8. Deployment Guide
 
-### Vercel Deployment (Recommended)
-FIRELINE is pre-configured with `vercel.json` for one-click deployment:
+### Render Deployment (Recommended)
+FIRELINE is configured for deployment as a **Render Node.js Web Service** with `render.yaml`:
+
+- **Build Command:** `npm ci && npm run build`
+- **Start Command:** `npm start`
+- **Health Check Path:** `/api/health`
+- **Region:** `Singapore` (or preferred region)
+- **Environment Variables:**
+  - `NODE_ENV=production`
+  - `NEXT_TELEMETRY_DISABLED=1`
+  - `GEMINI_API_KEY` *(Optional: deterministic fallback works with 0 downtime without key)*
+
+*Detailed step-by-step instructions are documented in [docs/RENDER_DEPLOYMENT_GUIDE.md](docs/RENDER_DEPLOYMENT_GUIDE.md).*
+
+### Standalone Production Deployment
 ```bash
-# Install Vercel CLI
-npm install -g vercel
-
-# Authenticate with Vercel
-vercel login
-
-# Deploy preview build
-vercel
-
-# Deploy to production
-vercel --prod
-```
-
-### Docker / Standalone Deployment
-```bash
-# Build standalone Next.js image
+# Build production bundle
 npm run build
-npm run start -p 3000
+
+# Start production server (listens on PORT or 3000)
+npm start
 ```
 
 ---
@@ -257,6 +257,7 @@ npm run start -p 3000
 
 | Endpoint | Method | Purpose | Input / Query Params |
 |:---|:---|:---|:---|
+| `/api/health` | `GET` | Service health check & corpus verification | None |
 | `/api/investigations` | `GET` | Lists all indexed NASA PSI investigations | None |
 | `/api/evidence/search` | `GET` | Search and filter empirical records | `q`, `investigation`, `material`, `limit` |
 | `/api/evidence/[id]` | `GET` | Retrieve full record detail and audit trace | Dynamic route param: `id` |

@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: fireline
+    runtime: node
+    plan: free
+    region: singapore
+    branch: master
+    buildCommand: npm ci && npm run build
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NEXT_TELEMETRY_DISABLED
+        value: "1"
+      - key: GEMINI_API_KEY
+        sync: false
